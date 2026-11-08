@@ -46,3 +46,14 @@ The seed projects in this repository are **candidates only**. Their exact featur
 - Evaluate source freshness with dated records; add an upstream contribution tracker (issues and PRs, no invented claims).
 - Design a portable workflow capability manifest *after* reviewing existing plugin conventions (ComfyUI, SillyTavern, etc.), not before.
 - When real machine or user testing is available, collect benchmark provenance and results; never confuse mock tests with model quality.
+
+## P5.2 · Friction evidence records
+
+An optional fifth registry folder, `registry/frictions/`, captures narrowly defined user problems or documented design tradeoffs, **not automatic feature requests**. The record must have a need ID, linked solutions, primary public source URLs, evidence type, user impact, an existing mitigation distinguished as `documented`, `proposed`, or `unknown`, and a falsifiable verification plan.
+
+```bash
+python nb_registry.py frictions
+python nb_registry.py frictions --need need-manga-localization
+```
+
+The CLI only reads local JSON and does not fetch sources. Adding a URL in the record does not mean the issue is currently open or universally reproducible. `match` includes related friction IDs but never treats their count as a quality rating. More: [research](p52-friction-evidence.md).

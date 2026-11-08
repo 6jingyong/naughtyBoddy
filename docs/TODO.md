@@ -81,3 +81,12 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Hands-on task-specific evaluations (hardware, privacy, adult-fiction compatibility, output quality) when real equipment and test data are available.
 - [ ] Add a read-only registry browser to the Studio; not an automatic installer or unauthorized content connector.
 - [ ] Consider cross-tool workflows and upstream contributions only after a reproduced compatibility problem is recorded.
+
+## P5.2 — Source-linked user frictions
+
+- [x] Preserve actual upstream docs, user issues, and community reports as separate evidence types.
+- [x] Record existing mitigations before proposing any duplicate NaughtyBoddy work.
+- [x] Link friction records to needs, candidate solutions, and hypotheses; provide offline CLI filtering.
+- [ ] Reproduce manga split-ID mapping, EPUB tag coverage and fictional character knowledge boundaries with licensed/synthetic fixtures.
+- [ ] Recheck upstream issue states/fixes on specific releases; GitHub issue 'open' is not proof a problem occurs in current version.
+- [ ] Collect user corrections and negative cases without asking for or publishing private NSFW artifacts.
