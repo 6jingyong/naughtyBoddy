@@ -1,0 +1,18 @@
+{
+  "id": "solution-calibre",
+  "title": "Calibre",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "summary": "Candidate for ebook library and document conversion; task-fit requires checks.",
+  "tags": [
+    "epub",
+    "editing",
+    "novel"
+  ],
+  "url": "https://calibre-ebook.com/",
+  "license": null,
+  "verification": "unreviewed",
+  "sources": [
+    "https://calibre-ebook.com/"
+  ]
+}

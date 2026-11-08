@@ -1,0 +1,18 @@
+{
+  "id": "solution-ollama",
+  "title": "Ollama",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "summary": "Candidate runtime for supported local language models; availability is not a quality guarantee.",
+  "tags": [
+    "local-inference",
+    "translation",
+    "roleplay"
+  ],
+  "url": "https://ollama.com/",
+  "license": null,
+  "verification": "unreviewed",
+  "sources": [
+    "https://ollama.com/"
+  ]
+}

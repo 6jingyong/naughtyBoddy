@@ -1,0 +1,10 @@
+{
+  "id": "gap-cross-editor-manga",
+  "title": "Hypothesis: editable handoff between manga translation tools is difficult",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "need_id": "need-manga-localization",
+  "status": "unverified",
+  "summary": "It is unknown whether non-destructive editability and portability remain intact between specialist tools.",
+  "verification_plan": "Round-trip one authorized page through two tools and attempt to edit OCR regions and text layers without rasterized loss."
+}

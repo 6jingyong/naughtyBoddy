@@ -1,0 +1,19 @@
+{
+  "id": "solution-sillytavern",
+  "title": "SillyTavern",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "summary": "Candidate character chat frontend; adult compatibility and privacy depend on model and configuration.",
+  "tags": [
+    "roleplay",
+    "character",
+    "memory",
+    "local-inference"
+  ],
+  "url": "https://github.com/SillyTavern/SillyTavern",
+  "license": null,
+  "verification": "unreviewed",
+  "sources": [
+    "https://github.com/SillyTavern/SillyTavern"
+  ]
+}

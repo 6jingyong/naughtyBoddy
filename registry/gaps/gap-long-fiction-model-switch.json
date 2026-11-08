@@ -1,0 +1,10 @@
+{
+  "id": "gap-long-fiction-model-switch",
+  "title": "Hypothesis: glossary fidelity across model switches needs improvement",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "need_id": "need-long-fiction-translation",
+  "status": "unverified",
+  "summary": "It is unknown whether existing workflows adequately maintain character names and style after switching a local model mid-project.",
+  "verification_plan": "Compare at least two existing solutions on the same licensed short benchmark with a forced model switch; record omissions, glossary violations and edit burden."
+}
