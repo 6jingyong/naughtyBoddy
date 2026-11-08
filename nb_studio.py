@@ -24,6 +24,7 @@ from urllib.parse import parse_qs, urlsplit
 from nb_common import ProviderError
 from nb_local import is_loopback
 from nb_model_manager import ModelManager
+from nb_routing import ModelProfileStore, TASKS, route_models
 from nb_novel import _db, _load_glossary, init_project, project_status, audit_project, export_project, run_translation, now
 
 MAX_UPLOAD = 12 * 1024 * 1024
@@ -43,6 +44,7 @@ class StudioService:
             self.projects.chmod(0o700)
         self.csrf_token = secrets.token_urlsafe(32)
         self.models = ModelManager(self.workspace)
+        self.profiles = ModelProfileStore(self.workspace)
         self._jobs: dict[str, dict] = {}
         self._jobs_lock = threading.Lock()
 
@@ -193,6 +195,40 @@ class StudioService:
         if query:
             rows = [row for row in rows if query.lower() in str(row.get("id", "")).lower()]
         return {"models": rows[:limit], "note": "Model names and tags are hints, not verified low-refusal scores."}
+
+    def routing_candidates(self, task: str, include_remote: bool = False) -> dict:
+        if task not in TASKS:
+            raise ProviderError("Unsupported task")
+        from naughtyboddy import discover_ollama
+        candidates = []
+        try:
+            for model in discover_ollama():
+                candidates.append({"provider": "ollama", "model": model["id"],
+                                   "available": True, "local": True,
+                                   "hints": model.get("low_refusal_hints", []), "modalities": []})
+        except (ProviderError, OSError):
+            pass
+        engine = self.models.engine_status()
+        if engine.get("state") == "ready":
+            candidates.append({"provider": "compatible", "model": engine["name"].split("/")[-1].removesuffix(".gguf"),
+                               "available": True, "local": True,
+                               "base_url": engine["base_url"], "modalities": ["text"], "hints": []})
+        # Model profiles are never treated as available just because a user left a review.
+        # Cloud candidates come only from an explicit query, never from background scanning.
+        if include_remote:
+            from naughtyboddy import discover_openrouter
+            for model in discover_openrouter():
+                if model.get("id") and model.get("modalities") and "text" in model["modalities"]:
+                    candidates.append({"provider": "openrouter", "model": model["id"],
+                                       "available": True, "local": False,
+                                       "modalities": model.get("modalities", []),
+                                       "hints": model.get("low_refusal_hints", [])})
+            # Hard bound before routing; prioritize user's reviewed candidates.
+            reviewed = {(p["provider"], p["model"]) for p in self.profiles.list()}
+            candidates.sort(key=lambda c: ((c["provider"], c["model"]) not in reviewed,
+                                           not bool(c.get("hints")), c["provider"], c["model"]))
+        return route_models(candidates[:150], self.profiles.list(), self.models.reports(),
+                            task=task, allow_remote=include_remote)
 
     def job_status(self, job_id: str) -> dict:
         with self._jobs_lock:
@@ -366,7 +402,15 @@ class StudioHandler(BaseHTTPRequestHandler):
             if path in (["style.css"], ["app.js"]):
                 return self._send_static(path[0])
             if path == ["api", "bootstrap"]:
-                return self._json(200, {"csrf_token": srv.csrf_token, "version": "P3.1", "workspace": str(srv.workspace)})
+                return self._json(200, {"csrf_token": srv.csrf_token, "version": "P3.2", "workspace": str(srv.workspace)})
+            if path == ["api", "routing", "tasks"]:
+                return self._json(200, {"tasks": TASKS})
+            if path == ["api", "routing", "profiles"]:
+                return self._json(200, {"profiles": srv.profiles.list()})
+            if path == ["api", "routing", "suggest"]:
+                return self._json(200, srv.routing_candidates(
+                    query.get("task", ["novel_translation"])[0],
+                    query.get("include_remote", ["0"])[0] == "1"))
             if path == ["api", "local", "status"]:
                 return self._json(200, srv.models.status())
             if path == ["api", "local", "catalog"]:
@@ -416,6 +460,8 @@ class StudioHandler(BaseHTTPRequestHandler):
             srv = self.server.service
             if path == ["api", "projects"]:
                 return self._json(201, srv.import_book(data))
+            if path == ["api", "routing", "profiles"]:
+                return self._json(200, srv.profiles.upsert(data))
             if path == ["api", "local", "install"]:
                 return self._json(202, srv.models.install(data))
             if path == ["api", "local", "launch"]:

@@ -56,6 +56,20 @@
     </main>
     <aside class="inspector"><header class="inspector-header"><span>MODEL DISCOVERY</span><b>◈</b></header><div class="inspector-inner">
       <h2>模型与执行</h2><p class="inspector-copy">以任务适配性与实际表现为准。模型名称含“uncensored”不代表已通过评测。</p>
+      <div class="tiny-heading">TASK ROUTING · 按任务推荐</div>
+      <p class="hint">优先使用实际可用的模型及人工复核记录。标签含 uncensored 不代表验证通过，也不会自动发起付费调用。</p>
+      <div class="field"><label for="routing-task">创作任务</label><select id="routing-task"><option value="novel_translation">小说翻译</option><option value="creative_writing">故事创作</option><option value="roleplay">虚构角色互动</option><option value="comic_translation">漫画翻译</option><option value="subtitles">视频字幕</option></select></div>
+      <label class="check"><input type="checkbox" id="routing-include-remote" /><span>同时查询 OpenRouter 在线候选（仅模型元数据）</span></label>
+      <button id="routing-search" class="btn subtle full" type="button">按任务生成模型建议</button>
+      <div id="routing-results" class="model-results"><p class="hint">建议将明确标注“未经人工验证”的候选。</p></div>
+      <details id="routing-review" class="local-manager"><summary>为当前模型记录人工评测</summary><div class="local-manager-inner">
+      <p class="hint">记录只保存在本机。不等于独立测评；请先自行测试再填写。</p>
+      <div class="field"><label for="routing-compat">合法成人创作兼容性</label><select id="routing-compat"><option value="unknown">未知</option><option value="compatible">我的测试中可正常处理</option><option value="incompatible">我的测试中不适用</option></select></div>
+      <div class="field"><label for="routing-quality">当前任务质量</label><select id="routing-quality"><option value="unknown">未评价</option><option value="good">较好</option><option value="mixed">一般</option><option value="poor">较差</option></select></div>
+      <label class="field">评测备注<input id="routing-note" maxlength="1200" placeholder="测试集、样本数、观察和限制" /></label>
+      <button id="routing-save" class="btn subtle full" type="button">确认并保存本地记录</button>
+      </div></details>
+      <hr class="line" />
       <div class="field"><label for="model-source">发现来源</label><select id="model-source"><option value="ollama">Ollama · 本地</option><option value="huggingface">Hugging Face</option><option value="openrouter">OpenRouter</option></select></div>
       <div class="search-row"><input id="model-query" placeholder="abliterated / uncensored" /><button id="model-search" class="btn subtle">搜索</button></div>
       <div id="model-results" class="model-results"><p class="hint">点击搜索，查看模型候选。</p></div>

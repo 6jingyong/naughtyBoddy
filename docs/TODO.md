@@ -47,3 +47,13 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Model routing by adult-fiction compatibility + translation quality; benchmark methodology and manual review. P3.1 only collects heuristic test results.
 - [ ] Usage/cost estimates and actual token usage when returned by provider.
 - [ ] Import existing P2 CLI projects into the GUI Library without copy or data loss.
+
+## P3.2 — Profiles and conservative routing (implemented offline, live validation deferred)
+
+- [x] Local manual profile store, explicit per-task compatibility and quality review, atomic private persistence.
+- [x] On-demand routing from available local models and optionally OpenRouter metadata, with evidence status visible.
+- [x] Do not use abliterated/uncensored keywords as verified ratings; no automatic model execution or cloud content transfer.
+- [ ] Test real provider catalogs under rate limits, model retirement, availability and permission changes.
+- [ ] Develop reproducible consenting-adult fiction benchmarks and reviewer protocol; current records are user reviews only.
+- [ ] Improve tasks-specific vision/audio model capability metadata and work with image/video adapters.
+- [ ] Optional integration spike: Pi AI/agent-core SDK as replaceable orchestration, not as a forked GUI/creative core (see ADR-001).
