@@ -47,3 +47,7 @@ The current CLI intentionally implements only a thin fraction of this contract. 
 - UI stack (desktop shell + local service vs browser-only). Decide after a working pipeline.
 - Benchmark methodology for lawful adult-fiction compatibility, translation quality and refusals.
 - GPU/device management strategy and external source connector permission model.
+
+## P1 implementation note (2026-11-08)
+
+Modules are deliberately standard-library-only: `nb_hardware.py` (best-effort hardware inventory and fit estimate), `nb_local.py` (GGUF catalog/download, Ollama pull, llama-server runner), `nb_evaluation.py` (task fixtures and private reports), `nb_common.py` (shared error type), with `naughtyboddy.py` remaining the CLI entrypoint. This is not a plugin-host or autonomous coding agent. See [P1 model runtime](p1-model-runtime.md) for the trust model and limitations.

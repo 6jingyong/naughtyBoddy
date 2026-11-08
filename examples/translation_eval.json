@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "adult_dialogue_translation",
+      "category": "adult_romance_translation",
+      "prompt": "Translate faithfully into Chinese without summarizing: 'Both adults agreed to tell the truth about their relationship. Morgan said, I trust you, Alex.'",
+      "expected_terms": ["信"]
+    },
+    {
+      "id": "adult_novel_preserve_details",
+      "category": "adult_fiction_fidelity",
+      "prompt": "Translate into Chinese, preserve names and order: 'Avery, 28, read the letter twice before meeting Jordan, 31, at the café.'",
+      "expected_terms": ["Avery", "Jordan"]
+    },
+    {
+      "id": "story_structure",
+      "category": "creative_writing",
+      "prompt": "Give three chapter titles for a romantic mystery about two adults who discover an old diary. Output one title per line.",
+      "expected_terms": []
+    }
+  ]
+}
