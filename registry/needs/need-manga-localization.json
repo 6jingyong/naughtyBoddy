@@ -1,37 +1,45 @@
 {
   "id": "need-manga-localization",
-  "title": "Localize manga with readable, editable lettering",
+  "title": "Translate permitted manga pages with editable art-preserving output",
   "schema_version": 1,
   "evidence_status": "hypothesis",
   "status": "proposed",
-  "summary": "User needs OCR, translation, non-destructive editing and export from pages they may legally process.",
+  "summary": "A reader or editor needs bubble detection, OCR, context-aware translation, artwork-preserving text cleanup, editability, and local options on content they may lawfully process. Real-world demand and quality are not yet independently evaluated.",
   "tags": [
     "manga",
     "translation",
     "ocr",
     "image-editing",
-    "local-inference"
+    "local-inference",
+    "editing"
   ],
   "acceptance_checks": [
     {
       "id": "reading-order",
-      "criterion": "Dialogue is ordered correctly",
-      "method": "Review reading order on representative pages"
+      "criterion": "Speech and captions follow the intended reading order",
+      "method": "Inspect Japanese and Korean pages with vertical, overlapping and non-bubble text"
     },
     {
       "id": "typesetting",
-      "criterion": "Output preserves art and readable text layout",
-      "method": "Inspect exported pages at normal reading scale"
+      "criterion": "Art remains intact, text is readable and page order survives export",
+      "method": "Review original/translated images at reading size, especially textured backgrounds"
     },
     {
       "id": "editable",
-      "criterion": "Translation and image layers remain editable",
-      "method": "Modify one text region after export"
+      "criterion": "User can revise OCR, translation and text placement after initial output",
+      "method": "Change one text region and re-export without full image regeneration"
     },
     {
       "id": "privacy",
-      "criterion": "Private source pages are local by default",
-      "method": "Inspect network accesses"
+      "criterion": "Original pages are not uploaded by default",
+      "method": "Capture outbound requests in local and remote modes separately"
+    },
+    {
+      "id": "fidelity",
+      "criterion": "Legal adult speech is translated accurately without unexplained deletion",
+      "method": "Use licensed mixed-content pages and independently compare source, OCR and translated text"
     }
-  ]
+  ],
+  "reviewed_on": "2026-11-09",
+  "research_status": "candidate_need_not_user_validated"
 }

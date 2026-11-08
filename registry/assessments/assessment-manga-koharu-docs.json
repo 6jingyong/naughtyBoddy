@@ -1,0 +1,40 @@
+{
+  "id": "assessment-manga-koharu-docs",
+  "title": "Manga localization: Koharu documentation review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-manga-localization",
+  "solution_id": "solution-koharu",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "reading-order",
+      "result": "not_run"
+    },
+    {
+      "check_id": "typesetting",
+      "result": "not_run"
+    },
+    {
+      "check_id": "editable",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "Project docs mention editable layer export and local GGUF inference as well as hosted providers.",
+    "No actual sample or license/weight-specific privacy test was carried out."
+  ],
+  "sources": [
+    "https://github.com/koharu-rs/koharu/blob/main/README.md"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}

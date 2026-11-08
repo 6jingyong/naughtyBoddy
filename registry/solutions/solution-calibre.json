@@ -2,17 +2,24 @@
   "id": "solution-calibre",
   "title": "Calibre",
   "schema_version": 1,
-  "evidence_status": "hypothesis",
-  "summary": "Candidate for ebook library and document conversion; task-fit requires checks.",
+  "evidence_status": "documentation_reviewed",
+  "summary": "Ebook library and format-conversion application. Useful as a document utility, not itself an adult-content-aware AI translation model.",
   "tags": [
     "epub",
-    "editing",
-    "novel"
+    "novel",
+    "editing"
   ],
   "url": "https://calibre-ebook.com/",
   "license": null,
-  "verification": "unreviewed",
+  "verification": "documentation_reviewed",
   "sources": [
-    "https://calibre-ebook.com/"
-  ]
+    "https://calibre-ebook.com/",
+    "https://manual.calibre-ebook.com/"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "Official website and manual document ebook library management, conversion and editing.",
+    "Using Calibre for an AI translation workflow requires a separate translation engine or plugin."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
 }

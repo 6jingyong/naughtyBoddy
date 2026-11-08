@@ -1,0 +1,15 @@
+{
+  "id": "gap-manga-privacy-quality-tradeoff",
+  "title": "Hypothesis: balancing manga translation quality with strictly local processing remains difficult on modest devices",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "need_id": "need-manga-localization",
+  "status": "unverified",
+  "summary": "Tools document local and cloud options, but the quality/hardware/privacy tradeoff has not been benchmarked on shared permitted pages; do not infer lack of a good solution.",
+  "supporting_sources": [
+    "https://github.com/mrdhnto/libre-manga-translator",
+    "https://github.com/koharu-rs/koharu"
+  ],
+  "reviewed_on": "2026-11-09",
+  "verification_plan": "Use the same authorized multilingual manga pages on 8GB/12GB/24GB VRAM tiers; compare local OCR and translation quality, edits needed, speed, outgoing traffic and memory limits."
+}

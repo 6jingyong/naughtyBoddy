@@ -1,0 +1,24 @@
+{
+  "id": "solution-agnai",
+  "title": "Agnai",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Self-hostable multi-character chat platform with multiple AI providers and persona formats; supports guest-only mode per README.",
+  "tags": [
+    "roleplay",
+    "character",
+    "memory"
+  ],
+  "url": "https://github.com/agnaistic/agnai",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/agnaistic/agnai"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README documents multi-bot/group chat, alternative AI services, guest-only mode and local installation.",
+    "No independent session privacy, portability or adult-content model evaluation conducted."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

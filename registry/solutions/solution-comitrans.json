@@ -1,0 +1,26 @@
+{
+  "id": "solution-comitrans",
+  "title": "ComiTrans",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Windows comic translation desktop application combining ONNX local detection/OCR/cleanup, configurable translation APIs, region editing and PDF/page export.",
+  "tags": [
+    "manga",
+    "translation",
+    "ocr",
+    "image-editing",
+    "editing"
+  ],
+  "url": "https://github.com/Aaaaamadeus/ComiTrans",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/Aaaaamadeus/ComiTrans"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README describes OCR/detection/inpainting locally using ONNX, and AI API translation with text-only or full-page-image options.",
+    "README describes page-level resume and manual typesetting corrections in the GUI."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

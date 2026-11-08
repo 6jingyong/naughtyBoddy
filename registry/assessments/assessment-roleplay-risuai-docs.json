@@ -1,0 +1,40 @@
+{
+  "id": "assessment-roleplay-risuai-docs",
+  "title": "Private roleplay: RisuAI documentation review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-private-roleplay",
+  "solution_id": "solution-risuai",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "persona",
+      "result": "not_run"
+    },
+    {
+      "check_id": "portability",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "knowledge-boundary",
+      "result": "not_run"
+    },
+    {
+      "check_id": "adult-fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "README documents lorebooks, prompts, groups, input/output translation and self-host option.",
+    "Long-session consistency and transfer between frontends are still untested."
+  ],
+  "sources": [
+    "https://github.com/risuai/RisuAI"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}

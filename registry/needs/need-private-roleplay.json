@@ -1,10 +1,10 @@
 {
   "id": "need-private-roleplay",
-  "title": "Run customizable fictional adult character dialogue locally",
+  "title": "Maintain private, portable fictional character roleplay with coherent knowledge boundaries",
   "schema_version": 1,
   "evidence_status": "hypothesis",
   "status": "proposed",
-  "summary": "User wants portable character information, repeatable personalities and privacy without requiring reliable tool calling.",
+  "summary": "A user wants local-friendly fictional adult character dialogue with stable personas, portable cards/chats and long-term state, without relying on model tool calling. Reports suggest continuity and information leakage across characters need tests; no prevalence claim.",
   "tags": [
     "roleplay",
     "character",
@@ -15,18 +15,34 @@
   "acceptance_checks": [
     {
       "id": "persona",
-      "criterion": "Personality and names remain stable over a long session",
-      "method": "Blind review of multi-turn scenes"
+      "criterion": "Character identity and relationships remain coherent over long sessions",
+      "method": "Review scripted long-run scenes and note contradictions, hallucinations and drift"
     },
     {
       "id": "portability",
-      "criterion": "Character and memory can be exported and reused",
-      "method": "Export and import in a second environment"
+      "criterion": "Character definitions and dialogue history can be transferred or exported",
+      "method": "Export cards/chats and import into a second permitted environment"
     },
     {
       "id": "privacy",
-      "criterion": "Private conversation is stored locally unless opted into cloud inference",
-      "method": "Network and storage inspection"
+      "criterion": "Private roleplay text remains locally stored unless cloud is explicitly selected",
+      "method": "Audit storage, remote endpoints and actual outgoing traffic"
+    },
+    {
+      "id": "knowledge-boundary",
+      "criterion": "A character cannot reference private facts known only to other fictional characters",
+      "method": "Inject a secret into one character's scene, isolate context per character and test subsequent scenes"
+    },
+    {
+      "id": "adult-fidelity",
+      "criterion": "Lawful consenting-adult fictional scenes follow the requested tone when compatible models are used",
+      "method": "Human review on a permissioned fixed test set; distinguish refusals from quality errors"
     }
-  ]
+  ],
+  "reviewed_on": "2026-11-09",
+  "research_leads": [
+    "https://www.reddit.com/r/SillyTavernAI/comments/1xqampe/how_do_you_stop_characters_from_knowing_things/",
+    "https://www.reddit.com/r/SillyTavernAI/comments/1rdeo0l/ai_for_roleplay_longterm/"
+  ],
+  "research_status": "community_reports_not_representative_sampling"
 }

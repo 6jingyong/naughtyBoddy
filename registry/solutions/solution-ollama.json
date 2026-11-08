@@ -2,17 +2,24 @@
   "id": "solution-ollama",
   "title": "Ollama",
   "schema_version": 1,
-  "evidence_status": "hypothesis",
-  "summary": "Candidate runtime for supported local language models; availability is not a quality guarantee.",
+  "evidence_status": "documentation_reviewed",
+  "summary": "Local model serving/inference API with optional cloud models; useful as an inference backend, not a creative workbench.",
   "tags": [
     "local-inference",
-    "translation",
-    "roleplay"
+    "roleplay",
+    "novel",
+    "translation"
   ],
-  "url": "https://ollama.com/",
+  "url": "https://github.com/ollama/ollama",
   "license": null,
-  "verification": "unreviewed",
+  "verification": "documentation_reviewed",
   "sources": [
-    "https://ollama.com/"
-  ]
+    "https://github.com/ollama/ollama/blob/main/docs/api/introduction.mdx"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "Official API docs distinguish local server endpoints from cloud API endpoints.",
+    "Local host alone does not prove a selected model stays local if a cloud model is chosen."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
 }

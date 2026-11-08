@@ -1,8 +1,8 @@
 {
   "id": "assessment-manga-libre-pending",
-  "title": "Manga localization and Libre Manga Translator: pending review",
+  "title": "Manga localization: Libre Manga Translator documentation review (tests pending)",
   "schema_version": 1,
-  "evidence_status": "hypothesis",
+  "evidence_status": "documentation_reviewed",
   "need_id": "need-manga-localization",
   "solution_id": "solution-libre-manga-translator",
   "fit": "unknown",
@@ -22,7 +22,19 @@
     {
       "check_id": "privacy",
       "result": "not_run"
+    },
+    {
+      "check_id": "fidelity",
+      "result": "not_run"
     }
   ],
-  "observations": []
+  "observations": [
+    "README documents selectable local, private-server and cloud translation modes, with different data exposure.",
+    "The extension's own known-issues notes suggest OCR quality variation; no independent image test has been run."
+  ],
+  "sources": [
+    "https://github.com/mrdhnto/libre-manga-translator"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
 }

@@ -1,0 +1,15 @@
+{
+  "id": "gap-roleplay-character-knowledge-boundary",
+  "title": "Reported: fictional characters may learn information outside their scenes",
+  "schema_version": 1,
+  "evidence_status": "reported",
+  "need_id": "need-private-roleplay",
+  "status": "reported",
+  "summary": "Community reports describe long-running multi-character roleplay where shared summaries and lorebooks expose secrets to characters that should not know them. This is an anecdotal issue report, not a measured prevalence or proof that all existing tools fail.",
+  "supporting_sources": [
+    "https://www.reddit.com/r/SillyTavernAI/comments/1xqampe/how_do_you_stop_characters_from_knowing_things/",
+    "https://www.reddit.com/r/SillyTavernAI/comments/1rdeo0l/ai_for_roleplay_longterm/"
+  ],
+  "reviewed_on": "2026-11-09",
+  "verification_plan": "Create a synthetic four-character scenario, reveal a unique fact to only one character, run repeated scene transitions with each frontend, and test whether factual prompts or summaries leak the fact; compare tools and memory settings."
+}

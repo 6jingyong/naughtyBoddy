@@ -22,7 +22,10 @@ class RegistryTests(unittest.TestCase):
     def test_seed_registry_consistent(self):
         records, errors = registry.read_registry(self.root)
         self.assertEqual(errors, [])
-        self.assertEqual([len(records[k]) for k in registry.KINDS], [3, 5, 2, 2])
+        self.assertGreaterEqual(len(records['needs']), 3)
+        self.assertGreaterEqual(len(records['solutions']), 12)
+        self.assertGreaterEqual(len(records['assessments']), 9)
+        self.assertGreaterEqual(len(records['gaps']), 5)
 
     def test_cli_validate(self):
         out = io.StringIO()
@@ -37,7 +40,8 @@ class RegistryTests(unittest.TestCase):
         result = registry.match_need(records, 'need-manga-localization')
         manga = next(x for x in result['candidates'] if x['solution_id'] == 'solution-libre-manga-translator')
         self.assertEqual(manga['fit'], 'unknown')
-        self.assertEqual(manga['verification'], 'unreviewed')
+        self.assertEqual(manga['verification'], 'documentation_reviewed')
+        self.assertNotEqual(manga['verification'], 'hands_on_verified')
         self.assertIn('not a quality', manga['caution'])
 
     def test_unknown_need_is_error(self):
@@ -59,7 +63,7 @@ class RegistryTests(unittest.TestCase):
         value['fit'] = 'meets'
         file.write_text(json.dumps(value))
         _, errors = registry.read_registry(self.root)
-        self.assertTrue(any('fit verdict needs reviewed evidence' in e for e in errors))
+        self.assertTrue(any('meets requires hands-on passed checks' in e for e in errors))
 
     def test_hands_on_without_real_checks_rejected(self):
         file = self.root / 'assessments' / 'assessment-manga-libre-pending.json'
@@ -93,7 +97,10 @@ class RegistryTests(unittest.TestCase):
 
     def test_real_license_not_guessed(self):
         data, _ = registry.read_registry(self.root)
-        self.assertTrue(all(s['license'] is None for s in data['solutions']))
+        licensed = [s for s in data['solutions'] if s['license'] is not None]
+        self.assertTrue(licensed)
+        self.assertTrue(all(s.get('license_source', '').startswith('https://') for s in licensed))
+        self.assertEqual(next(s for s in data['solutions'] if s['id'] == 'solution-libre-manga-translator')['license'], 'AGPL-3.0-or-later')
 
     def test_wrong_schema_rejected(self):
         file = self.root / 'needs' / 'need-private-roleplay.json'
@@ -102,6 +109,27 @@ class RegistryTests(unittest.TestCase):
         file.write_text(json.dumps(value))
         _, errors = registry.read_registry(self.root)
         self.assertTrue(any('schema_version must be 1' in e for e in errors))
+
+
+    def test_confirmed_license_needs_upstream_source(self):
+        file = self.root / 'solutions' / 'solution-libre-manga-translator.json'
+        value = json.loads(file.read_text())
+        value.pop('license_source', None)
+        file.write_text(json.dumps(value))
+        _, errors = registry.read_registry(self.root)
+        self.assertTrue(any('confirmed license requires source URL' in e for e in errors))
+
+    def test_meets_rejects_missing_acceptance_checks(self):
+        file = self.root / 'assessments' / 'assessment-manga-libre-pending.json'
+        value = json.loads(file.read_text())
+        value['fit'] = 'meets'
+        value['evidence_status'] = 'hands_on_verified'
+        value['environment'] = 'hypothetical-test-machine'
+        value['check_results'] = [{'check_id': 'reading-order', 'result': 'pass'}]
+        file.write_text(json.dumps(value))
+        _, errors = registry.read_registry(self.root)
+        self.assertTrue(any('meets requires every acceptance check to pass' in e for e in errors))
+
 
 
 if __name__ == '__main__':

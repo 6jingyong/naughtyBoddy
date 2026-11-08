@@ -1,0 +1,28 @@
+{
+  "id": "solution-koharu",
+  "title": "Koharu",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Local-first manga translation project with image/archive/PDF imports, separate OCR/detection/inpainting stages, local GGUF and hosted translation options, manual cleanup and layered exports.",
+  "tags": [
+    "manga",
+    "translation",
+    "ocr",
+    "image-editing",
+    "local-inference",
+    "editing"
+  ],
+  "url": "https://github.com/koharu-rs/koharu",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/koharu-rs/koharu/blob/main/README.md",
+    "https://github.com/koharu-rs/koharu/blob/main/packages/docs/en/index.mdx"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README documents local GGUF translation, model-specific vision stages and WebGPU canvas editing.",
+    "Project documentation says layered PSD export and platform-specific hardware support; operational quality not independently tested."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

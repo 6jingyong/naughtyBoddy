@@ -50,6 +50,8 @@ python nb_registry.py gaps
 
 Records are plain JSON with explicit evidence status. P5 currently contains **proposed needs and unverified tool candidates**, not a verified best-tools ranking. Read the [P5 contribution and validation guide](docs/p5-needs-registry.md) before asserting a tool works or a market gap exists. The initial registry needs no API key, model, GPU or network connection.
 
+**Catalogue preview (2026-11-09):** [Needs & solutions source review](docs/catalogue-2026-11-09.md) · structured records in [`registry/`](registry/) · all published test results remain `not_run` until real evaluation.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.
