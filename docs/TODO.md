@@ -31,7 +31,8 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [x] Build first Library/Studio/Discovery GUI around content artifacts, not chat/terminal commands (P3).
 - [x] Local browser-based Studio with private projects, side-by-side edits, glossary, explicit model selection.
 - [ ] Package local Studio for desktop (Windows/macOS/Linux); preserve user data between upgrades.
-- [ ] Media-specific pipelines: comics, subtitle/video processing, interactive fiction.
+- [x] P4 first comic page/region manual editing and SVG draft export (no OCR/inpainting yet).
+- [ ] Remaining media-specific pipelines: automated comics, subtitle/video processing, interactive fiction.
 - [ ] Permission-aware external source connectors; no unauthorized mirror scraping.
 - [ ] Finalize OSI-approved license after owner selection (repository currently has no LICENSE file).
 
@@ -57,3 +58,14 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Develop reproducible consenting-adult fiction benchmarks and reviewer protocol; current records are user reviews only.
 - [ ] Improve tasks-specific vision/audio model capability metadata and work with image/video adapters.
 - [ ] Optional integration spike: Pi AI/agent-core SDK as replaceable orchestration, not as a forked GUI/creative core (see ADR-001).
+
+## P4 — Comic workflow (offline slice completed)
+
+- [x] PNG/JPEG page import with user permission confirmation, bounded images and multi-page project metadata.
+- [x] Draw/edit normalized dialogue boxes and original/translated text in a separate local comic library.
+- [x] Translate individual regions through existing model adapters; model tool calling not required.
+- [x] Revision conflict checks, mock/demo labeling, draft SVG export with escaped user content, HTTP tests.
+- [ ] Plug in automated bubble detection/OCR and preserve reading order; evaluate existing dedicated engines and licenses.
+- [ ] Non-destructive text removal, typography control and production PNG/CBZ export.
+- [ ] Browser UI visual verification (headless Chromium blocked by local-network policy in current environment).
+- [ ] Real-image/manual quality review and multilingual translation QA.

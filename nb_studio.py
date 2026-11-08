@@ -22,6 +22,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlsplit
 
 from nb_common import ProviderError
+from nb_comics import ComicLibrary, MAX_PAGE_BYTES
 from nb_local import is_loopback
 from nb_model_manager import ModelManager
 from nb_routing import ModelProfileStore, TASKS, route_models
@@ -45,6 +46,7 @@ class StudioService:
         self.csrf_token = secrets.token_urlsafe(32)
         self.models = ModelManager(self.workspace)
         self.profiles = ModelProfileStore(self.workspace)
+        self.comics = ComicLibrary(self.workspace)
         self._jobs: dict[str, dict] = {}
         self._jobs_lock = threading.Lock()
 
@@ -292,6 +294,72 @@ class StudioService:
         threading.Thread(target=worker, name="nb-translation-" + job_id[:8], daemon=True).start()
         return {"job_id": job_id, "state": "queued"}
 
+    def _decode_image(self, data: dict) -> tuple[str, bytes]:
+        name = data.get("filename")
+        raw = data.get("base64")
+        if not isinstance(name, str) or not isinstance(raw, str) or len(raw) > (MAX_PAGE_BYTES * 4 // 3 + 8):
+            raise ProviderError("Invalid image upload")
+        try:
+            decoded = base64.b64decode(raw, validate=True)
+        except (ValueError, binascii.Error) as exc:
+            raise ProviderError("Invalid image base64") from exc
+        return name, decoded
+
+    def create_comic(self, data: dict) -> dict:
+        name, image = self._decode_image(data)
+        return self.comics.create(filename=name, image=image,
+                                  rights_confirmed=data.get("rights_confirmed"),
+                                  title=data.get("title", ""))
+
+    def start_comic_translation(self, comic_id: str, region_id: str, options: dict) -> dict:
+        provider = options.get("provider")
+        model = options.get("model", "")
+        if provider not in ("mock", "ollama", "compatible", "openrouter"):
+            raise ProviderError("Unsupported translation provider")
+        if provider != "mock" and (not isinstance(model, str) or not (1 <= len(model) <= 220)):
+            raise ProviderError("Specify the model ID")
+        base_url = options.get("base_url", "")
+        ollama_url = options.get("ollama_url", "http://127.0.0.1:11434")
+        if provider == "compatible" and (not isinstance(base_url, str) or not base_url.startswith(("http://", "https://"))):
+            raise ProviderError("Compatible API needs absolute base URL")
+        if not isinstance(ollama_url, str) or not ollama_url.startswith(("http://", "https://")):
+            raise ProviderError("Invalid Ollama URL")
+        remote = provider == "openrouter" or (provider == "compatible" and not is_loopback(base_url)) or (provider == "ollama" and not is_loopback(ollama_url))
+        if remote and options.get("accept_remote") is not True:
+            raise ProviderError("Explicitly consent before sending comic text to a remote API")
+        # Fail before creating a job if the region does not exist.
+        doc = self.comics.get(comic_id)
+        if not any(r["id"] == region_id for r in doc["regions"]):
+            raise ProviderError("Region not found")
+        job_id = uuid.uuid4().hex
+        with self._jobs_lock:
+            if any(j.get("comic_id") == comic_id and j.get("region_id") == region_id and j["state"] in ("queued", "running") for j in self._jobs.values()):
+                raise ProviderError("A translation job is already running for this region")
+            self._jobs[job_id] = {"id": job_id, "comic_id": comic_id, "region_id": region_id,
+                                  "state": "queued", "error": None, "result": None}
+
+        def worker():
+            with self._jobs_lock: self._jobs[job_id]["state"] = "running"
+            try:
+                if provider == "mock":
+                    inference = lambda prompt: "[DEMO] " + prompt.split("\n\n", 1)[-1]
+                else:
+                    from naughtyboddy import infer_text
+                    inference = lambda prompt: infer_text(provider, model, prompt, base_url=base_url or None,
+                                                          ollama_url=ollama_url, temperature=0.2,
+                                                          max_tokens=1024, timeout=180)
+                result = self.comics.translate_region(comic_id, region_id, inference,
+                                                      provider=provider, model=model or "demo")
+                with self._jobs_lock:
+                    self._jobs[job_id]["state"] = "done"
+                    self._jobs[job_id]["result"] = result
+            except Exception as exc:
+                with self._jobs_lock:
+                    self._jobs[job_id]["state"] = "failed"
+                    self._jobs[job_id]["error"] = f"{type(exc).__name__}: {exc}"
+        threading.Thread(target=worker, daemon=True, name="nb-comic-" + job_id[:8]).start()
+        return {"job_id": job_id, "state": "queued"}
+
     def export(self, project_id: str, fmt: str, allow_demo: bool = False) -> dict:
         if fmt not in ("epub", "txt"):
             raise ProviderError("Choose EPUB or TXT")
@@ -402,7 +470,7 @@ class StudioHandler(BaseHTTPRequestHandler):
             if path in (["style.css"], ["app.js"]):
                 return self._send_static(path[0])
             if path == ["api", "bootstrap"]:
-                return self._json(200, {"csrf_token": srv.csrf_token, "version": "P3.2", "workspace": str(srv.workspace)})
+                return self._json(200, {"csrf_token": srv.csrf_token, "version": "P4", "workspace": str(srv.workspace)})
             if path == ["api", "routing", "tasks"]:
                 return self._json(200, {"tasks": TASKS})
             if path == ["api", "routing", "profiles"]:
@@ -421,6 +489,24 @@ class StudioHandler(BaseHTTPRequestHandler):
                 return self._json(200, {"reports": srv.models.reports()})
             if len(path) == 4 and path[:3] == ["api", "local", "jobs"]:
                 return self._json(200, srv.models.job(path[3]))
+            if path == ["api", "comics"]:
+                return self._json(200, {"comics": srv.comics.list()})
+            if len(path) >= 3 and path[:2] == ["api", "comics"]:
+                comic_id = path[2]
+                if len(path) == 3:
+                    return self._json(200, srv.comics.get(comic_id))
+                if len(path) == 6 and path[3] == "pages" and path[5] == "image":
+                    content, mime = srv.comics.page_bytes(comic_id, path[4])
+                    self._headers(200, mime, len(content))
+                    self.wfile.write(content)
+                    return
+                if len(path) == 6 and path[3] == "pages" and path[5] == "export.svg":
+                    doc = srv.comics.get(comic_id)
+                    demo = query.get("allow_demo", ["0"])[0] == "1"
+                    content = srv.comics.export_svg(comic_id, path[4], allow_demo=demo)
+                    self._headers(200, "image/svg+xml", len(content), attachment="comic-page.svg")
+                    self.wfile.write(content)
+                    return
             if path == ["api", "projects"]:
                 return self._json(200, {"projects": srv.list_projects()})
             if path == ["api", "models"]:
@@ -458,6 +544,18 @@ class StudioHandler(BaseHTTPRequestHandler):
             path = self._parts()
             data = self._body()
             srv = self.server.service
+            if path == ["api", "comics"]:
+                return self._json(201, srv.create_comic(data))
+            if len(path) >= 4 and path[:2] == ["api", "comics"]:
+                if path[3:] == ["pages"]:
+                    filename, image = srv._decode_image(data)
+                    return self._json(201, srv.comics.add_page(path[2], filename=filename, image=image))
+                if path[3:] == ["regions"]:
+                    return self._json(201, srv.comics.add_region(path[2], page_id=data.get("page_id"),
+                                          box=data.get("box"), source=data.get("source", ""),
+                                          target=data.get("target", "")))
+                if len(path) == 6 and path[3] == "regions" and path[5] == "translate":
+                    return self._json(202, srv.start_comic_translation(path[2], path[4], data))
             if path == ["api", "projects"]:
                 return self._json(201, srv.import_book(data))
             if path == ["api", "routing", "profiles"]:
@@ -487,6 +585,10 @@ class StudioHandler(BaseHTTPRequestHandler):
         try:
             path = self._parts()
             data = self._body()
+            if len(path) == 5 and path[:2] == ["api", "comics"] and path[3] == "regions":
+                return self._json(200, self.server.service.comics.edit_region(
+                    path[2], path[4], source=data.get("source"), target=data.get("target"),
+                    box=data.get("box"), expected_revision=data.get("expected_revision")))
             if len(path) == 4 and path[:2] == ["api", "projects"] and path[3] == "glossary":
                 return self._json(200, self.server.service.save_glossary(path[2], data.get("terms")))
             if len(path) == 5 and path[:2] == ["api", "projects"] and path[3] == "segments":
