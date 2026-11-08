@@ -287,6 +287,16 @@ def main(argv: list[str] | None = None) -> int:
     ev.set_defaults(func=evaluation_command)
     from nb_novel_cli import add_novel_parser
     add_novel_parser(sub, ollama_url=OLLAMA)
+    studio = sub.add_parser("studio", help="Launch the local creative studio web interface")
+    studio.add_argument("--workspace", default=str(__import__("pathlib").Path.home() / ".naughtyboddy"))
+    studio.add_argument("--port", type=int, default=8765)
+    studio.add_argument("--no-browser", action="store_true")
+    def _studio_command(args):
+        from pathlib import Path
+        from nb_studio import serve_studio
+        serve_studio(workspace=Path(args.workspace), port=args.port, open_browser=not args.no_browser)
+        return 0
+    studio.set_defaults(func=_studio_command)
     args = parser.parse_args(argv)
     try:
         return args.func(args)

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>NaughtyBoddy · Creative Studio</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <header class="brand"><div class="logo">N<span>·</span>B</div><div><strong>NaughtyBoddy</strong><small>CREATIVE STUDIO · P3</small></div></header>
+      <button type="button" id="new-project" class="btn subtle sidebar-new">＋ 新建作品</button>
+      <div class="sidebar-section"><div class="section-label">我的作品 <span id="project-count" class="count">0</span></div>
+        <div id="project-list" class="project-list"><p class="hint">正在读取本地作品…</p></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="privacy-dot">● LOCAL-FIRST WORKSPACE</div>
+        <p>素材保存在本机。只有主动选择云端翻译时，文本片段才会发送到模型服务。</p>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="toolbar">
+        <div class="breadcrumb">LIBRARY <span>/</span> <strong id="current-name">工作台</strong></div>
+        <div class="toolbar-right"><span id="job-state" class="job-state">● 空闲</span><button id="refresh" class="btn subtle">刷新</button></div>
+      </header>
+      <section id="welcome" class="welcome">
+        <div class="welcome-eyebrow">AN OPEN CANVAS FOR STORIES</div>
+        <h1>从素材开始，<br><em>让创作继续。</em></h1>
+        <p>导入你的 TXT 或 EPUB 作品。翻译、逐段修订、检查与导出都保留在本地项目中。模型可以随时替换，作品不会丢失。</p>
+        <div class="welcome-grid">
+          <div><b>01 / IMPORT</b><span>导入作品，保留可编辑片段</span></div>
+          <div><b>02 / CREATE</b><span>调用本地或云端模型</span></div>
+          <div><b>03 / REFINE</b><span>对照修改，检查并导出</span></div>
+        </div>
+      </section>
+      <section id="import-card" class="import-card">
+        <div class="card-heading"><div><small>NEW PROJECT</small><h2>导入一本作品</h2></div><span class="accent-marker">✦</span></div>
+        <form id="import-form">
+          <label for="book-file" class="file-pick"><span>＋</span><strong id="file-label">选择 TXT / EPUB 文件</strong><small>最大 12 MiB，原文不会上传到第三方</small></label>
+          <input id="book-file" type="file" accept=".txt,.epub" required hidden />
+          <div class="form-row"><label>目标语言 <select id="target-language"><option value="zh-CN">简体中文 · zh-CN</option><option value="en">English · en</option><option value="ja">日本語 · ja</option></select></label></div>
+          <label class="check"><input id="rights-confirmed" type="checkbox" required /><span>我确认有权处理此作品及其内容。</span></label>
+          <button class="btn primary" type="submit">创建项目 <span>↗</span></button>
+        </form>
+      </section>
+      <section id="editor" class="editor hidden">
+        <div class="editor-head"><div><div class="eyebrow">STORY WORKSPACE</div><h1 id="book-title"></h1><div id="book-subtitle" class="subtitle"></div></div><div class="progress-block"><div id="progress-text"></div><div class="progress-track"><div id="progress-bar"></div></div></div></div>
+        <div class="editor-controls"><label>章节 <select id="chapter-select"></select></label><div class="paging"><button id="prev-page" class="btn subtle">上一页</button><span id="page-label"></span><button id="next-page" class="btn subtle">下一页</button></div><button id="glossary" class="btn subtle">术语表</button><button id="audit" class="btn subtle">检查完整性</button></div>
+        <div class="column-titles"><span>ORIGINAL · 原文</span><span>TRANSLATION · 译文</span></div>
+        <div id="segments" class="segments"><div class="hint">选择章节后显示内容</div></div>
+        <section class="export-row"><div><strong>导出作品</strong><p>未完成或模拟内容会触发导出限制。</p></div><div class="export-actions"><label class="check mini"><input id="allow-demo" type="checkbox" />允许带标记的演示导出</label><select id="export-format"><option value="epub">EPUB</option><option value="txt">TXT</option></select><button class="btn primary" id="export" type="button">导出</button></div></section>
+      </section>
+    </main>
+    <aside class="inspector"><header class="inspector-header"><span>MODEL DISCOVERY</span><b>◈</b></header><div class="inspector-inner">
+      <h2>模型与执行</h2><p class="inspector-copy">以任务适配性与实际表现为准。模型名称含“uncensored”不代表已通过评测。</p>
+      <div class="field"><label for="model-source">发现来源</label><select id="model-source"><option value="ollama">Ollama · 本地</option><option value="huggingface">Hugging Face</option><option value="openrouter">OpenRouter</option></select></div>
+      <div class="search-row"><input id="model-query" placeholder="abliterated / uncensored" /><button id="model-search" class="btn subtle">搜索</button></div>
+      <div id="model-results" class="model-results"><p class="hint">点击搜索，查看模型候选。</p></div>
+      <hr class="line" />
+      <h3>执行一批翻译</h3>
+      <div class="field"><label>推理方式</label><select id="provider"><option value="mock">演示模式（不翻译）</option><option value="ollama">Ollama 本地</option><option value="compatible">兼容 API</option><option value="openrouter">OpenRouter 云端</option></select></div>
+      <div class="field"><label for="model-id">模型 ID</label><input id="model-id" placeholder="如本地模型名称" /></div>
+      <div class="field hidden" id="base-url-wrap"><label for="base-url">API 基础地址</label><input id="base-url" value="http://127.0.0.1:8080/v1" /></div>
+      <div class="field"><label for="batch-size">每批片段数</label><select id="batch-size"><option value="3">3 · 保守</option><option value="5">5</option><option value="10">10</option><option value="20">20 · 上限</option></select></div>
+      <label class="check hidden" id="remote-wrap"><input type="checkbox" id="remote-accept" /><span>允许发送文本片段到第三方 API，可能产生费用。</span></label>
+      <button id="translate" class="btn primary full">运行这一批 <span>→</span></button>
+      <div class="note">不会自动下载模型、启动云端付费调用或循环执行整本书。模型切换只影响后续待翻译片段。</div>
+      <hr class="line" />
+      <div class="tiny-heading">OUTPUT & STATUS</div><pre id="action-result">准备就绪。</pre>
+    </div></aside>
+  </div>
+  <dialog id="glossary-dialog" class="modal">
+    <div class="modal-head"><div><small>PROJECT GLOSSARY</small><h2>作品术语表</h2></div><button id="glossary-close" class="btn subtle">关闭</button></div>
+    <p>使用 JSON 格式保存“原文名称 → 目标译名”。下一批翻译会使用最新术语表，已完成片段不会自动覆盖。</p>
+    <textarea id="glossary-json" spellcheck="false" aria-label="术语表 JSON"></textarea>
+    <div class="modal-actions"><button id="glossary-save" class="btn primary">保存术语</button></div>
+  </dialog>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</body>
+</html>
