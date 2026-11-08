@@ -39,6 +39,7 @@ async function openProject(id) {
   for(const item of data.chapter_list){const opt=el('option','',`${item.chapter_no}. ${item.translated_title||item.title} (${item.done}/${item.total})`); opt.value=String(item.chapter_no); ch.append(opt);}
   if(!data.chapter_list.some(x=>x.chapter_no===state.chapter))state.chapter=data.chapter_list[0]?.chapter_no||1;
   ch.value=String(state.chapter);
+  comic.id=null;toggle('comic-import',false);toggle('comic-editor',false);
   toggle('welcome', false);toggle('editor', true);toggle('import-card',false);
   await loadSegments(); await loadProjects();
 }
@@ -325,9 +326,146 @@ async function saveRoutingReview() {
   await suggestModels();
 }
 
+// P4: comic editing uses externally controlled steps; small models only translate
+// a supplied region. No model tool calling is required.
+const comic = {id:null,doc:null,page:null,region:null,job:null,pointer:null};
+function showComicImport(){
+  comic.id=null;state.selected=null;
+  for(const x of ['welcome','import-card','editor','comic-editor'])toggle(x,false);
+  toggle('comic-import',true);$('current-name').textContent='创建漫画项目';
+}
+async function fileBase64(file){
+  if(file.size>12*1024*1024)throw new Error('单张图片不能超过 12 MiB');
+  const bytes=new Uint8Array(await file.arrayBuffer());const chunks=[];
+  for(let i=0;i<bytes.length;i+=8192)chunks.push(String.fromCharCode(...bytes.subarray(i,i+8192)));
+  return btoa(chunks.join(''));
+}
+async function loadComics(){
+  const data=await api('/api/comics'), host=$('comic-list');host.replaceChildren();
+  $('comic-count').textContent=data.comics.length;
+  for(const c of data.comics){
+    const btn=el('button',`project-btn${comic.id===c.id?' active':''}`);btn.type='button';
+    btn.append(el('span','name',c.title),el('span','meta',`${c.pages} 页 · ${c.translated}/${c.regions} 已翻译`));
+    btn.addEventListener('click',()=>openComic(c.id).catch(reportError));host.append(btn);
+  }
+  if(!data.comics.length)host.append(el('p','hint','暂无漫画，点击上方新建漫画。'));
+}
+async function importComic(e){
+  e.preventDefault();const file=$('comic-file').files[0];if(!file)return;
+  const data=await api('/api/comics','POST',{filename:file.name,base64:await fileBase64(file),
+    title:$('comic-name').value,rights_confirmed:$('comic-rights').checked});
+  await openComic(data.id);notify('漫画项目已创建');
+}
+async function openComic(id){
+  comic.id=id;state.selected=null;
+  const data=await api(`/api/comics/${id}`);comic.doc=data;
+  if(!data.pages.some(x=>x.id===comic.page))comic.page=data.pages[0]?.id||null;
+  if(!data.regions.some(x=>x.id===comic.region?.id && x.page_id===comic.page))comic.region=null;
+  $('comic-title').textContent=data.title;$('current-name').textContent=data.title;
+  for(const x of ['welcome','import-card','editor','comic-import'])toggle(x,false);
+  toggle('comic-editor',true);
+  const select=$('comic-page');select.replaceChildren();
+  for(const [i,p] of data.pages.entries()){const opt=el('option','',`${i+1}. ${p.filename}`);opt.value=p.id;select.append(opt);}
+  select.value=comic.page||'';
+  if(comic.page)$('comic-image').src=`/api/comics/${id}/pages/${comic.page}/image`;
+  renderComicRegions();await loadComics();await loadProjects();
+}
+function renderComicRegions(){
+  const host=$('comic-region-list'),overlay=$('comic-overlay');host.replaceChildren();overlay.replaceChildren();
+  if(!comic.doc)return;
+  const regions=comic.doc.regions.filter(x=>x.page_id===comic.page);
+  for(const [index,r] of regions.entries()){
+    const box=el('div',`comic-box${comic.region?.id===r.id?' active':''}`,String(index+1));
+    box.style.left=`${r.box[0]*100}%`;box.style.top=`${r.box[1]*100}%`;
+    box.style.width=`${r.box[2]*100}%`;box.style.height=`${r.box[3]*100}%`;
+    overlay.append(box);
+    const button=el('button',`btn subtle comic-region-btn${comic.region?.id===r.id?' active':''}`,
+      `${index+1}. ${r.target||r.source||'未填写文本'}`);button.type='button';
+    button.addEventListener('click',()=>selectComicRegion(r.id));host.append(button);
+  }
+  if(!regions.length)host.append(el('p','hint','在图片上拖动框选文字区域。'));
+  if(comic.region){const updated=comic.doc.regions.find(x=>x.id===comic.region.id);if(updated)selectComicRegion(updated.id);}
+  toggle('comic-region-form',!!comic.region);
+}
+function selectComicRegion(id){
+  comic.region=comic.doc?.regions.find(x=>x.id===id)||null;
+  if(!comic.region){toggle('comic-region-form',false);return;}
+  const r=comic.region;
+  for(const [suffix,val] of [['x',r.box[0]],['y',r.box[1]],['w',r.box[2]],['h',r.box[3]]])$(`comic-${suffix}`).value=String(val);
+  $('comic-source').value=r.source;$('comic-target').value=r.target;
+  $('comic-region-status').textContent=`版本 ${r.revision} · ${r.method||'尚未翻译'}`;
+  toggle('comic-region-form',true);
+  for(const node of $('comic-overlay').children)node.classList.remove('active');
+  const index=comic.doc.regions.filter(x=>x.page_id===comic.page).findIndex(x=>x.id===id);
+  if(index>=0)$('comic-overlay').children[index]?.classList.add('active');
+}
+async function saveComicRegion(){
+  if(!comic.id||!comic.region)throw new Error('请先选择区域');
+  const box=['x','y','w','h'].map(x=>Number($(`comic-${x}`).value));
+  const edited=await api(`/api/comics/${comic.id}/regions/${comic.region.id}`,'PATCH',{
+    box,source:$('comic-source').value,target:$('comic-target').value,
+    expected_revision:comic.region.revision});
+  const idx=comic.doc.regions.findIndex(x=>x.id===edited.id);comic.doc.regions[idx]=edited;
+  comic.region=edited;renderComicRegions();notify('漫画文本区域已保存');
+}
+async function comicTranslate(){
+  if(!comic.region)throw new Error('请选择文字区域');
+  const provider=$('provider').value;
+  const result=await api(`/api/comics/${comic.id}/regions/${comic.region.id}/translate`,'POST',{
+    provider,model:$('model-id').value.trim(),base_url:$('base-url').value.trim(),
+    accept_remote:$('remote-accept').checked});
+  comic.job=result.job_id;notify('翻译任务已提交');pollComicJob();
+}
+async function pollComicJob(){
+  if(!comic.job)return;
+  try{
+    const job=await api(`/api/jobs/${comic.job}`);
+    if(job.state==='done'){comic.job=null;await openComic(comic.id);notify('该区域已翻译，请人工复核');}
+    else if(job.state==='failed'){comic.job=null;throw new Error(job.error||'翻译失败');}
+    else setTimeout(pollComicJob,1000);
+  }catch(e){comic.job=null;reportError(e);}
+}
+async function addComicPage(){
+  const file=$('comic-add-file').files[0];if(!file||!comic.id)return;
+  await api(`/api/comics/${comic.id}/pages`,'POST',{filename:file.name,base64:await fileBase64(file)});
+  $('comic-add-file').value='';comic.page=null;await openComic(comic.id);
+}
+function comicPointerStart(e){
+  if(e.button!==0 || !comic.page)return;
+  const rect=$('comic-overlay').getBoundingClientRect();
+  comic.pointer={x:(e.clientX-rect.left)/rect.width,y:(e.clientY-rect.top)/rect.height};
+}
+async function comicPointerEnd(e){
+  if(!comic.pointer||!comic.page)return;
+  const start=comic.pointer;comic.pointer=null;
+  const rect=$('comic-overlay').getBoundingClientRect();
+  const x=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  const y=Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height));
+  const box=[Math.min(x,start.x),Math.min(y,start.y),Math.abs(x-start.x),Math.abs(y-start.y)];
+  if(box[2]<0.015||box[3]<0.015)return;
+  const region=await api(`/api/comics/${comic.id}/regions`,'POST',{page_id:comic.page,box});
+  comic.doc.regions.push(region);comic.region=region;renderComicRegions();notify('已新增文本区域，请填写原文');
+}
+async function exportComic(){
+  if(!comic.id||!comic.page)throw new Error('请选择漫画页面');
+  const url=`/api/comics/${comic.id}/pages/${comic.page}/export.svg`;
+  const response=await fetch(url,{cache:'no-store'});
+  if(!response.ok){const error=await response.json();throw new Error(error.error||'导出失败');}
+  const blob=await response.blob();const link=document.createElement('a');
+  const tmp=URL.createObjectURL(blob);link.href=tmp;link.download='comic-page.svg';
+  document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(tmp),10000);
+  notify('已导出 SVG；原图保留，文字可继续编辑');
+}
+
 async function main(){
   const setup=await api('/api/bootstrap');state.token=setup.csrf_token;
-  bind('new-project','click',()=>{state.selected=null;state.job=null;$('current-name').textContent='工作台';toggle('welcome',true);toggle('editor',false);toggle('import-card',true);return loadProjects();});
+  bind('new-project','click',()=>{state.selected=null;comic.id=null;state.job=null;toggle('comic-import',false);toggle('comic-editor',false);$('current-name').textContent='工作台';toggle('welcome',true);toggle('editor',false);toggle('import-card',true);return loadProjects();});
+  bind('new-comic','click',showComicImport);bind('comic-import-form','submit',importComic);
+  bind('comic-file','change',()=>{$('comic-file-label').textContent=$('comic-file').files[0]?.name||'选择 PNG / JPG 图片';});
+  bind('comic-page','change',()=>{comic.page=$('comic-page').value;comic.region=null;renderComicRegions();$('comic-image').src=`/api/comics/${comic.id}/pages/${comic.page}/image`;});
+  bind('comic-add-file','change',addComicPage);bind('comic-save','click',saveComicRegion);bind('comic-translate','click',comicTranslate);
+  bind('comic-refresh','click',()=>openComic(comic.id));bind('comic-export','click',exportComic);
+  bind('comic-overlay','pointerdown',comicPointerStart);bind('comic-overlay','pointerup',e=>comicPointerEnd(e).catch(reportError));
   bind('import-form','submit',importBook);bind('book-file','change',()=>{$('file-label').textContent=$('book-file').files[0]?.name||'选择 TXT / EPUB 文件';});
   $('chapter-select').addEventListener('change',()=>{state.chapter=Number($('chapter-select').value);state.offset=0;loadSegments().catch(reportError);});
   bind('prev-page','click',()=>{state.offset=Math.max(0,state.offset-perPage);return loadSegments();});
@@ -346,6 +484,6 @@ async function main(){
   bind('llama-stop','click',stopGGUF);
   bind('model-evaluate','click',evaluateModel);
   $('local-manager').addEventListener('toggle',()=>{if($('local-manager').open){loadLocal().catch(reportError);loadReports().catch(reportError);}});
-  providerChanged();await loadProjects();
+  providerChanged();await loadProjects();await loadComics();
 }
 main().catch(reportError);

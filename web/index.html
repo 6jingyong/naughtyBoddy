@@ -11,11 +11,12 @@
 <body>
   <div class="shell">
     <aside class="sidebar">
-      <header class="brand"><div class="logo">N<span>·</span>B</div><div><strong>NaughtyBoddy</strong><small>CREATIVE STUDIO · P3.1</small></div></header>
-      <button type="button" id="new-project" class="btn subtle sidebar-new">＋ 新建作品</button>
+      <header class="brand"><div class="logo">N<span>·</span>B</div><div><strong>NaughtyBoddy</strong><small>CREATIVE STUDIO · P4</small></div></header>
+      <button type="button" id="new-project" class="btn subtle sidebar-new">＋ 新建小说</button><button type="button" id="new-comic" class="btn subtle sidebar-new">＋ 新建漫画</button>
       <div class="sidebar-section"><div class="section-label">我的作品 <span id="project-count" class="count">0</span></div>
         <div id="project-list" class="project-list"><p class="hint">正在读取本地作品…</p></div>
       </div>
+      <div class="sidebar-section"><div class="section-label">漫画项目 <span id="comic-count" class="count">0</span></div><div id="comic-list" class="project-list"><p class="hint">尚无漫画项目</p></div></div>
       <div class="sidebar-bottom">
         <div class="privacy-dot">● LOCAL-FIRST WORKSPACE</div>
         <p>素材保存在本机。只有主动选择云端翻译时，文本片段才会发送到模型服务。</p>
@@ -45,6 +46,40 @@
           <label class="check"><input id="rights-confirmed" type="checkbox" required /><span>我确认有权处理此作品及其内容。</span></label>
           <button class="btn primary" type="submit">创建项目 <span>↗</span></button>
         </form>
+      </section>
+      <section id="comic-import" class="import-card hidden">
+        <div class="card-heading"><div><small>NEW COMIC</small><h2>导入漫画页面</h2></div><span class="accent-marker">▧</span></div>
+        <form id="comic-import-form">
+          <label for="comic-file" class="file-pick"><span>＋</span><strong id="comic-file-label">选择 PNG / JPG 图片</strong><small>最大 12 MiB，本机保存，支持后续添加页面</small></label>
+          <input id="comic-file" type="file" accept="image/png,image/jpeg" required hidden />
+          <div class="field"><label>漫画项目名称</label><input id="comic-name" maxlength="160" placeholder="可选，默认图片文件名" /></div>
+          <label class="check"><input type="checkbox" id="comic-rights" required />我确认有权处理和翻译此漫画页面。</label>
+          <button class="btn primary" type="submit">创建漫画项目</button>
+        </form>
+      </section>
+      <section id="comic-editor" class="editor hidden">
+        <div class="editor-head"><div><div class="eyebrow">COMIC WORKSPACE · P4</div><h1 id="comic-title"></h1>
+        <p class="subtitle">拖动选取对话气泡 → 填写原文 → 保存译文或调用文本模型 → 导出带文字层的 SVG。</p></div></div>
+        <div class="editor-controls">
+          <label>页面 <select id="comic-page"></select></label>
+          <label class="btn subtle">＋ 添加图片<input id="comic-add-file" type="file" accept="image/png,image/jpeg" hidden /></label>
+          <button id="comic-refresh" class="btn subtle" type="button">刷新</button>
+          <button id="comic-export" class="btn primary" type="button">导出当前页 SVG</button>
+        </div>
+        <div class="comic-workspace">
+          <div class="comic-canvas-wrap"><div id="comic-stage" class="comic-stage"><img id="comic-image" alt="当前漫画页面" draggable="false"/><div id="comic-overlay" class="comic-overlay"></div></div>
+          <p class="hint">在图上拖出矩形框；可用下方数字框精确调整区域。当前 P4 不自动执行 OCR 或原文擦除。</p></div>
+          <aside class="comic-regions"><strong>本页文字区域</strong><div id="comic-region-list" class="comic-region-list"></div>
+            <div id="comic-region-form" class="hidden">
+              <div class="tiny-heading">编辑选中区域</div>
+              <div class="comic-box-inputs"><label>X<input id="comic-x" type="number" step="0.001" min="0" max="1" /></label><label>Y<input id="comic-y" type="number" step="0.001" min="0" max="1" /></label><label>W<input id="comic-w" type="number" step="0.001" min="0" max="1" /></label><label>H<input id="comic-h" type="number" step="0.001" min="0" max="1" /></label></div>
+              <label class="field">原文<textarea id="comic-source" rows="5" placeholder="在这里填写识别到的文字（自动 OCR 后续接入）"></textarea></label>
+              <label class="field">译文<textarea id="comic-target" rows="5" placeholder="在这里编辑译文"></textarea></label>
+              <div id="comic-region-status" class="hint"></div>
+              <div class="comic-actions"><button id="comic-save" type="button" class="btn subtle">保存区域</button><button id="comic-translate" type="button" class="btn primary">调用当前模型翻译</button></div>
+            </div>
+          </aside>
+        </div>
       </section>
       <section id="editor" class="editor hidden">
         <div class="editor-head"><div><div class="eyebrow">STORY WORKSPACE</div><h1 id="book-title"></h1><div id="book-subtitle" class="subtitle"></div></div><div class="progress-block"><div id="progress-text"></div><div class="progress-track"><div id="progress-bar"></div></div></div></div>

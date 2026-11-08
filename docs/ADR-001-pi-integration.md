@@ -1,6 +1,6 @@
 # ADR-001: Pi integration is optional, not an upstream fork
 
-Status: **proposed** (2026-11-09). No Pi dependency has been added.
+Status: **accepted for current prototype** (2026-11-09). No Pi dependency has been added.
 
 ## Decision
 
@@ -47,3 +47,9 @@ and parity with existing translation quality. Pin exact package versions.
 Pi's current package names are under `@earendil-works/`, not historical
 `@mariozechner/` names. MIT licensing applies to Pi, not to user assets or
 to third-party model weights. NaughtyBoddy's own license remains undecided.
+
+## P4 confirmation (2026-11-09)
+
+The first comic pipeline has no agent-loop dependency: a browser-controlled task creates
+regions, an inference adapter translates source text, and a deterministic renderer
+exports draft pages. No changes to Pi integration are needed.

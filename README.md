@@ -4,7 +4,7 @@
 
 NaughtyBoddy is a standalone creative application, not a coding-agent fork or an extension of Human Harness. It combines a personal content library, editable production workflows, model discovery and replaceable inference runtimes. The software is free to use; **the repository does not have a license yet**, so redistribution/modification rights are not granted until the maintainer selects an OSI-approved license.
 
-> Current status: **P3.2 experimental Studio with task-aware model routing**. No installer, full multimedia editor, official model ranking or live GPU verification yet.
+> Current status: **P4 experimental Studio with comic page/region editing**. No installer, full multimedia editor, official model ranking or live GPU verification yet.
 
 ## Try the Studio GUI (Python 3.11+, no dependencies)
 
@@ -16,21 +16,21 @@ python naughtyboddy.py studio
 
 The browser-based GUI provides:
 
-- **Library**: import permitted DRM-free EPUB or UTF-8 TXT (up to 12 MiB); keep source and checkpoint database in a local project folder.
-- **Studio**: select chapters, view source/translation side by side, edit and save segments, manage a JSON glossary, view progress/audit, export EPUB or TXT.
+- **Library**: import permitted DRM-free EPUB or UTF-8 TXT (up to 12 MiB); also create multi-page PNG/JPEG comic projects (12 MiB per page). Keep sources in local project folders.
+- **Studio**: select novel chapters, view source/translation side by side, edit and save segments, manage a JSON glossary, and export EPUB or TXT. **Comic Studio (P4)** lets users draw/edit region boxes on pages, transcribe source text, translate individual regions with a chosen model and export draft self-contained SVG overlays.
 - **Discovery**: search installed Ollama models, Hugging Face models or OpenRouter metadata; names tagged `uncensored` / `abliterated` are **candidates only**, not verified compatibility scores.
 - **Runtime**: run a **bounded** translation batch using mock/demo mode, a local Ollama server, an OpenAI-compatible endpoint (including llama.cpp / KoboldCpp) or OpenRouter. Each remote job requires explicit opt-in.
 - **Local model manager (P3.1)**: inspect machine RAM/NVIDIA memory estimates, local Ollama inventory and managed GGUF files; inspect Hugging Face GGUF metadata; explicitly install GGUF/Ollama models; launch/stop a managed loopback llama-server; run three opt-in task-specific model evaluation cases. Results remain in your private workspace.
 
 - **Task-aware routing (P3.2)**: rank *currently usable* local model endpoints; optionally request OpenRouter metadata. Model labels and heuristic refusal tests do not count as proof. Save explicit local, per-task user-reviewed compatibility/quality notes. Recommendations populate, but never execute, an inference choice. Cloud text transmission remains separately opt-in.
 
-The **Pi integration decision** is documented in [ADR-001](docs/ADR-001-pi-integration.md): no Pi fork now. Existing deterministic creative workflows stay in Python; Pi's `pi-ai` and optional `pi-agent-core` are candidates for a future isolated SDK experiment only.
+The P4 industry research is recorded in [docs/industry-workflows-2026.md](docs/industry-workflows-2026.md): proven creative pipelines are predominantly software-directed rather than tool-calling LLM agents. The **Pi integration decision** is documented in [ADR-001](docs/ADR-001-pi-integration.md): no Pi fork now. Existing deterministic creative workflows stay in Python; Pi's `pi-ai` and optional `pi-agent-core` are candidates for a future isolated SDK experiment only.
 
 Demo mode **does not translate** text; it labels and copies original segments so the workflow can be tested without a model. Incomplete exports are blocked; mock-based exports require an explicit checkbox and carry an obvious DEMO label. A manually edited segment replaces its machine translation, without changing other completed segments.
 
 The server listens on `127.0.0.1` only, uses a per-session write token and does not serve arbitrary files. It neither uploads documents during import, browse, edit, or discovery nor downloads model binaries automatically. Model transfers are started only after explicit user confirmation (and GGUF license review). Remote API calls transmit the selected source excerpts to that provider and may charge money. API keys are read from local environment variables (e.g. `OPENROUTER_API_KEY`) and are not stored in projects. The first browser launch may request access to loopback; do not publish/forward the local service to the Internet.
 
-> **Note**: Web UI is an early implementation. It does not yet support video/PDF/OCR, retaining original EPUB CSS/images, editing an existing CLI project through the Library, import of nonstandard/DRM-restricted files, cost prediction, automatic retry or job cancellation. See [docs/TODO.md](docs/TODO.md).
+> **Note**: Web UI is an early implementation. It does not yet support video/PDF/OCR, comic inpainting or full typesetting, retaining original EPUB CSS/images, editing an existing CLI project through the Library, import of nonstandard/DRM-restricted files, cost prediction, automatic retry or job cancellation. See [docs/TODO.md](docs/TODO.md).
 
 ## Optional local models
 
@@ -72,9 +72,9 @@ python -m unittest discover -s tests -v
 node --check web/app.js     # optional, requires Node.js
 ```
 
-P3.1 adds local-model GUI HTTP tests, explicit-install and managed-process lifecycle tests, and an optional offline evaluation interface. Tests use no real paid API and no GPU; **real adult-fiction compatibility, actual model quality and GPU deployment remain unverified**. A headless-browser visual check can be blocked by the runtime environment's local-network policy; HTTP integration tests still cover key API interactions.
+P4 adds comic-region and API tests while retaining local-model GUI tests, explicit-install and managed-process lifecycle tests, and an optional offline evaluation interface. Tests use no real paid API and no GPU; **real adult-fiction compatibility, actual model quality and GPU deployment remain unverified**. A headless-browser visual check can be blocked by the runtime environment's local-network policy; HTTP integration tests still cover key API interactions.
 
-Architecture: [docs/architecture.md](docs/architecture.md) · [P1](docs/p1-model-runtime.md) · [P2](docs/p2-novel.md) · [P3 Studio](docs/p3-studio.md) · [P3.1 local models](docs/p31-model-manager.md) · [Backlog](docs/TODO.md)
+Architecture: [docs/architecture.md](docs/architecture.md) · [P1](docs/p1-model-runtime.md) · [P2](docs/p2-novel.md) · [P3 Studio](docs/p3-studio.md) · [P3.1 local models](docs/p31-model-manager.md) · [P4 Comics](docs/p4-comic-workflow.md) · [Industry workflows](docs/industry-workflows-2026.md) · [Backlog](docs/TODO.md)
 
 ## Scope & boundaries
 
