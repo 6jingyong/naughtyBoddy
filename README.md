@@ -38,6 +38,18 @@ We do **not** claim that a project's `uncensored` / `abliterated` label guarante
 
 Contributions are welcome as **documented use cases, reproducible gaps, evidence, source-verified tool information and proposed integrations**. Never include private prompts, personal content, credentials, or unlicensed source material in a public issue.
 
+### Explore the P5 registry (offline)
+
+```bash
+python nb_registry.py validate
+python nb_registry.py needs
+python nb_registry.py solutions
+python nb_registry.py match need-manga-localization
+python nb_registry.py gaps
+```
+
+Records are plain JSON with explicit evidence status. P5 currently contains **proposed needs and unverified tool candidates**, not a verified best-tools ranking. Read the [P5 contribution and validation guide](docs/p5-needs-registry.md) before asserting a tool works or a market gap exists. The initial registry needs no API key, model, GPU or network connection.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.
