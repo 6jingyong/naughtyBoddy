@@ -285,6 +285,8 @@ def main(argv: list[str] | None = None) -> int:
     ev.add_argument("--include-responses", action="store_true", help="Retain model output in local report")
     ev.add_argument("--output", help="Private JSON report path; refuses to overwrite")
     ev.set_defaults(func=evaluation_command)
+    from nb_novel_cli import add_novel_parser
+    add_novel_parser(sub, ollama_url=OLLAMA)
     args = parser.parse_args(argv)
     try:
         return args.func(args)

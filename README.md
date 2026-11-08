@@ -77,3 +77,28 @@ Docs: [architecture](docs/architecture.md), [P1 technical notes](docs/p1-model-r
 ## License
 
 **Not yet chosen.** This repository intends to be free and open source, but there is no grant of open-source redistribution/modification rights until the maintainer selects and adds a license. Do not assume missing licensing is permissive.
+
+## P2 — Novel translation workflow (offline-testable)
+
+**P2 is built on top of P1.** Import a UTF-8 TXT or DRM-free EPUB and checkpoint every translated segment (including chapter titles) in a private SQLite project. This is a text-only pipeline: images, EPUB layout, footnotes and complex formatting are not yet preserved.
+
+Try an end-to-end **mock demonstration** (mock only labels and copies text; it does *not* translate):
+
+```bash
+python naughtyboddy.py novel init --input examples/sample-book.txt --project private/demo --glossary examples/sample-glossary.json
+python naughtyboddy.py novel status --project private/demo
+python naughtyboddy.py novel translate --project private/demo --provider mock --max-segments 100
+python naughtyboddy.py novel audit --project private/demo
+python naughtyboddy.py novel export --project private/demo --output private/demo.epub --allow-demo
+```
+
+For **real local model** inference once a compatible backend is running:
+
+```bash
+python naughtyboddy.py novel translate --project private/demo --provider ollama --model YOUR_LOCAL_MODEL --max-segments 20
+# Or use --provider compatible --base-url http://127.0.0.1:8080/v1 --model YOUR_MODEL
+```
+
+For a **remote service**, pass `--accept-remote`; the book text is then sent to the selected provider and calls may incur fees. No cloud fallback or automatic upload occurs during import/status/export. All translation operations have a bounded call count per run.
+
+Full scope, limitations and verification: [docs/p2-novel.md](docs/p2-novel.md). Pending live model tests and future work: [docs/TODO.md](docs/TODO.md).

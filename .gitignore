@@ -12,3 +12,9 @@ models.local.json
 reports/
 private/
 models/
+private/
+projects/
+exports/
+*.sqlite3
+*.sqlite3-*
+.translate.lock
