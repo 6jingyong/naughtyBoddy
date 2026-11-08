@@ -8,3 +8,7 @@ __pycache__/
 prompt.txt
 *.local.json
 models.local.json
+*.part
+reports/
+private/
+models/
