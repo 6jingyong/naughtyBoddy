@@ -115,6 +115,9 @@ def read_registry(root: Path = DEFAULT_ROOT) -> tuple[dict[str, list[dict]], lis
                 _require(_safe_url(row.get("url")), place, "public HTTPS project URL required", errors)
                 _require(row.get("license") is None or _str(row.get("license")),
                          place, "license must be a string or null (unknown)", errors)
+                if row.get("license") is not None:
+                    _require(_safe_url(row.get("license_source")),
+                             place, "confirmed license requires source URL", errors)
                 _require(row.get("verification") in ("unreviewed", "documentation_reviewed", "hands_on_verified"),
                          place, "verification must be explicit", errors)
                 sources = row.get("sources")
@@ -135,6 +138,10 @@ def read_registry(root: Path = DEFAULT_ROOT) -> tuple[dict[str, list[dict]], lis
                 if row.get("fit") in ("meets", "partial", "does_not_meet"):
                     _require(row.get("evidence_status") in ("documentation_reviewed", "hands_on_verified") and
                              bool(observations), place, "a fit verdict needs reviewed evidence and observations", errors)
+                if row.get("fit") == "meets":
+                    _require(state == "hands_on_verified" and bool(check_results) and
+                             all(x.get("result") == "pass" for x in check_results or [] if isinstance(x, dict)),
+                             place, "meets requires hands-on passed checks", errors)
                 if state == "hands_on_verified":
                     _require(_str(row.get("environment")) and
                              any(x.get("result") != "not_run" for x in check_results or [] if isinstance(x, dict)),
@@ -153,6 +160,11 @@ def read_registry(root: Path = DEFAULT_ROOT) -> tuple[dict[str, list[dict]], lis
             if isinstance(check, dict) and row.get("need_id") in needs:
                 known = {c["id"] for c in needs[row["need_id"]].get("acceptance_checks", []) if isinstance(c, dict) and "id" in c}
                 _require(check.get("check_id") in known, place, "unknown acceptance check", errors)
+    for row in data["assessments"]:
+        if row.get("fit") == "meets" and row.get("need_id") in needs:
+            required = {c["id"] for c in needs[row["need_id"]].get("acceptance_checks", []) if isinstance(c, dict) and "id" in c}
+            passed = {c.get("check_id") for c in row.get("check_results", []) if isinstance(c, dict) and c.get("result") == "pass"}
+            _require(required.issubset(passed), row["_file"], "meets requires every acceptance check to pass", errors)
     for row in data["gaps"]:
         _require(row.get("need_id") in ids["needs"], row["_file"], "unknown need_id", errors)
     return data, errors
