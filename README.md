@@ -4,7 +4,7 @@
 
 NaughtyBoddy is a standalone creative application, not a coding-agent fork or an extension of Human Harness. It combines a personal content library, editable production workflows, model discovery and replaceable inference runtimes. The software is free to use; **the repository does not have a license yet**, so redistribution/modification rights are not granted until the maintainer selects an OSI-approved license.
 
-> Current status: **P3 experimental, working local browser-based Studio**. No installer, model download GUI, full multimedia editor, official model ranking or live GPU verification yet.
+> Current status: **P3.1 experimental Studio with opt-in local model manager**. No installer, full multimedia editor, official model ranking or live GPU verification yet.
 
 ## Try the Studio GUI (Python 3.11+, no dependencies)
 
@@ -20,12 +20,13 @@ The browser-based GUI provides:
 - **Studio**: select chapters, view source/translation side by side, edit and save segments, manage a JSON glossary, view progress/audit, export EPUB or TXT.
 - **Discovery**: search installed Ollama models, Hugging Face models or OpenRouter metadata; names tagged `uncensored` / `abliterated` are **candidates only**, not verified compatibility scores.
 - **Runtime**: run a **bounded** translation batch using mock/demo mode, a local Ollama server, an OpenAI-compatible endpoint (including llama.cpp / KoboldCpp) or OpenRouter. Each remote job requires explicit opt-in.
+- **Local model manager (P3.1)**: inspect machine RAM/NVIDIA memory estimates, local Ollama inventory and managed GGUF files; inspect Hugging Face GGUF metadata; explicitly install GGUF/Ollama models; launch/stop a managed loopback llama-server; run three opt-in task-specific model evaluation cases. Results remain in your private workspace.
 
 Demo mode **does not translate** text; it labels and copies original segments so the workflow can be tested without a model. Incomplete exports are blocked; mock-based exports require an explicit checkbox and carry an obvious DEMO label. A manually edited segment replaces its machine translation, without changing other completed segments.
 
-The server listens on `127.0.0.1` only, uses a per-session write token and does not serve arbitrary files. It neither uploads documents during import, browse, edit, or discovery nor downloads model binaries automatically. Remote API calls transmit the selected source excerpts to that provider and may charge money. API keys are read from local environment variables (e.g. `OPENROUTER_API_KEY`) and are not stored in projects. The first browser launch may request access to loopback; do not publish/forward the local service to the Internet.
+The server listens on `127.0.0.1` only, uses a per-session write token and does not serve arbitrary files. It neither uploads documents during import, browse, edit, or discovery nor downloads model binaries automatically. Model transfers are started only after explicit user confirmation (and GGUF license review). Remote API calls transmit the selected source excerpts to that provider and may charge money. API keys are read from local environment variables (e.g. `OPENROUTER_API_KEY`) and are not stored in projects. The first browser launch may request access to loopback; do not publish/forward the local service to the Internet.
 
-> **Note**: Web UI is an early implementation. It does not yet support video/PDF/OCR, retaining original EPUB CSS/images, drag-and-drop model installation, editing an existing CLI project through the Library, import of nonstandard/DRM-restricted files, cost prediction, automatic retry or job cancellation. See [docs/TODO.md](docs/TODO.md).
+> **Note**: Web UI is an early implementation. It does not yet support video/PDF/OCR, retaining original EPUB CSS/images, editing an existing CLI project through the Library, import of nonstandard/DRM-restricted files, cost prediction, automatic retry or job cancellation. See [docs/TODO.md](docs/TODO.md).
 
 ## Optional local models
 
@@ -34,7 +35,7 @@ Install inference runtimes separately:
 - [Ollama](https://ollama.com/) server on `http://127.0.0.1:11434` — use `discover --source ollama` to inspect inventory.
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) or [KoboldCpp](https://github.com/LostRuins/koboldcpp) — use their OpenAI-compatible `/v1` endpoints in the GUI or CLI.
 
-The existing CLI also supports opt-in model pulls and verified-revision GGUF downloads:
+The GUI local-model manager uses the existing opt-in CLI operations. It **does not install llama.cpp binaries**, and GPU fit is a rough file-size estimate, not a compatibility guarantee. The CLI also supports opt-in model pulls and revision-pinned GGUF downloads:
 
 ```bash
 python naughtyboddy.py hardware
@@ -67,9 +68,9 @@ python -m unittest discover -s tests -v
 node --check web/app.js     # optional, requires Node.js
 ```
 
-P3 adds HTTP/API tests, mock workflow tests and a local GUI. Tests use no real paid API and no GPU; **real adult-fiction compatibility, actual model quality and GPU deployment remain unverified**. A headless-browser visual check can be blocked by the runtime environment's local-network policy; HTTP integration tests still cover key API interactions.
+P3.1 adds local-model GUI HTTP tests, explicit-install and managed-process lifecycle tests, and an optional offline evaluation interface. Tests use no real paid API and no GPU; **real adult-fiction compatibility, actual model quality and GPU deployment remain unverified**. A headless-browser visual check can be blocked by the runtime environment's local-network policy; HTTP integration tests still cover key API interactions.
 
-Architecture: [docs/architecture.md](docs/architecture.md) · [P1](docs/p1-model-runtime.md) · [P2](docs/p2-novel.md) · [P3 Studio](docs/p3-studio.md) · [Backlog](docs/TODO.md)
+Architecture: [docs/architecture.md](docs/architecture.md) · [P1](docs/p1-model-runtime.md) · [P2](docs/p2-novel.md) · [P3 Studio](docs/p3-studio.md) · [P3.1 local models](docs/p31-model-manager.md) · [Backlog](docs/TODO.md)
 
 ## Scope & boundaries
 

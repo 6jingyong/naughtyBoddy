@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+from typing import Callable
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlparse
@@ -77,7 +78,8 @@ def default_models_dir() -> Path:
 
 
 def download_gguf(repo: str, filename: str, destination: Path, *,
-                  revision: str | None = None, max_bytes: int = MAX_MODEL_BYTES_DEFAULT) -> dict:
+                  revision: str | None = None, max_bytes: int = MAX_MODEL_BYTES_DEFAULT,
+                  on_progress: Callable[[int], None] | None = None) -> dict:
     """Download a selected GGUF from a validated HF repo, with resumable .part files.
 
     Caller must explicitly opt into transfer. Do not auto-install model dependencies or execute downloaded files.
@@ -102,10 +104,16 @@ def download_gguf(repo: str, filename: str, destination: Path, *,
     target = target_dir / repo.replace("/", "--") / Path(*filename.split("/"))
     target.parent.mkdir(parents=True, exist_ok=True)
     part = target.with_name(target.name + ".part")
+    if any(parent.is_symlink() for parent in target.parents if parent != target_dir.parent):
+        raise ProviderError("Refusing to write through symlinked model directories")
+    if target.is_symlink():
+        raise ProviderError("Refusing symlinked model destination")
     if target.exists():
         raise ProviderError(f"Destination already exists: {target}")
     downloaded = part.stat().st_size if part.exists() else 0
     part_meta = part.with_name(part.name + ".json")
+    if part.is_symlink() or part_meta.is_symlink():
+        raise ProviderError("Refusing symlinked partial download files")
     expected_meta = {"repo": repo, "revision": pinned, "filename": filename}
     if part.exists():
         try:
@@ -118,6 +126,8 @@ def download_gguf(repo: str, filename: str, destination: Path, *,
         part_meta.write_text(json.dumps(expected_meta), encoding="utf-8")
     if downloaded > max_bytes:
         raise ProviderError("Existing partial file exceeds the allowed size")
+    if on_progress:
+        on_progress(downloaded)
     hf_path = "/".join(quote(segment, safe="") for segment in filename.split("/"))
     url = f"https://huggingface.co/{quote(repo, safe='/')}/resolve/{pinned}/{hf_path}"
     headers = {"User-Agent": "NaughtyBoddy/0.1"}
@@ -151,6 +161,8 @@ def download_gguf(repo: str, filename: str, destination: Path, *,
                     if count > max_bytes:
                         raise ProviderError("Download exceeds maximum allowed size")
                     f.write(chunk)
+                    if on_progress:
+                        on_progress(count)
             if content_length and count - downloaded != int(content_length):
                 raise ProviderError("Incomplete download; .part retained for retry")
     except HTTPError as exc:
