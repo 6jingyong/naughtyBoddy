@@ -1,8 +1,11 @@
 import argparse
 import io
 import json
+import os
+import tempfile
 import unittest
-from contextlib import redirect_stdout
+from pathlib import Path
+from contextlib import redirect_stdout, redirect_stderr
 from unittest.mock import patch
 
 import naughtyboddy as nb
@@ -37,8 +40,30 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(json.loads(out.getvalue())["errors"]["ollama"], "offline")
 
-    def test_openrouter_requires_explicit_key(self):
-        self.assertEqual(nb.hints_for("a heretic model"), ["heretic"])
+    @patch.object(nb, "request_json")
+    def test_openrouter_requires_explicit_key(self, mock_request):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "prompt.txt"
+            path.write_text("Hello", encoding="utf-8")
+            with patch.dict(os.environ, {"OPENROUTER_API_KEY": ""}):
+                with redirect_stderr(io.StringIO()):
+                    status = nb.main(["probe", "--provider", "openrouter", "--model", "demo", "--prompt-file", str(path)])
+        self.assertEqual(status, 1)
+        mock_request.assert_not_called()
+
+    @patch.object(nb, "request_json", return_value={"message": {"content": "你好"}})
+    def test_ollama_probe_is_explicit_and_unrated(self, mock_request):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "prompt.txt"
+            path.write_text("Test sentence", encoding="utf-8")
+            out = io.StringIO()
+            with redirect_stdout(out):
+                status = nb.main(["probe", "--provider", "ollama", "--model", "demo", "--prompt-file", str(path)])
+        self.assertEqual(status, 0)
+        data = json.loads(out.getvalue())
+        self.assertEqual(data["response"], "你好")
+        self.assertEqual(data["adult_compatibility"], "needs_human_review")
+        self.assertEqual(mock_request.call_args.kwargs["payload"]["messages"][0]["content"], "Test sentence")
 
 
 if __name__ == "__main__":
