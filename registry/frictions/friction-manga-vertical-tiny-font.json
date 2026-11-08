@@ -1,0 +1,31 @@
+{
+  "id": "friction-manga-vertical-tiny-font",
+  "title": "Reported narrow vertical source boxes produce tiny translated lettering",
+  "schema_version": 1,
+  "evidence_status": "reported",
+  "need_id": "need-manga-localization",
+  "solution_ids": [
+    "solution-koharu"
+  ],
+  "source_type": "upstream_issue",
+  "sources": [
+    "https://github.com/mayocream/koharu/issues/846"
+  ],
+  "status": "reported_unreproduced",
+  "symptom": "A user reported source text bounding boxes that are tall and narrow; fitting horizontal translations into the same width causes unreadably small text.",
+  "user_impact": "The user must manually adjust region geometry or lettering to achieve readable manga pages.",
+  "existing_mitigation": {
+    "status": "proposed",
+    "steps": [
+      "Issue proposes expanding the text box toward the speech bubble, with caveats for sound-effect lettering."
+    ],
+    "sources": [
+      "https://github.com/mayocream/koharu/issues/846"
+    ]
+  },
+  "remaining_question": "Which source scripts and page layouts cause the geometry failure in the latest release?",
+  "verification_plan": "Test licensed vertical JP/CN bubble fixtures; compare text fit using source-text bounding box versus speech-bubble geometry.",
+  "gap_ids": [],
+  "reviewed_on": "2026-11-09",
+  "reported_on": "2026-07-04"
+}

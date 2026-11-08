@@ -1,0 +1,35 @@
+{
+  "id": "friction-fiction-local-vs-cloud",
+  "title": "Selecting Ollama does not by itself guarantee a book stays on-device",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-long-fiction-translation",
+  "solution_ids": [
+    "solution-book-translator",
+    "solution-ollama"
+  ],
+  "source_type": "upstream_docs",
+  "sources": [
+    "https://github.com/KazKozDev/book-translator",
+    "https://github.com/ollama/ollama"
+  ],
+  "status": "documented_behavior",
+  "symptom": "Tolmach's docs distinguish local Ollama models from Ollama Cloud model selections that send text to hosted infrastructure.",
+  "user_impact": "Users may incorrectly assume the frontend itself guarantees local-only processing.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "Use a locally installed Ollama model and check the exact configured provider before importing private text."
+    ],
+    "sources": [
+      "https://github.com/KazKozDev/book-translator",
+      "https://github.com/ollama/ollama"
+    ]
+  },
+  "remaining_question": "Does the UI make remote data transmission unmistakable for each provider and installed model name?",
+  "verification_plan": "Inspect model routing in a clean install; record network calls separately for local and explicit-cloud configurations.",
+  "gap_ids": [
+    "gap-adult-fiction-translation-fidelity"
+  ],
+  "reviewed_on": "2026-11-09"
+}

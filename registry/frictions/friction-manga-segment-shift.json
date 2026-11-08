@@ -1,0 +1,33 @@
+{
+  "id": "friction-manga-segment-shift",
+  "title": "Reported split translation segments can misalign neighboring speech balloons",
+  "schema_version": 1,
+  "evidence_status": "reported",
+  "need_id": "need-manga-localization",
+  "solution_ids": [
+    "solution-koharu"
+  ],
+  "source_type": "upstream_issue",
+  "sources": [
+    "https://github.com/koharu-rs/koharu/issues/1157"
+  ],
+  "status": "reported_unreproduced",
+  "symptom": "A user reported a translated line truncated mid-sentence, with subsequent translated texts shifted to adjacent balloon IDs.",
+  "user_impact": "Translated dialogue can be assigned to the wrong speaker or lose meaning even though each individual segment parses cleanly.",
+  "existing_mitigation": {
+    "status": "proposed",
+    "steps": [
+      "Issue author proposes source/translation length checks, punctuation checks, echoed source prefixes and targeted re-request of flagged segments."
+    ],
+    "sources": [
+      "https://github.com/koharu-rs/koharu/issues/1157"
+    ]
+  },
+  "remaining_question": "Is the issue reproducible in current release, and can an integrity checker detect it before export?",
+  "verification_plan": "Use a permitted synthetic 6-bubble page; inject a model response with one split/missing id; assert detection rather than silently assigning the next text.",
+  "gap_ids": [
+    "gap-cross-editor-manga"
+  ],
+  "reviewed_on": "2026-11-09",
+  "reported_on": "2026-09-26"
+}

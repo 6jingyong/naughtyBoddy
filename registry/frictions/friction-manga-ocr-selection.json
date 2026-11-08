@@ -1,0 +1,33 @@
+{
+  "id": "friction-manga-ocr-selection",
+  "title": "Users request language-specific OCR guidance despite having a model selector",
+  "schema_version": 1,
+  "evidence_status": "reported",
+  "need_id": "need-manga-localization",
+  "solution_ids": [
+    "solution-koharu"
+  ],
+  "source_type": "upstream_issue",
+  "sources": [
+    "https://github.com/koharu-rs/koharu/issues/1160"
+  ],
+  "status": "reported_unreproduced",
+  "symptom": "OCR engines differ by source language and typesetting, but the selector has insufficient guidance; user supplied small manual comparisons.",
+  "user_impact": "A user may pick the wrong OCR and then blame the translation model for transcription errors.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "The model selector already exists in Settings → Pipeline; users can manually choose an OCR engine for the source language."
+    ],
+    "sources": [
+      "https://github.com/koharu-rs/koharu/issues/1160"
+    ]
+  },
+  "remaining_question": "Can community-run, versioned OCR tests improve defaults without embedding unreliable universal success percentages?",
+  "verification_plan": "Run the same multilingual synthetic/authorized page set against engine versions and record exact script, quality and correction burden.",
+  "gap_ids": [
+    "gap-manga-privacy-quality-tradeoff"
+  ],
+  "reviewed_on": "2026-11-09",
+  "reported_on": "2026-09-26"
+}

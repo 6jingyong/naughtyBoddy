@@ -1,0 +1,26 @@
+{
+  "id": "solution-sillytavern-presence",
+  "title": "SillyTavern Presence",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Extension that tracks which characters were present in group chat and hides unobserved messages from individual character contexts.",
+  "tags": [
+    "roleplay",
+    "character",
+    "memory",
+    "local-inference"
+  ],
+  "url": "https://github.com/leandrojofre/SillyTavern-Presence",
+  "license": "AGPL-3.0",
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/leandrojofre/SillyTavern-Presence"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README documents per-message presence flags, editing attendees after an exchange and exclusion of absent messages.",
+    "It does not apply to individual chats; its narrator setting can deliberately see everything."
+  ],
+  "license_source": "https://github.com/leandrojofre/SillyTavern-Presence/blob/main/LICENSE",
+  "limitations": "Documentation reviewed, but no local install or independent performance/privacy test has been run; memory separation and adult-content compatibility require explicit reproduction."
+}

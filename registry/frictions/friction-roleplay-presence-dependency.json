@@ -1,0 +1,33 @@
+{
+  "id": "friction-roleplay-presence-dependency",
+  "title": "Per-character memory summaries require reliable scene-presence metadata",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-private-roleplay",
+  "solution_ids": [
+    "solution-dragon-memories-manager",
+    "solution-sillytavern-presence"
+  ],
+  "source_type": "upstream_docs",
+  "sources": [
+    "https://github.com/TheDartDragon/Dragon-Memories-Manager"
+  ],
+  "status": "documented_behavior",
+  "symptom": "DMM warns that without Presence integration it cannot determine who saw which messages; its generated summaries may include unseen scenes.",
+  "user_impact": "An apparently isolated memory system can accidentally share scene secrets if its dependency is missing or disabled.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "Enable Presence and check DMM's warning banner; confirm each chat message has a present-attendee list before summarizing."
+    ],
+    "sources": [
+      "https://github.com/TheDartDragon/Dragon-Memories-Manager"
+    ]
+  },
+  "remaining_question": "What happens after extension updates or imported chat files without presence metadata?",
+  "verification_plan": "Create group chats with and without Presence metadata; inspect generated per-character memory summaries and error handling.",
+  "gap_ids": [
+    "gap-roleplay-character-knowledge-boundary"
+  ],
+  "reviewed_on": "2026-11-09"
+}

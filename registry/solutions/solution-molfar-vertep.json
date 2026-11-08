@@ -1,0 +1,26 @@
+{
+  "id": "solution-molfar-vertep",
+  "title": "Molfar Vertep",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Experimental local-first roleplay frontend with optional built-in agent; its author reports code-enforced per-character knowledge scopes and beliefs.",
+  "tags": [
+    "roleplay",
+    "character",
+    "memory",
+    "local-inference"
+  ],
+  "url": "https://github.com/MolfarWav/Molfar.Vertep",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/MolfarWav/Molfar.Vertep",
+    "https://www.reddit.com/r/SillyTavernAI/comments/1xqampe/how_do_you_stop_characters_from_knowing_things/"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README describes an early, actively changing, local-first roleplay application and its optional AI agent.",
+    "Developer reports promising secret-isolation tests with small samples; no independent benchmarking has been performed."
+  ],
+  "limitations": "Documentation reviewed, but no local install or independent performance/privacy test has been run; memory separation and adult-content compatibility require explicit reproduction."
+}
