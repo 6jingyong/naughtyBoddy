@@ -1,0 +1,26 @@
+{
+  "id": "solution-risuai",
+  "title": "RisuAI",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Roleplay-focused frontend with lorebooks, character/group chats, flexible prompts and input/output translation according to project docs.",
+  "tags": [
+    "roleplay",
+    "character",
+    "memory",
+    "editing",
+    "local-inference"
+  ],
+  "url": "https://github.com/risuai/RisuAI",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/risuai/RisuAI"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README documents lorebooks, group chats, user prompts, translation, plugins and optional Docker self-hosting.",
+    "Local storage and cloud transmission depend on actual deployment and selected providers."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

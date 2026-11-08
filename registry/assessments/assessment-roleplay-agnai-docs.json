@@ -1,0 +1,40 @@
+{
+  "id": "assessment-roleplay-agnai-docs",
+  "title": "Private roleplay: Agnai documentation review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-private-roleplay",
+  "solution_id": "solution-agnai",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "persona",
+      "result": "not_run"
+    },
+    {
+      "check_id": "portability",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "knowledge-boundary",
+      "result": "not_run"
+    },
+    {
+      "check_id": "adult-fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "README documents group roleplay, multiple AI services, guest-only mode and local storage path.",
+    "The presence of multi-character chat does not establish per-character confidential memory isolation."
+  ],
+  "sources": [
+    "https://github.com/agnaistic/agnai"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}

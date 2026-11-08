@@ -1,0 +1,26 @@
+{
+  "id": "solution-book-translator",
+  "title": "Book Translator (KazKozDev)",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Localhost-focused book translator supporting TXT/EPUB/PDF/DOCX input, glossary and resumable book workflows, with Ollama model integration per project docs.",
+  "tags": [
+    "translation",
+    "epub",
+    "novel",
+    "local-inference",
+    "editing"
+  ],
+  "url": "https://github.com/KazKozDev/book-translator",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/KazKozDev/book-translator/blob/main/README.md"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README states app/glossary/jobs run locally with SQLite.",
+    "README notes scanned PDFs require OCR first, and Ollama Cloud models upload text; locality depends on model choice."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

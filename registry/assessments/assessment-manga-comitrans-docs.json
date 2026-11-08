@@ -1,0 +1,40 @@
+{
+  "id": "assessment-manga-comitrans-docs",
+  "title": "Manga localization: ComiTrans documentation review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-manga-localization",
+  "solution_id": "solution-comitrans",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "reading-order",
+      "result": "not_run"
+    },
+    {
+      "check_id": "typesetting",
+      "result": "not_run"
+    },
+    {
+      "check_id": "editable",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "Project docs show local ONNX OCR/cleanup, manual typesetting edits, PDF page pipeline and resume.",
+    "Translation can use an API and a multimodal mode can send full pages: must test network boundaries and lawful adult-fidelity separately."
+  ],
+  "sources": [
+    "https://github.com/Aaaaamadeus/ComiTrans"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}

@@ -1,10 +1,10 @@
 {
   "id": "need-long-fiction-translation",
-  "title": "Translate a long work of lawful adult fiction while preserving terms and structure",
+  "title": "Translate long lawful adult fiction without losing structure, style or meaning",
   "schema_version": 1,
   "evidence_status": "hypothesis",
   "status": "proposed",
-  "summary": "User wants a complete, editable translation from owned or authorized EPUB/TXT, potentially on modest local hardware.",
+  "summary": "A reader or author wants to translate owned/authorized EPUB or TXT, preserve sections, names, and lawful adult scenes without silent abridgement; continue after interruptions or switching inference providers. Demand magnitude is not yet measured.",
   "tags": [
     "translation",
     "epub",
@@ -16,22 +16,34 @@
     {
       "id": "import",
       "criterion": "Chapter and paragraph structure remains intact",
-      "method": "Round-trip EPUB and compare source segment counts"
+      "method": "Round-trip a licensed EPUB and compare manifest/spine, chapter boundaries and segment counts"
     },
     {
       "id": "complete",
-      "criterion": "No chapter or paragraph is omitted",
-      "method": "Compare stable segment IDs and audit status"
+      "criterion": "No substantive chapter or paragraph is omitted",
+      "method": "Compare source segment IDs, outputs and audit status; sample semantic content"
     },
     {
       "id": "consistency",
-      "criterion": "Names and tone remain consistent across chapters",
-      "method": "Human review of fixed samples and glossary checks"
+      "criterion": "Names, pronouns and tone stay consistent across chapters",
+      "method": "Use fixed glossary and blind review of a licensed multi-chapter sample"
     },
     {
       "id": "privacy",
-      "criterion": "No manuscript leaves the machine without explicit consent",
-      "method": "Inspect execution logs and network calls"
+      "criterion": "No manuscript leaves the machine without clear opt-in",
+      "method": "Check provider configuration, outbound network traffic and execution logs"
+    },
+    {
+      "id": "model-switch",
+      "criterion": "Interrupted books can resume with another permitted model without corrupting revisions",
+      "method": "Translate 50% of benchmark, stop, change model, finish and audit name/style consistency"
+    },
+    {
+      "id": "fidelity",
+      "criterion": "Lawful adult scenes are neither silently omitted nor embellished",
+      "method": "Human assessors compare matched source/translation excerpts and annotate omissions/additions"
     }
-  ]
+  ],
+  "reviewed_on": "2026-11-09",
+  "research_status": "candidate_need_not_user_validated"
 }

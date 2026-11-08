@@ -1,0 +1,27 @@
+{
+  "id": "solution-bilingual-book-maker",
+  "title": "Bilingual Book Maker",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Open-source book translator with EPUB/TXT/Markdown and additional file workflows; documents provider switching, EPUB planning, session context, glossary options and resume.",
+  "tags": [
+    "translation",
+    "epub",
+    "novel",
+    "local-inference",
+    "editing"
+  ],
+  "url": "https://github.com/yihong0618/bilingual_book_maker",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/yihong0618/bilingual_book_maker",
+    "https://github.com/yihong0618/bilingual_book_maker/wiki/Quick-start"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "Official README documents OpenAI-compatible endpoints including a local Ollama provider.",
+    "Official README describes session context, optional glossary extraction, EPUB translation planning and resume."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

@@ -1,8 +1,8 @@
 {
   "id": "assessment-roleplay-sillytavern-pending",
-  "title": "Private roleplay and SillyTavern: pending review",
+  "title": "Private roleplay: SillyTavern documentation review (tests pending)",
   "schema_version": 1,
-  "evidence_status": "hypothesis",
+  "evidence_status": "documentation_reviewed",
   "need_id": "need-private-roleplay",
   "solution_id": "solution-sillytavern",
   "fit": "unknown",
@@ -18,7 +18,23 @@
     {
       "check_id": "privacy",
       "result": "not_run"
+    },
+    {
+      "check_id": "knowledge-boundary",
+      "result": "not_run"
+    },
+    {
+      "check_id": "adult-fidelity",
+      "result": "not_run"
     }
   ],
-  "observations": []
+  "observations": [
+    "Official docs confirm character cards plus chat import/export; JSONL retains chat metadata but TXT does not.",
+    "Persona stability, private network behavior and per-character secrets need hands-on tests."
+  ],
+  "sources": [
+    "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/Characters/chatfilemanagement.md"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
 }

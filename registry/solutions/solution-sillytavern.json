@@ -2,18 +2,26 @@
   "id": "solution-sillytavern",
   "title": "SillyTavern",
   "schema_version": 1,
-  "evidence_status": "hypothesis",
-  "summary": "Candidate character chat frontend; adult compatibility and privacy depend on model and configuration.",
+  "evidence_status": "documentation_reviewed",
+  "summary": "Character-chat frontend with character cards, chat export/import and world information; inferencing requires user-selected local or remote backend.",
   "tags": [
     "roleplay",
     "character",
     "memory",
-    "local-inference"
+    "local-inference",
+    "editing"
   ],
   "url": "https://github.com/SillyTavern/SillyTavern",
   "license": null,
-  "verification": "unreviewed",
+  "verification": "documentation_reviewed",
   "sources": [
-    "https://github.com/SillyTavern/SillyTavern"
-  ]
+    "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/readme.md",
+    "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/Characters/chatfilemanagement.md"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "Official docs describe character cards and chat history export as JSONL, which can be re-imported.",
+    "Plain TXT exports lose metadata; cloud transmission and behavior depend on backend/configuration."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
 }

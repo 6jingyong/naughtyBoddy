@@ -2,18 +2,26 @@
   "id": "solution-libre-manga-translator",
   "title": "Libre Manga Translator",
   "schema_version": 1,
-  "evidence_status": "hypothesis",
-  "summary": "Candidate for manga translation pipeline; no test results have been collected here.",
+  "evidence_status": "documentation_reviewed",
+  "summary": "Browser-based manga translation extension combining on-device bubble detection/OCR/inpainting/typesetting with local WebLLM, opt-in remote vision, or self-hosted OpenAI-compatible text translation.",
   "tags": [
     "manga",
     "translation",
     "ocr",
-    "image-editing"
+    "image-editing",
+    "local-inference",
+    "editing"
   ],
   "url": "https://github.com/mrdhnto/libre-manga-translator",
-  "license": null,
-  "verification": "unreviewed",
+  "license": "AGPL-3.0-or-later",
+  "verification": "documentation_reviewed",
   "sources": [
     "https://github.com/mrdhnto/libre-manga-translator"
-  ]
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README explicitly separates local, self-hosted API and Gemini cloud modes: the cloud mode sends artwork, while API mode sends extracted text.",
+    "README documents manual bubble refinement, in-page editor, typesetting and PNG/JPEG export, plus current known OCR limitations."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
 }

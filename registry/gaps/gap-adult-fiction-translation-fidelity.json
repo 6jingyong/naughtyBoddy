@@ -1,0 +1,15 @@
+{
+  "id": "gap-adult-fiction-translation-fidelity",
+  "title": "Hypothesis: legal adult-fiction translation fidelity varies materially across local and hosted models",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "need_id": "need-long-fiction-translation",
+  "status": "unverified",
+  "summary": "Documented ebook translators do not establish omission/refusal rates on lawful adult fiction, or guarantee no tonal modification. Requires independent permissioned benchmarks; never infer from model name.",
+  "supporting_sources": [
+    "https://github.com/yihong0618/bilingual_book_maker",
+    "https://github.com/KazKozDev/book-translator"
+  ],
+  "reviewed_on": "2026-11-09",
+  "verification_plan": "Run the same authorized, consenting-adult fiction benchmark with a controlled glossary; blind-score fidelity, omission, addition, cost, correction burden and privacy across allowed models and workflows."
+}

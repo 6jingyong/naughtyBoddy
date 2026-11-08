@@ -1,0 +1,23 @@
+{
+  "id": "solution-koboldcpp",
+  "title": "KoboldCpp",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Local GGUF inference runtime and generation UIs; publishes OpenAI-compatible APIs for roleplay frontends but is not a complete memory/character management solution.",
+  "tags": [
+    "roleplay",
+    "local-inference"
+  ],
+  "url": "https://github.com/LostRuins/koboldcpp",
+  "license": null,
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/LostRuins/koboldcpp"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README documents bundled web UIs, GGUF support and OpenAI-compatible endpoint at localhost:5001/v1.",
+    "Backend only for most portability/memory requirements; model quality varies by selected weights."
+  ],
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+}

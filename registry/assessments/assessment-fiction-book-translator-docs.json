@@ -1,0 +1,44 @@
+{
+  "id": "assessment-fiction-book-translator-docs",
+  "title": "Novel translation: Book Translator documentation review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-long-fiction-translation",
+  "solution_id": "solution-book-translator",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "import",
+      "result": "not_run"
+    },
+    {
+      "check_id": "complete",
+      "result": "not_run"
+    },
+    {
+      "check_id": "consistency",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "model-switch",
+      "result": "not_run"
+    },
+    {
+      "check_id": "fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "Documentation lists local SQLite projects and glossary with Ollama.",
+    "It explicitly warns Ollama Cloud uploads manuscript content; privacy must be audited for configured local vs cloud models."
+  ],
+  "sources": [
+    "https://github.com/KazKozDev/book-translator/blob/main/README.md"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}

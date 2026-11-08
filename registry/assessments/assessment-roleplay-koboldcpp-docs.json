@@ -1,0 +1,40 @@
+{
+  "id": "assessment-roleplay-koboldcpp-docs",
+  "title": "Private roleplay: KoboldCpp backend-only review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-private-roleplay",
+  "solution_id": "solution-koboldcpp",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "persona",
+      "result": "not_run"
+    },
+    {
+      "check_id": "portability",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "knowledge-boundary",
+      "result": "not_run"
+    },
+    {
+      "check_id": "adult-fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "README confirms it can host a local GGUF model through a compatible API.",
+    "An inference server alone does not supply character knowledge isolation, memory export or persona stability."
+  ],
+  "sources": [
+    "https://github.com/LostRuins/koboldcpp"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}

@@ -1,0 +1,44 @@
+{
+  "id": "assessment-fiction-bilingual-docs",
+  "title": "Novel translation: Bilingual Book Maker documentation review",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-long-fiction-translation",
+  "solution_id": "solution-bilingual-book-maker",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "import",
+      "result": "not_run"
+    },
+    {
+      "check_id": "complete",
+      "result": "not_run"
+    },
+    {
+      "check_id": "consistency",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "model-switch",
+      "result": "not_run"
+    },
+    {
+      "check_id": "fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "Documentation offers EPUB translation, session context, glossary options and a resume flag.",
+    "Verify actual omission detection, provider changes mid-run and adult-scene fidelity with authorized samples before assigning fit."
+  ],
+  "sources": [
+    "https://github.com/yihong0618/bilingual_book_maker"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Source review only; no software install, live model test, adult compatibility benchmark or privacy packet capture."
+}
