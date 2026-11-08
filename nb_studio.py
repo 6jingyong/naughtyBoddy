@@ -23,6 +23,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from nb_common import ProviderError
 from nb_local import is_loopback
+from nb_model_manager import ModelManager
 from nb_novel import _db, _load_glossary, init_project, project_status, audit_project, export_project, run_translation, now
 
 MAX_UPLOAD = 12 * 1024 * 1024
@@ -41,6 +42,7 @@ class StudioService:
             self.workspace.chmod(0o700)
             self.projects.chmod(0o700)
         self.csrf_token = secrets.token_urlsafe(32)
+        self.models = ModelManager(self.workspace)
         self._jobs: dict[str, dict] = {}
         self._jobs_lock = threading.Lock()
 
@@ -364,7 +366,17 @@ class StudioHandler(BaseHTTPRequestHandler):
             if path in (["style.css"], ["app.js"]):
                 return self._send_static(path[0])
             if path == ["api", "bootstrap"]:
-                return self._json(200, {"csrf_token": srv.csrf_token, "version": "P3", "workspace": str(srv.workspace)})
+                return self._json(200, {"csrf_token": srv.csrf_token, "version": "P3.1", "workspace": str(srv.workspace)})
+            if path == ["api", "local", "status"]:
+                return self._json(200, srv.models.status())
+            if path == ["api", "local", "catalog"]:
+                return self._json(200, srv.models.catalog(query.get("repo", [""])[0]))
+            if path == ["api", "local", "engine"]:
+                return self._json(200, srv.models.engine_status())
+            if path == ["api", "local", "reports"]:
+                return self._json(200, {"reports": srv.models.reports()})
+            if len(path) == 4 and path[:3] == ["api", "local", "jobs"]:
+                return self._json(200, srv.models.job(path[3]))
             if path == ["api", "projects"]:
                 return self._json(200, {"projects": srv.list_projects()})
             if path == ["api", "models"]:
@@ -404,6 +416,14 @@ class StudioHandler(BaseHTTPRequestHandler):
             srv = self.server.service
             if path == ["api", "projects"]:
                 return self._json(201, srv.import_book(data))
+            if path == ["api", "local", "install"]:
+                return self._json(202, srv.models.install(data))
+            if path == ["api", "local", "launch"]:
+                return self._json(200, srv.models.launch(data))
+            if path == ["api", "local", "stop"]:
+                return self._json(200, srv.models.stop())
+            if path == ["api", "local", "evaluate"]:
+                return self._json(202, srv.models.evaluate(data))
             if len(path) >= 4 and path[:2] == ["api", "projects"]:
                 project_id = path[2]
                 if path[3:] == ["translate"]:
@@ -444,4 +464,5 @@ def serve_studio(*, workspace: Path, port: int = 8765, open_browser: bool = True
     except KeyboardInterrupt:
         pass
     finally:
+        service.models.stop()
         server.server_close()

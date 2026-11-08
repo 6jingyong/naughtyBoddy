@@ -11,7 +11,7 @@
 <body>
   <div class="shell">
     <aside class="sidebar">
-      <header class="brand"><div class="logo">N<span>·</span>B</div><div><strong>NaughtyBoddy</strong><small>CREATIVE STUDIO · P3</small></div></header>
+      <header class="brand"><div class="logo">N<span>·</span>B</div><div><strong>NaughtyBoddy</strong><small>CREATIVE STUDIO · P3.1</small></div></header>
       <button type="button" id="new-project" class="btn subtle sidebar-new">＋ 新建作品</button>
       <div class="sidebar-section"><div class="section-label">我的作品 <span id="project-count" class="count">0</span></div>
         <div id="project-list" class="project-list"><p class="hint">正在读取本地作品…</p></div>
@@ -59,6 +59,38 @@
       <div class="field"><label for="model-source">发现来源</label><select id="model-source"><option value="ollama">Ollama · 本地</option><option value="huggingface">Hugging Face</option><option value="openrouter">OpenRouter</option></select></div>
       <div class="search-row"><input id="model-query" placeholder="abliterated / uncensored" /><button id="model-search" class="btn subtle">搜索</button></div>
       <div id="model-results" class="model-results"><p class="hint">点击搜索，查看模型候选。</p></div>
+      <hr class="line" />
+      <details id="local-manager" class="local-manager">
+        <summary>本地模型管理 <span>设备 · GGUF · 服务</span></summary>
+        <div class="local-manager-inner">
+          <div class="toolbar-mini"><strong>设备和本地模型</strong><button id="local-refresh" class="btn subtle" type="button">检测</button></div>
+          <div id="hardware-status" class="model-stat">尚未检测设备。</div>
+          <div id="local-inventory" class="model-results"><p class="hint">检测后显示已安装的模型。</p></div>
+          <div class="tiny-heading">HUGGING FACE GGUF</div>
+          <label class="field">模型仓库（owner/repo）<input id="gguf-repo" placeholder="例如 creator/model-GGUF" /></label>
+          <button id="gguf-inspect" class="btn subtle full" type="button">读取 GGUF 列表与许可证</button>
+          <p id="gguf-license" class="hint">下载前应查看模型卡与许可证。</p>
+          <div class="field"><label for="gguf-file">选择量化文件</label><select id="gguf-file"><option value="">先查询模型仓库</option></select></div>
+          <div class="model-stat" id="gguf-fit">显存适配性：尚未评估</div>
+          <div class="field"><label for="gguf-max-gb">最大下载大小（GiB）</label><input id="gguf-max-gb" type="number" min="1" max="32" value="8" /></div>
+          <label class="check"><input id="gguf-license-confirm" type="checkbox" /><span>我已查看此模型卡及许可证，并同意下载和使用本机磁盘空间。</span></label>
+          <button id="gguf-download" class="btn primary full" type="button">下载选定 GGUF</button>
+          <div class="tiny-heading spaced">OLLAMA INSTALL</div>
+          <div class="field"><label for="ollama-model-name">Ollama 模型名</label><input id="ollama-model-name" placeholder="example: model:tag" /></div>
+          <button id="ollama-install" class="btn subtle full" type="button">确认后安装 Ollama 模型</button>
+          <hr class="line" />
+          <div class="tiny-heading">LLAMA.CPP SERVER</div>
+          <div class="field"><label for="llama-context">上下文窗口</label><input id="llama-context" type="number" min="512" max="131072" value="4096" /></div>
+          <div id="engine-status" class="model-stat">未启动托管模型服务。</div>
+          <button id="llama-stop" class="btn subtle full" type="button">停止托管 llama-server</button>
+          <hr class="line" />
+          <div class="tiny-heading">TASK-SPECIFIC EVALUATION</div>
+          <p class="hint">使用仓库内的 3 个固定小样本。评测会调用下方所选模型，结果只存在本机；内容兼容性需要人工复核。</p>
+          <button id="model-evaluate" class="btn subtle full" type="button">测试当前选定模型</button>
+          <div id="evaluation-reports" class="model-stat">暂无评测记录。</div>
+          <pre id="local-job-result" aria-live="polite">等待本地操作。</pre>
+        </div>
+      </details>
       <hr class="line" />
       <h3>执行一批翻译</h3>
       <div class="field"><label>推理方式</label><select id="provider"><option value="mock">演示模式（不翻译）</option><option value="ollama">Ollama 本地</option><option value="compatible">兼容 API</option><option value="openrouter">OpenRouter 云端</option></select></div>

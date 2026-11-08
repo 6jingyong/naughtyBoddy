@@ -160,6 +160,126 @@ async function doExport() {
   showResult(result);const a=document.createElement('a');a.href=result.download_url;a.download=result.filename;document.body.append(a);a.click();a.remove();notify('作品已生成，下载已开始');
 }
 function bind(id,event,callback){$(id).addEventListener(event,(e)=>{Promise.resolve().then(()=>callback(e)).catch(reportError);});}
+
+// P3.1: local model lifecycle is opt-in and independent from active projects.
+let inspectedCatalog = null;
+function localLog(info) {
+  $('local-job-result').textContent = typeof info === 'string' ? info : JSON.stringify(info, null, 2);
+}
+function byteSize(n) { return Number.isFinite(n) && n > 0 ? `${(n / 1073741824).toFixed(2)} GiB` : '大小未知'; }
+function fitText(fit) {
+  if (!fit) return '显存适配性未知（缺少权重大小）';
+  const names = {gpu_plausible:'GPU 可能可运行', cpu_or_partial_offload_plausible:'CPU/混合卸载可能可运行', unknown_or_insufficient:'配置未知或可能不足'};
+  return `${names[fit.assessment] || '未评估'} · 粗估 ${byteSize(fit.estimated_total_bytes)}，实际以运行测试为准`;
+}
+async function loadLocal() {
+  $('hardware-status').textContent = '正在检测硬件与 Ollama（可能需要几秒）…';
+  try {
+    const data = await api('/api/local/status');
+    const hardware = data.hardware;
+    const ram = byteSize(hardware.system_ram_bytes);
+    const gpu = hardware.gpus.length ? hardware.gpus.map(x=>`${x.name} · ${x.vram_free_mib} MiB 空闲`).join('；') : '未识别 NVIDIA GPU；其他显卡可能可用';
+    $('hardware-status').textContent = `${hardware.platform} / ${hardware.machine} · 内存 ${ram} · ${gpu}\nOllama：${data.ollama.available?'已连接':'未连接'}`;
+    const host=$('local-inventory'); host.replaceChildren();
+    for (const model of data.ollama.models) {
+      const row=el('div','inventory-item');
+      row.append(el('div','',`Ollama · ${model.id}`));
+      const select=el('button','btn subtle','用于翻译');select.type='button';
+      select.addEventListener('click',()=>{$('provider').value='ollama';$('model-id').value=model.id;providerChanged();notify('已选中已安装的 Ollama 模型');});
+      row.append(select);host.append(row);
+    }
+    for (const model of data.gguf) {
+      const row=el('div','inventory-item');
+      row.append(el('div','',`${model.name} · ${byteSize(model.size_bytes)}\n${fitText(model.fit)}`));
+      const start=el('button','btn subtle','启动');start.type='button';
+      start.addEventListener('click',()=>launchGGUF(model.name).catch(reportError));
+      row.append(start);host.append(row);
+    }
+    if(!host.childElementCount)host.append(el('p','hint','还没有发现本地模型。'));
+    $('engine-status').textContent = data.engine.state === 'stopped' ?
+      `托管服务未运行 · llama-server ${data.engine.llama_server_available?'已找到':'未安装或未加入 PATH'}` :
+      `${data.engine.state==='ready'?'已就绪':'正在加载'} · ${data.engine.name} · ${data.engine.base_url}（推理质量未验证）`;
+    return data;
+  } catch(e) { $('hardware-status').textContent=`设备检测失败：${e.message}`; throw e; }
+}
+async function inspectGGUF() {
+  inspectedCatalog = null;
+  const repo=$('gguf-repo').value.trim();
+  $('gguf-license').textContent='正在查询模型资料…';
+  const data=await api(`/api/local/catalog?repo=${encodeURIComponent(repo)}`);
+  inspectedCatalog=data;
+  $('gguf-license').replaceChildren(el('span','',`许可证：${data.license||'未标注'} · ${data.gated?'需要授权':''} ${data.private?'私有仓库':''} · 修订：${data.revision||'未知'}`));
+  const a=el('a','hf-link','查看 Hugging Face 模型卡');a.href=`https://huggingface.co/${encodeURIComponent(repo.split('/')[0])}/${encodeURIComponent(repo.split('/')[1])}`;
+  a.rel='noopener noreferrer';a.target='_blank';$('gguf-license').append(' · ',a);
+  const select=$('gguf-file'); select.replaceChildren();
+  for(const file of data.files) {
+    const opt=el('option','',`${file.filename} (${byteSize(file.size_bytes)})`);
+    opt.value=file.filename;select.append(opt);
+  }
+  if(!data.files.length)select.append(el('option','','未找到 GGUF 文件'));
+  $('gguf-license-confirm').checked=false;
+  showGGUFFit();
+}
+function showGGUFFit() {
+  const file=inspectedCatalog?.files.find(x=>x.filename===$('gguf-file').value);
+  $('gguf-fit').textContent=file?fitText(file.fit):'显存适配性：尚未评估';
+}
+async function modelJob(path, data) {
+  const job=await api(path,'POST',data);
+  localLog(job);
+  pollModelJob(job.job_id);
+}
+async function pollModelJob(id) {
+  try {
+    const job=await api(`/api/local/jobs/${id}`);
+    localLog(job);
+    if(['done','failed'].includes(job.state)) {
+      notify(job.state==='done'?'本地模型操作已完成':'本地模型操作失败，请查看记录');
+      if(job.kind==='gguf_download'||job.kind==='ollama_pull')await loadLocal();
+      if(job.kind==='evaluation')await loadReports();
+    } else setTimeout(()=>pollModelJob(id),1100);
+  } catch(e) { reportError(e); }
+}
+async function downloadGGUF() {
+  if(!inspectedCatalog) throw new Error('请先查询 GGUF 模型仓库');
+  if(!$('gguf-license-confirm').checked)throw new Error('请查看模型卡并确认授权与下载');
+  if(inspectedCatalog.gated||inspectedCatalog.private)throw new Error('不支持直接下载需授权或私有模型');
+  const filename=$('gguf-file').value;
+  if(!inspectedCatalog.files.some(x=>x.filename===filename))throw new Error('请选择有效 GGUF 文件');
+  if(!window.confirm(`从 Hugging Face 下载 ${filename}？可能占用大量磁盘空间。`))return;
+  await modelJob('/api/local/install', {kind:'gguf',repo:inspectedCatalog.repo,
+    filename,revision:inspectedCatalog.revision,max_gb:Number($('gguf-max-gb').value),
+    license_reviewed:true,confirm_download:true});
+}
+async function installOllama(){
+  const model=$('ollama-model-name').value.trim();
+  if(!model)throw new Error('请输入 Ollama 模型名称');
+  if(!window.confirm(`确认让本地 Ollama 下载 ${model}？`))return;
+  await modelJob('/api/local/install',{kind:'ollama',model,confirm_download:true});
+}
+async function launchGGUF(name) {
+  if(!window.confirm(`启动 llama-server 并加载 ${name}？这会占用本机内存或显存。`))return;
+  const result=await api('/api/local/launch','POST',{name,context:Number($('llama-context').value),port:8080,confirm_launch:true});
+  $('provider').value='compatible';$('base-url').value=result.base_url;
+  $('model-id').value=name.split('/').pop().replace(/\.gguf$/i,'');providerChanged();
+  localLog(result);await loadLocal();notify('托管进程已启动，等待模型加载完成后再翻译');
+}
+async function stopGGUF() {
+  const result=await api('/api/local/stop','POST',{});localLog(result);await loadLocal();
+}
+async function evaluateModel() {
+  const provider=$('provider').value;
+  if(provider==='mock')throw new Error('请先选择真实模型');
+  if(!window.confirm('运行 3 条固定测试？会向当前模型发送测试提示词，并可能产生 API 费用。'))return;
+  await modelJob('/api/local/evaluate',{provider,model:$('model-id').value.trim(),
+    base_url:$('base-url').value.trim(),accept_remote:$('remote-accept').checked});
+}
+async function loadReports() {
+  const {reports}=await api('/api/local/reports');
+  $('evaluation-reports').textContent=reports.length ? reports.slice(0,3).map(x=>
+    `${x.timestamp} · ${x.provider}/${x.model} · ${x.summary.completed}/${x.summary.total} 完成；疑似拒答 ${x.summary.suspected_refusals}（尚需人工复核）`).join('\n') : '暂无评测记录。';
+}
+
 async function main(){
   const setup=await api('/api/bootstrap');state.token=setup.csrf_token;
   bind('new-project','click',()=>{state.selected=null;state.job=null;$('current-name').textContent='工作台';toggle('welcome',true);toggle('editor',false);toggle('import-card',true);return loadProjects();});
@@ -171,6 +291,14 @@ async function main(){
   bind('glossary','click',openGlossary);bind('glossary-save','click',saveGlossary);bind('glossary-close','click',()=>$('glossary-dialog').close());
   bind('audit','click',audit);bind('export','click',doExport);bind('model-search','click',discover);bind('translate','click',translate);
   $('provider').addEventListener('change',providerChanged);$('base-url').addEventListener('change',providerChanged);
+  bind('local-refresh','click',loadLocal);
+  bind('gguf-inspect','click',inspectGGUF);
+  $('gguf-file').addEventListener('change',showGGUFFit);
+  bind('gguf-download','click',downloadGGUF);
+  bind('ollama-install','click',installOllama);
+  bind('llama-stop','click',stopGGUF);
+  bind('model-evaluate','click',evaluateModel);
+  $('local-manager').addEventListener('toggle',()=>{if($('local-manager').open){loadLocal().catch(reportError);loadReports().catch(reportError);}});
   providerChanged();await loadProjects();
 }
 main().catch(reportError);

@@ -40,8 +40,10 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Real browser visual/interaction QA on machines where Playwright loopback navigation is permitted; responsive, keyboard and accessibility tests.
 - [ ] P1.1 real model/download/GPU/paid API tests remain deferred.
 - [ ] Persist pending job records, cancellation, stale-lock recovery and bounded retries.
-- [ ] Manage local GGUF downloads, launch inference engines, detect Ollama status from the GUI (CLI-only currently).
+- [x] P3.1 GUI for local model metadata, explicit GGUF/Ollama downloads, managed llama-server launch/stop and fixed evaluation samples (offline tests).
+- [ ] Validate GGUF download progress, real backend startup/readiness, file integrity, and downloads on real hardware (P1.1 deferred).
+- [ ] UI job cancellation, persistent job history, crash recovery and resumable retries; only best-effort progress implemented.
 - [ ] Project-level glossary edit revisions, conflict protection on concurrent edits and export checklists.
-- [ ] Model routing by adult-fiction compatibility + translation quality; benchmark methodology and manual review.
+- [ ] Model routing by adult-fiction compatibility + translation quality; benchmark methodology and manual review. P3.1 only collects heuristic test results.
 - [ ] Usage/cost estimates and actual token usage when returned by provider.
 - [ ] Import existing P2 CLI projects into the GUI Library without copy or data loss.
