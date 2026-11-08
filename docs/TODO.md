@@ -69,3 +69,15 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Non-destructive text removal, typography control and production PNG/CBZ export.
 - [ ] Browser UI visual verification (headless Chromium blocked by local-network policy in current environment).
 - [ ] Real-image/manual quality review and multilingual translation QA.
+
+## P5 — Open ecosystem, needs → solutions → gaps (initial implementation)
+
+- [x] Rewrite README toward quality, privacy, uniqueness, accessibility, user sovereignty and upstream collaboration.
+- [x] Build a small offline, schema-checked registry of needs, candidate solutions, assessments and falsifiable gaps.
+- [x] Add a CLI to inspect candidate solutions without treating metadata/tag matches as tested compatibility.
+- [x] Add tests that reject unsubstantiated compatibility verdicts, broken references and malformed records.
+- [ ] Validate user demand through real usage/interviews; **all current seed needs and gap descriptions are hypotheses, not measured market findings**.
+- [ ] Review source documentation and actual licenses for candidate tools; record dated evidence, versions and relevant restrictions.
+- [ ] Hands-on task-specific evaluations (hardware, privacy, adult-fiction compatibility, output quality) when real equipment and test data are available.
+- [ ] Add a read-only registry browser to the Studio; not an automatic installer or unauthorized content connector.
+- [ ] Consider cross-tool workflows and upstream contributions only after a reproduced compatibility problem is recorded.

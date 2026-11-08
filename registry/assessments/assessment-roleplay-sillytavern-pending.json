@@ -1,0 +1,24 @@
+{
+  "id": "assessment-roleplay-sillytavern-pending",
+  "title": "Private roleplay and SillyTavern: pending review",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "need_id": "need-private-roleplay",
+  "solution_id": "solution-sillytavern",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "persona",
+      "result": "not_run"
+    },
+    {
+      "check_id": "portability",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    }
+  ],
+  "observations": []
+}

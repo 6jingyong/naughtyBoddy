@@ -1,0 +1,21 @@
+name: Validate registry and offline tests
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate needs registry
+        run: python nb_registry.py validate
+      - name: Run offline unit tests
+        run: python -m unittest discover -s tests -v

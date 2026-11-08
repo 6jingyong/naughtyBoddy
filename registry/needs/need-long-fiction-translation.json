@@ -1,0 +1,37 @@
+{
+  "id": "need-long-fiction-translation",
+  "title": "Translate a long work of lawful adult fiction while preserving terms and structure",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "status": "proposed",
+  "summary": "User wants a complete, editable translation from owned or authorized EPUB/TXT, potentially on modest local hardware.",
+  "tags": [
+    "translation",
+    "epub",
+    "novel",
+    "local-inference",
+    "editing"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "import",
+      "criterion": "Chapter and paragraph structure remains intact",
+      "method": "Round-trip EPUB and compare source segment counts"
+    },
+    {
+      "id": "complete",
+      "criterion": "No chapter or paragraph is omitted",
+      "method": "Compare stable segment IDs and audit status"
+    },
+    {
+      "id": "consistency",
+      "criterion": "Names and tone remain consistent across chapters",
+      "method": "Human review of fixed samples and glossary checks"
+    },
+    {
+      "id": "privacy",
+      "criterion": "No manuscript leaves the machine without explicit consent",
+      "method": "Inspect execution logs and network calls"
+    }
+  ]
+}

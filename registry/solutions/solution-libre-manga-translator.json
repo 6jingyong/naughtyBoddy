@@ -1,0 +1,19 @@
+{
+  "id": "solution-libre-manga-translator",
+  "title": "Libre Manga Translator",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "summary": "Candidate for manga translation pipeline; no test results have been collected here.",
+  "tags": [
+    "manga",
+    "translation",
+    "ocr",
+    "image-editing"
+  ],
+  "url": "https://github.com/mrdhnto/libre-manga-translator",
+  "license": null,
+  "verification": "unreviewed",
+  "sources": [
+    "https://github.com/mrdhnto/libre-manga-translator"
+  ]
+}

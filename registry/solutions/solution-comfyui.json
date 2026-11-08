@@ -1,0 +1,17 @@
+{
+  "id": "solution-comfyui",
+  "title": "ComfyUI",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "summary": "Candidate node-based image workflow system; no content-specific quality assessment yet.",
+  "tags": [
+    "image-editing",
+    "local-inference"
+  ],
+  "url": "https://github.com/comfyanonymous/ComfyUI",
+  "license": null,
+  "verification": "unreviewed",
+  "sources": [
+    "https://github.com/comfyanonymous/ComfyUI"
+  ]
+}

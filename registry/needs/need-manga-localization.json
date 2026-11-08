@@ -1,0 +1,37 @@
+{
+  "id": "need-manga-localization",
+  "title": "Localize manga with readable, editable lettering",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "status": "proposed",
+  "summary": "User needs OCR, translation, non-destructive editing and export from pages they may legally process.",
+  "tags": [
+    "manga",
+    "translation",
+    "ocr",
+    "image-editing",
+    "local-inference"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "reading-order",
+      "criterion": "Dialogue is ordered correctly",
+      "method": "Review reading order on representative pages"
+    },
+    {
+      "id": "typesetting",
+      "criterion": "Output preserves art and readable text layout",
+      "method": "Inspect exported pages at normal reading scale"
+    },
+    {
+      "id": "editable",
+      "criterion": "Translation and image layers remain editable",
+      "method": "Modify one text region after export"
+    },
+    {
+      "id": "privacy",
+      "criterion": "Private source pages are local by default",
+      "method": "Inspect network accesses"
+    }
+  ]
+}

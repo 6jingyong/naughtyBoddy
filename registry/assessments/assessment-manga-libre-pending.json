@@ -1,0 +1,28 @@
+{
+  "id": "assessment-manga-libre-pending",
+  "title": "Manga localization and Libre Manga Translator: pending review",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "need_id": "need-manga-localization",
+  "solution_id": "solution-libre-manga-translator",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "reading-order",
+      "result": "not_run"
+    },
+    {
+      "check_id": "typesetting",
+      "result": "not_run"
+    },
+    {
+      "check_id": "editable",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    }
+  ],
+  "observations": []
+}

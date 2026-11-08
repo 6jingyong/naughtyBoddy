@@ -1,0 +1,32 @@
+{
+  "id": "need-private-roleplay",
+  "title": "Run customizable fictional adult character dialogue locally",
+  "schema_version": 1,
+  "evidence_status": "hypothesis",
+  "status": "proposed",
+  "summary": "User wants portable character information, repeatable personalities and privacy without requiring reliable tool calling.",
+  "tags": [
+    "roleplay",
+    "character",
+    "local-inference",
+    "memory",
+    "editing"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "persona",
+      "criterion": "Personality and names remain stable over a long session",
+      "method": "Blind review of multi-turn scenes"
+    },
+    {
+      "id": "portability",
+      "criterion": "Character and memory can be exported and reused",
+      "method": "Export and import in a second environment"
+    },
+    {
+      "id": "privacy",
+      "criterion": "Private conversation is stored locally unless opted into cloud inference",
+      "method": "Network and storage inspection"
+    }
+  ]
+}
