@@ -1,0 +1,35 @@
+{
+  "id": "friction-roleplay-worldinfo-filter",
+  "title": "World Info supports character filters but manual maintenance is burdensome",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-private-roleplay",
+  "solution_ids": [
+    "solution-sillytavern",
+    "solution-sillytavern-presence"
+  ],
+  "source_type": "upstream_docs",
+  "sources": [
+    "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md",
+    "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/Characters/groupchats.md"
+  ],
+  "status": "documented_behavior",
+  "symptom": "The official World Info editor allows inclusion/exclusion character lists, but group history remains globally shared in default group-chat modes.",
+  "user_impact": "Users may need to keep updating knowledge visibility by hand, and character filtering alone does not hide past group messages.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "Use World Info Character Filter for lore entries; use presence-aware context extensions when per-message event visibility is essential."
+    ],
+    "sources": [
+      "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md",
+      "https://github.com/leandrojofre/SillyTavern-Presence"
+    ]
+  },
+  "remaining_question": "How much manual work do roleplayers spend updating character knowledge after long or branched sessions?",
+  "verification_plan": "Compare manual World Info filtering with Presence/DMM on a synthetic story; record correction clicks and secret leaks.",
+  "gap_ids": [
+    "gap-roleplay-character-knowledge-boundary"
+  ],
+  "reviewed_on": "2026-11-09"
+}

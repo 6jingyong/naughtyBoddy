@@ -18,7 +18,10 @@ ID_RE = re.compile(r"^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 STATES = {"hypothesis", "reported", "documentation_reviewed", "hands_on_verified"}
 FIT = {"unknown", "partial", "meets", "does_not_meet"}
 CHECK_RESULTS = {"not_run", "pass", "fail", "inconclusive"}
-KINDS = ("needs", "solutions", "assessments", "gaps")
+KINDS = ("needs", "solutions", "assessments", "gaps", "frictions")
+FRICTION_STATES = {"documented_behavior", "reported_unreproduced"}
+FRICTION_SOURCE_TYPES = {"upstream_docs", "upstream_issue", "community_report"}
+MITIGATION_STATES = {"documented", "proposed", "unknown"}
 
 
 class RegistryError(ValueError):
@@ -146,6 +149,35 @@ def read_registry(root: Path = DEFAULT_ROOT) -> tuple[dict[str, list[dict]], lis
                     _require(_str(row.get("environment")) and
                              any(x.get("result") != "not_run" for x in check_results or [] if isinstance(x, dict)),
                              place, "hands_on_verified needs environment and executed checks", errors)
+            elif kind == "frictions":
+                _require(_str(row.get("need_id")), place, "need_id required", errors)
+                _require(_strings(row.get("solution_ids")) and bool(row.get("solution_ids")),
+                         place, "solution_ids must be nonempty string array", errors)
+                _require(_str(row.get("symptom")) and _str(row.get("user_impact")) and
+                         _str(row.get("remaining_question")) and _str(row.get("verification_plan")),
+                         place, "symptom, impact, question and verification plan required", errors)
+                _require(row.get("status") in FRICTION_STATES, place, "invalid friction status", errors)
+                _require(row.get("source_type") in FRICTION_SOURCE_TYPES, place, "invalid friction source type", errors)
+                sources = row.get("sources")
+                _require(isinstance(sources, list) and bool(sources) and all(_safe_url(u) for u in sources),
+                         place, "friction requires HTTPS evidence URLs", errors)
+                _require(_str(row.get("reviewed_on")), place, "reviewed_on required", errors)
+                if row.get("source_type") == "upstream_docs":
+                    _require(state == "documentation_reviewed" and row.get("status") == "documented_behavior",
+                             place, "upstream docs must describe a documented behavior", errors)
+                else:
+                    _require(state == "reported" and row.get("status") == "reported_unreproduced",
+                             place, "community or issue reports are not hands-on verification", errors)
+                mitigation = row.get("existing_mitigation")
+                _require(isinstance(mitigation, dict) and mitigation.get("status") in MITIGATION_STATES and
+                         _strings(mitigation.get("steps")) and
+                         isinstance(mitigation.get("sources"), list) and
+                         all(_safe_url(u) for u in mitigation.get("sources", [])),
+                         place, "mitigation status/steps/sources invalid", errors)
+                if isinstance(mitigation, dict) and mitigation.get("status") == "documented":
+                    _require(bool(mitigation.get("steps")) and bool(mitigation.get("sources")),
+                             place, "documented mitigation requires steps and sources", errors)
+                _require(_strings(row.get("gap_ids", [])), place, "gap_ids must be string array", errors)
             elif kind == "gaps":
                 _require(_str(row.get("need_id")), place, "need_id required", errors)
                 _require(row.get("status") in ("unverified", "reported", "reproduced", "resolved"),
@@ -167,7 +199,21 @@ def read_registry(root: Path = DEFAULT_ROOT) -> tuple[dict[str, list[dict]], lis
             _require(required.issubset(passed), row["_file"], "meets requires every acceptance check to pass", errors)
     for row in data["gaps"]:
         _require(row.get("need_id") in ids["needs"], row["_file"], "unknown need_id", errors)
+    for row in data["frictions"]:
+        place = row["_file"]
+        _require(row.get("need_id") in ids["needs"], place, "unknown need_id", errors)
+        for target in row.get("solution_ids", []):
+            _require(target in ids["solutions"], place, f"unknown solution_id: {target}", errors)
+        for target in row.get("gap_ids", []):
+            _require(target in ids["gaps"], place, f"unknown gap_id: {target}", errors)
     return data, errors
+
+
+def friction_for_need(data: dict[str, list[dict]], need_id: str) -> list[dict]:
+    if not any(x["id"] == need_id for x in data["needs"]):
+        raise RegistryError(f"Unknown need: {need_id}")
+    return sorted((x for x in data["frictions"] if x["need_id"] == need_id),
+                  key=lambda x: x["id"])
 
 
 def match_need(data: dict[str, list[dict]], need_id: str) -> dict:
@@ -178,6 +224,7 @@ def match_need(data: dict[str, list[dict]], need_id: str) -> dict:
     tags = set(need["tags"])
     by_pair = {(x["need_id"], x["solution_id"]): x for x in data["assessments"]}
     candidates = []
+    frictions = data.get("frictions", [])
     for tool in data["solutions"]:
         shared = sorted(tags.intersection(tool["tags"]))
         assessment = by_pair.get((need_id, tool["id"]))
@@ -187,10 +234,13 @@ def match_need(data: dict[str, list[dict]], need_id: str) -> dict:
                                "verification": tool["verification"],
                                "fit": assessment["fit"] if assessment else "unknown",
                                "assessment_id": assessment["id"] if assessment else None,
+                               "related_friction_ids": sorted(x["id"] for x in frictions
+                                                              if x["need_id"] == need_id and tool["id"] in x["solution_ids"]),
                                "caution": "Tag overlap is discovery only, not a quality or compatibility verdict."})
     candidates.sort(key=lambda c: (-len(c["matching_tags"]), c["solution_id"]))
     return {"need": need, "candidates": candidates,
-            "gaps": [g for g in data["gaps"] if g["need_id"] == need_id]}
+            "gaps": [g for g in data["gaps"] if g["need_id"] == need_id],
+            "frictions": friction_for_need(data, need_id)}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -203,6 +253,8 @@ def main(argv: list[str] | None = None) -> int:
     m = sub.add_parser("match", help="Discover candidate solutions, NOT validated recommendations")
     m.add_argument("need_id")
     sub.add_parser("gaps", help="Show unmet-need hypotheses and validation status")
+    f = sub.add_parser("frictions", help="Show sourced friction reports and mitigations")
+    f.add_argument("--need", help="Optional need ID filter")
     args = cli.parse_args(argv)
     db, errors = read_registry(args.root)
     if errors:
@@ -218,6 +270,12 @@ def main(argv: list[str] | None = None) -> int:
             return 2
     elif args.action == "gaps":
         result = db["gaps"]
+    elif args.action == "frictions":
+        try:
+            result = friction_for_need(db, args.need) if args.need else db["frictions"]
+        except RegistryError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
     else:
         result = db[args.action]
     print(json.dumps(result, ensure_ascii=False, indent=2))

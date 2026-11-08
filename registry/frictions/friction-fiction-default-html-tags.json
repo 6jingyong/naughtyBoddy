@@ -1,0 +1,30 @@
+{
+  "id": "friction-fiction-default-html-tags",
+  "title": "EPUB headings may be outside default translation selection",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-long-fiction-translation",
+  "solution_ids": [
+    "solution-bilingual-book-maker"
+  ],
+  "source_type": "upstream_docs",
+  "sources": [
+    "https://github.com/yihong0618/bilingual_book_maker"
+  ],
+  "status": "documented_behavior",
+  "symptom": "The EPUB route defaults to translating p elements; a book that embeds prose or headings in other HTML tags needs an explicit selection or planning step.",
+  "user_impact": "Certain book elements can be left untranslated if the input HTML structure differs from the default.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "Use --translate-tags h1,h2,h3,p,div as appropriate, or review the EPUB planning selection before a full run."
+    ],
+    "sources": [
+      "https://github.com/yihong0618/bilingual_book_maker"
+    ]
+  },
+  "remaining_question": "How frequently do actual permitted EPUBs contain substantive text outside recognized tags?",
+  "verification_plan": "Use small licensed EPUB fixtures with h1-h3, p and nested divs; compare source and translated segment coverage.",
+  "gap_ids": [],
+  "reviewed_on": "2026-11-09"
+}

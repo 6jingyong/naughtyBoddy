@@ -1,0 +1,26 @@
+{
+  "id": "solution-dragon-memories-manager",
+  "title": "Dragon Memories Manager",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "SillyTavern group roleplay addon that records editable, character-specific episodic memories and relies on Presence to filter witnessed messages.",
+  "tags": [
+    "roleplay",
+    "character",
+    "memory",
+    "local-inference"
+  ],
+  "url": "https://github.com/TheDartDragon/Dragon-Memories-Manager",
+  "license": "MIT",
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/TheDartDragon/Dragon-Memories-Manager"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "README explicitly warns that without Presence it cannot know who witnessed messages and may summarize everything for everyone.",
+    "Memories can be edited, reactivated, expired and exported to a character-filtered lorebook entry; default all-remember-all mode is not isolated."
+  ],
+  "license_source": "https://github.com/TheDartDragon/Dragon-Memories-Manager/blob/main/LICENSE",
+  "limitations": "Documentation reviewed, but no local install or independent performance/privacy test has been run; memory separation and adult-content compatibility require explicit reproduction."
+}

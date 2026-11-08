@@ -1,0 +1,30 @@
+{
+  "id": "friction-fiction-resume-vs-parallel",
+  "title": "Resumable translation and parallel work can conflict in a documented mode",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-long-fiction-translation",
+  "solution_ids": [
+    "solution-bilingual-book-maker"
+  ],
+  "source_type": "upstream_docs",
+  "sources": [
+    "https://github.com/yihong0618/bilingual_book_maker"
+  ],
+  "status": "documented_behavior",
+  "symptom": "The documented --resume mode is mutually exclusive with --parallel-workers in Bilingual Book Maker.",
+  "user_impact": "A user choosing interruption resilience may give up multi-worker speed in that route.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "Run resumable work sequentially using --resume; use parallel workers for separate non-resume throughput tests."
+    ],
+    "sources": [
+      "https://github.com/yihong0618/bilingual_book_maker"
+    ]
+  },
+  "remaining_question": "Is the tradeoff material on low-end local inference where workers often do not increase throughput?",
+  "verification_plan": "Benchmark one licensed book sequential/resume and multi-worker with same model; record failures, elapsed time and checkpoint recovery.",
+  "gap_ids": [],
+  "reviewed_on": "2026-11-09"
+}

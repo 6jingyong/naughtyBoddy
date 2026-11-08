@@ -1,0 +1,32 @@
+{
+  "id": "friction-manga-mode-privacy",
+  "title": "Manga translation modes have materially different outbound data boundaries",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-manga-localization",
+  "solution_ids": [
+    "solution-libre-manga-translator"
+  ],
+  "source_type": "upstream_docs",
+  "sources": [
+    "https://github.com/mrdhnto/libre-manga-translator"
+  ],
+  "status": "documented_behavior",
+  "symptom": "The project's documented local mode runs in-browser, self-hosted API mode sends OCR text to the chosen endpoint, while Gemini mode sends entire page images to a cloud provider.",
+  "user_impact": "A user seeking privacy may reveal more image context than intended when choosing a cloud image-to-translation mode.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "Choose Local or a verified local self-hosted API endpoint for sensitive or licensed source images; distinguish a remote 'compatible' URL from a local server."
+    ],
+    "sources": [
+      "https://github.com/mrdhnto/libre-manga-translator"
+    ]
+  },
+  "remaining_question": "Can users tell the difference in the UI without reading the full README and are there unexpected outbound requests?",
+  "verification_plan": "Inspect the model switch UI and capture outbound HTTP calls for each mode; no private manga pages in public test artifacts.",
+  "gap_ids": [
+    "gap-manga-privacy-quality-tradeoff"
+  ],
+  "reviewed_on": "2026-11-09"
+}

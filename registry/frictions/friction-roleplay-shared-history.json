@@ -1,0 +1,42 @@
+{
+  "id": "friction-roleplay-shared-history",
+  "title": "Group-chat history can expose a secret even when lorebook entries are filtered",
+  "schema_version": 1,
+  "evidence_status": "reported",
+  "need_id": "need-private-roleplay",
+  "solution_ids": [
+    "solution-sillytavern",
+    "solution-sillytavern-presence",
+    "solution-dragon-memories-manager",
+    "solution-molfar-vertep"
+  ],
+  "source_type": "community_report",
+  "sources": [
+    "https://www.reddit.com/r/SillyTavernAI/comments/1xqampe/how_do_you_stop_characters_from_knowing_things/",
+    "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/Characters/groupchats.md"
+  ],
+  "status": "reported_unreproduced",
+  "symptom": "A community member describes characters using secrets from scenes they did not attend. Official SillyTavern docs say standard group chat history is shared between members.",
+  "user_impact": "Fictional relationships lose coherence when information intended for one character leaks to another.",
+  "existing_mitigation": {
+    "status": "documented",
+    "steps": [
+      "For lorebook entries, use SillyTavern World Info Character Filter.",
+      "For group history, evaluate Presence extension to hide unwitnessed messages, and optionally Dragon Memories Manager to summarize witnessed events per character.",
+      "Treat Molfar Vertep's claimed code-enforced 'who knows what' approach as an experimental candidate, not proven superior."
+    ],
+    "sources": [
+      "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md",
+      "https://github.com/leandrojofre/SillyTavern-Presence",
+      "https://github.com/TheDartDragon/Dragon-Memories-Manager",
+      "https://github.com/MolfarWav/Molfar.Vertep"
+    ]
+  },
+  "remaining_question": "Across different context injection paths, do Presence, DMM or Molfar consistently stop secret leakage without breaking other roleplay quality?",
+  "verification_plan": "Construct a synthetic four-character 16-scene script with secrets; vary history, lorebook and narrator roles; count leaks by model and extension combination.",
+  "gap_ids": [
+    "gap-roleplay-character-knowledge-boundary"
+  ],
+  "reviewed_on": "2026-11-09",
+  "reported_on": "2026-11-07"
+}
