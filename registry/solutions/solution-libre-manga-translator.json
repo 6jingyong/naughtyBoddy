@@ -23,5 +23,6 @@
     "README explicitly separates local, self-hosted API and Gemini cloud modes: the cloud mode sends artwork, while API mode sends extracted text.",
     "README documents manual bubble refinement, in-page editor, typesetting and PNG/JPEG export, plus current known OCR limitations."
   ],
-  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven."
+  "limitations": "Official documentation reviewed, but not installed or benchmarked by NaughtyBoddy. Low-refusal behavior, actual quality, privacy, performance and current release availability are not proven.",
+  "license_source": "https://github.com/mrdhnto/libre-manga-translator/blob/main/LICENSE"
 }
