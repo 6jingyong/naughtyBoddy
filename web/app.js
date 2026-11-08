@@ -280,6 +280,51 @@ async function loadReports() {
     `${x.timestamp} · ${x.provider}/${x.model} · ${x.summary.completed}/${x.summary.total} 完成；疑似拒答 ${x.summary.suspected_refusals}（尚需人工复核）`).join('\n') : '暂无评测记录。';
 }
 
+// P3.2 model/task routing: recommendations never perform inference automatically.
+async function suggestModels() {
+  const task=$('routing-task').value;
+  const remote=$('routing-include-remote').checked;
+  const host=$('routing-results');
+  host.replaceChildren(el('p','hint','正在收集已运行模型的元数据…'));
+  try {
+    const data=await api(`/api/routing/suggest?task=${encodeURIComponent(task)}&include_remote=${remote?'1':'0'}`);
+    host.replaceChildren();
+    if(!data.candidates.length){host.append(el('p','hint','没有发现可执行候选。请先启动 Ollama 或本地 GGUF，或手动允许在线目录查询。'));return;}
+    for(const [idx,model] of data.candidates.slice(0,12).entries()){
+      const card=el('div','inventory-item');
+      const label=el('div');
+      label.append(el('strong','',`${idx===0?'建议优先检查 · ':''}${model.model}`),
+                   el('small','',`${model.provider} / ${model.local?'本地':'云端'} · 成人内容兼容：${model.adult_compatibility} · 创作质量：${model.task_quality}`),
+                   el('small','',model.reasons.join('；')));
+      const button=el('button','btn subtle','填入下方模型');button.type='button';
+      button.addEventListener('click',()=>{
+        $('provider').value=model.provider;$('model-id').value=model.model;
+        if(model.provider==='compatible' && model.base_url) $('base-url').value=model.base_url;
+        providerChanged();
+        if(model.remote_consent_required)notify('仅填入候选。真正发送作品内容前须单独确认云端调用。');
+        else notify('已填入候选模型，尚未启动翻译任务。');
+      });
+      card.append(label,button);host.append(card);
+    }
+    host.append(el('p','hint',data.note));
+  } catch(e){host.replaceChildren(el('p','hint',e.message));reportError(e);}
+}
+async function saveRoutingReview() {
+  const provider=$('provider').value;
+  const model=$('model-id').value.trim();
+  if(provider==='mock'||!model)throw new Error('请先在下方选择一个真实模型');
+  if(!window.confirm('确认已自行测试该模型，并将评价仅保存于本地？'))return;
+  const saved=await api('/api/routing/profiles','POST',{
+    provider,model,task:$('routing-task').value,
+    adult_compatibility:$('routing-compat').value,
+    task_quality:$('routing-quality').value,
+    note:$('routing-note').value,confirm_review:true
+  });
+  notify('已保存本地人工评测，非平台认证');
+  showResult(saved);
+  await suggestModels();
+}
+
 async function main(){
   const setup=await api('/api/bootstrap');state.token=setup.csrf_token;
   bind('new-project','click',()=>{state.selected=null;state.job=null;$('current-name').textContent='工作台';toggle('welcome',true);toggle('editor',false);toggle('import-card',true);return loadProjects();});
@@ -291,6 +336,8 @@ async function main(){
   bind('glossary','click',openGlossary);bind('glossary-save','click',saveGlossary);bind('glossary-close','click',()=>$('glossary-dialog').close());
   bind('audit','click',audit);bind('export','click',doExport);bind('model-search','click',discover);bind('translate','click',translate);
   $('provider').addEventListener('change',providerChanged);$('base-url').addEventListener('change',providerChanged);
+  bind('routing-search','click',suggestModels);
+  bind('routing-save','click',saveRoutingReview);
   bind('local-refresh','click',loadLocal);
   bind('gguf-inspect','click',inspectGGUF);
   $('gguf-file').addEventListener('change',showGGUFFit);

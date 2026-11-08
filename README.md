@@ -4,7 +4,7 @@
 
 NaughtyBoddy is a standalone creative application, not a coding-agent fork or an extension of Human Harness. It combines a personal content library, editable production workflows, model discovery and replaceable inference runtimes. The software is free to use; **the repository does not have a license yet**, so redistribution/modification rights are not granted until the maintainer selects an OSI-approved license.
 
-> Current status: **P3.1 experimental Studio with opt-in local model manager**. No installer, full multimedia editor, official model ranking or live GPU verification yet.
+> Current status: **P3.2 experimental Studio with task-aware model routing**. No installer, full multimedia editor, official model ranking or live GPU verification yet.
 
 ## Try the Studio GUI (Python 3.11+, no dependencies)
 
@@ -21,6 +21,10 @@ The browser-based GUI provides:
 - **Discovery**: search installed Ollama models, Hugging Face models or OpenRouter metadata; names tagged `uncensored` / `abliterated` are **candidates only**, not verified compatibility scores.
 - **Runtime**: run a **bounded** translation batch using mock/demo mode, a local Ollama server, an OpenAI-compatible endpoint (including llama.cpp / KoboldCpp) or OpenRouter. Each remote job requires explicit opt-in.
 - **Local model manager (P3.1)**: inspect machine RAM/NVIDIA memory estimates, local Ollama inventory and managed GGUF files; inspect Hugging Face GGUF metadata; explicitly install GGUF/Ollama models; launch/stop a managed loopback llama-server; run three opt-in task-specific model evaluation cases. Results remain in your private workspace.
+
+- **Task-aware routing (P3.2)**: rank *currently usable* local model endpoints; optionally request OpenRouter metadata. Model labels and heuristic refusal tests do not count as proof. Save explicit local, per-task user-reviewed compatibility/quality notes. Recommendations populate, but never execute, an inference choice. Cloud text transmission remains separately opt-in.
+
+The **Pi integration decision** is documented in [ADR-001](docs/ADR-001-pi-integration.md): no Pi fork now. Existing deterministic creative workflows stay in Python; Pi's `pi-ai` and optional `pi-agent-core` are candidates for a future isolated SDK experiment only.
 
 Demo mode **does not translate** text; it labels and copies original segments so the workflow can be tested without a model. Incomplete exports are blocked; mock-based exports require an explicit checkbox and carry an obvious DEMO label. A manually edited segment replaces its machine translation, without changing other completed segments.
 
