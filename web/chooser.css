@@ -72,3 +72,16 @@ footer{border-top:1px solid #44363e;padding:28px 0 38px;font-size:10px;letter-sp
 .identity-entry{font-size:11px;border-top:1px solid #3c313b;padding:10px 0;display:flex;flex-direction:column;gap:4px}
 .identity-entry strong{color:#d5c8d1;line-height:1.6;font-weight:600}
 .identity-entry small{color:#978d97}
+
+/* P5.10: explicit source-backed client/backend/extension relationships. */
+.compatibility-details{border-top:1px solid #54414f;padding-top:9px}
+.compatibility-details>summary{font-size:11px;color:#e7b8ca;cursor:pointer;line-height:1.65}
+.compatibility-rows{display:flex;flex-direction:column;gap:10px;padding-top:12px}
+.compatibility-row{border:1px solid #493844;border-radius:8px;padding:11px;background:#201c23}
+.compatibility-row strong{display:block;font-size:11px;color:#ead2dc;line-height:1.6}
+.compatibility-status{display:block;color:#b7c8bb;font-size:10px;margin:6px 0}
+.compatibility-status.proposed{color:#efbd9d}
+.compatibility-row code{display:block;overflow-wrap:anywhere;background:#29232c;color:#e2baca;border-radius:6px;padding:7px;font-size:11px}
+.compatibility-row p{font-size:10px;line-height:1.7}
+.compatibility-row ol{margin:7px 0 10px;padding-left:21px;color:#bcaeba}
+.compatibility-row li{font-size:10px;margin:4px 0}
