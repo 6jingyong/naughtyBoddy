@@ -1,15 +1,16 @@
 "use strict";
 const $ = id => document.getElementById(id);
-const facetTitles = {modality:"内容形式",task:"创作任务",deployment:"运行方式",type:"工具类别",evidence:"证据程度",capability:"具体能力（有来源）"};
+const facetTitles = {modality:"内容形式",task:"创作任务",deployment:"运行方式",type:"工具类别",evidence:"证据程度",capability:"具体能力（有来源）",link_health:"链接核查"};
 const typeTitles = {model:"模型",tool:"工具",service:"在线服务",runtime:"推理后端",extension:"扩展",workflow:"工作流",component:"组件",utility:"辅助工具"};
 const modalityTitles = {text:"文字",image:"图像",video:"视频",audio:"语音"};
-const state = {rows:[],facets:{},selected:{},visible:30,sources:[]};
+const state = {rows:[],facets:{},selected:{},visible:30,sources:[],health:null,identity:null};
 function n(tag,cls,value){const x=document.createElement(tag);if(cls)x.className=cls;if(value!==undefined)x.textContent=value;return x;}
 async function load(){
   const response=await fetch("/api/catalog",{credentials:"same-origin",cache:"no-store"});
   if(!response.ok)throw Error("目录暂不可用（HTTP "+response.status+"）");
   const data=await response.json();if(!Array.isArray(data.items)||!data.facets)throw Error("目录数据格式有误");
   state.rows=data.items;state.facets=data.facets;state.sources=data.sources||[];
+  state.health=data.health_summary||null;state.identity=data.identity_review||null;
   $("tool-count").textContent=String(data.items.length);
   $("source-count").textContent=String(state.sources.length);
 }
@@ -82,6 +83,21 @@ function createCard(item){
     }
     evidence.append(list);box.append(evidence);
   }
+  const status=item.link_check||{state:"not_checked"};
+  if(status.state==="repository_metadata_found"){
+    const health=n("div","link-health checked","GitHub 仓库入口已核查 · "+status.checked_on);
+    if(status.repo_archived)health.append(n("span","", " · 已归档"));
+    box.append(health);
+  }else if(status.state==="conflicting_evidence"){
+    const health=n("div","link-health review","链接资料冲突 · 待人工复核");
+    if(status.evidence_url){
+      const proof=n("a",""," 查看 API 核查来源");
+      proof.href=status.evidence_url;proof.target="_blank";proof.rel="noopener noreferrer";health.append(proof);
+    }
+    box.append(health);
+  }else{
+    box.append(n("div","link-health unchecked","当前链接状态尚未核查"));
+  }
   box.append(n("p","",item.note));
   box.append(n("div","caveat","成人内容兼容：未测 · 模型质量：未测 · 隐私：未审计 · 显卡适配：未测"));
   const links=n("div","sources-links");
@@ -107,6 +123,31 @@ function renderSources(){
     root.append(card);
   }
 }
+function renderMaintenance(){
+  const c=state.health?.counts;
+  if(c){
+    $("health-count").textContent="仓库已核查 "+(c.repository_metadata_found||0)+
+      " · 状态待复核 "+(c.conflicting_evidence||0)+
+      " · 未检查 "+(c.not_checked||0);
+  }
+  const list=$("identity-list");list.replaceChildren();
+  const duplicates=state.identity?.shared_destinations||[];
+  $("duplicate-count").textContent="共用链接的候选组："+duplicates.length+"；不自动合并不同模型变体。";
+  for(const group of duplicates.slice(0,12)){
+    const box=n("div","identity-entry");
+    box.append(n("strong","",group.items.map(x=>x.name).join(" / ")));
+    box.append(n("small","",group.destination_key));
+    list.append(box);
+  }
+  const changes=$("migration-list");changes.replaceChildren();
+  for(const move of state.health?.migrations||[]){
+    const box=n("div","identity-entry");
+    box.append(n("strong","","已核实地址迁移"));
+    const a=n("a","",move.former_url+" → "+move.canonical_url);
+    a.href=move.canonical_url;a.target="_blank";a.rel="noopener noreferrer";box.append(a);
+    changes.append(box);
+  }
+}
 function main(){
   $("more").addEventListener("click",()=>{state.visible+=30;renderResults();});
   $("clear").addEventListener("click",()=>{
@@ -115,7 +156,7 @@ function main(){
     state.visible=30;renderResults();
   });
   return load().then(()=>{
-    renderFilters();renderResults();renderSources();
+    renderFilters();renderResults();renderSources();renderMaintenance();
     $("status").textContent="目录内容来自本地快照；切换标签不会联网查询第三方或运行模型。";
   });
 }

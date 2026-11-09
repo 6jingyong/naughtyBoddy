@@ -3,15 +3,16 @@
   "title": "ComfyUI",
   "schema_version": 1,
   "evidence_status": "hypothesis",
-  "summary": "Candidate node-based image workflow system; no content-specific quality assessment yet.",
+  "summary": "Node-based creative workflow engine for images, video and audio. The old comfyanonymous/ComfyUI repo path redirects to Comfy-Org/ComfyUI; compatibility, adult-content fidelity and runtime performance are not independently tested.",
   "tags": [
     "image-editing",
     "local-inference"
   ],
-  "url": "https://github.com/comfyanonymous/ComfyUI",
+  "url": "https://github.com/Comfy-Org/ComfyUI",
   "license": null,
   "verification": "unreviewed",
   "sources": [
+    "https://github.com/Comfy-Org/ComfyUI",
     "https://github.com/comfyanonymous/ComfyUI"
   ]
 }

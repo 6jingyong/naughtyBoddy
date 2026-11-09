@@ -59,7 +59,7 @@ class CapabilityTests(unittest.TestCase):
         self.assertIn("Presence", note)
 
     def test_comfyui_source_enriches_but_not_global_verification(self):
-        comfy = self.by_id["import-sichang-cn-2026-comfyui"]
+        comfy = self.by_id["reviewed-solution-comfyui"]
         self.assertEqual(comfy["evidence"], "imported_unverified")
         self.assertEqual(set(comfy["modalities"]), {"image", "video", "audio"})
         self.assertIn("lora", comfy["capabilities"])

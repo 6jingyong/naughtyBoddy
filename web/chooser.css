@@ -59,3 +59,16 @@ footer{border-top:1px solid #44363e;padding:28px 0 38px;font-size:10px;letter-sp
 .capability-details li{padding:3px 0}
 .capability-details a{color:#e6b1c6}
 .cap-conditions{color:#a89aa5}
+
+/* P5.8: cautious source-health signals, no 'dead' classification from HTTP alone. */
+.link-health{font-size:10px;line-height:1.65;border-top:1px solid #443842;padding-top:9px}
+.link-health.checked{color:#b6c5b2}
+.link-health.review{color:#efb8b8}
+.link-health.unchecked{color:#ada1aa}
+.link-health a,.identity-panel a,.identity-entry a{color:#e2afc1;text-decoration:underline}
+.health-count{font-size:11px;color:#c7acba;margin:0 0 17px}
+.identity-panel{background:#211d23;border:1px solid #4a3b45;border-radius:9px;padding:12px 16px;margin-bottom:12px}
+.identity-panel summary{font-size:12px;cursor:pointer;color:#d8b2c1}
+.identity-entry{font-size:11px;border-top:1px solid #3c313b;padding:10px 0;display:flex;flex-direction:column;gap:4px}
+.identity-entry strong{color:#d5c8d1;line-height:1.6;font-weight:600}
+.identity-entry small{color:#978d97}
