@@ -1,3 +1,5 @@
+> Historical note: P5.5's four fixed-choice screen was superseded by the P5.6 [multi-select tag catalogue](p56-tag-catalogue.md). The `/discover` route now opens the P5.6 catalogue. The four-choice backend API is retained temporarily for compatibility/testing, not as the default user UI.
+
 # P5.5 — Choice-only discovery wizard
 
 NaughtyBoddy's first public-facing solution finder is intentionally **not a chatbot**.

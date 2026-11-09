@@ -102,10 +102,12 @@ class ChooserHTTPTests(unittest.TestCase):
     def test_discovery_page_is_accessible_without_prompts(self):
         with urlopen(self.base + "/discover", timeout=3) as res:
             page = res.read().decode("utf-8")
-        self.assertIn("四道选择题", page)
+        self.assertIn("选择标签，发现工具", page)
+        self.assertIn('id="filters"', page)
         self.assertIn("chooser.js", page)
         self.assertNotIn("<textarea", page)
-        self.assertNotIn('type="text"', page)
+        self.assertNotIn("<input", page)
+        self.assertNotIn('id="next"', page)
 
     def test_options_and_matching_are_read_only(self):
         with urlopen(self.base + "/api/chooser/options", timeout=3) as res:

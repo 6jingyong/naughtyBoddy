@@ -120,3 +120,13 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Test the visual interaction and keyboard focus in a browser on an environment that permits localhost access.
 - [ ] Expand user choice vocabulary only when actual evidence supports useful distinctions.
 - [ ] Verify real tool compatibility, model-specific hardware and data boundaries (deferred live tests).
+
+## P5.6 — Tag-based external-directory Discovery
+
+- [x] Import factual candidate labels from four public external directory lists, with pinned GitHub SHA, source URL and license attribution.
+- [x] Preserve old project documentation-review profiles and avoid promoting third-party tags into verified capability scores.
+- [x] Replace the fixed four-question Discovery page with multi-select tags: same facet OR; cross-facet AND.
+- [x] Keep all filtering local, no user free text, no model calls, no automatic installer.
+- [ ] Cross-check source entries against official project sites and current release status.
+- [ ] Browser visual and accessibility QA on an environment permitting localhost.
+- [ ] Research more fine-grained verified tags for workflows and quality (do not invent benchmark data).

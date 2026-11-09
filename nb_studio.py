@@ -23,6 +23,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from nb_common import ProviderError
 from nb_chooser import chooser_questions, choose
+from nb_catalog import catalogue
 from nb_comics import ComicLibrary, MAX_PAGE_BYTES
 from nb_local import is_loopback
 from nb_model_manager import ModelManager
@@ -473,6 +474,8 @@ class StudioHandler(BaseHTTPRequestHandler):
                 return self._send_static(path[0])
             if path in (["discover"], ["chooser.html"]):
                 return self._send_static("chooser.html")
+            if path == ["api", "catalog"]:
+                return self._json(200, catalogue())
             if path == ["api", "chooser", "options"]:
                 return self._json(200, chooser_questions())
             if path == ["api", "chooser", "match"]:
