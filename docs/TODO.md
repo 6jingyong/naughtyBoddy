@@ -87,6 +87,16 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [x] Preserve actual upstream docs, user issues, and community reports as separate evidence types.
 - [x] Record existing mitigations before proposing any duplicate NaughtyBoddy work.
 - [x] Link friction records to needs, candidate solutions, and hypotheses; provide offline CLI filtering.
-- [ ] Reproduce manga split-ID mapping, EPUB tag coverage and fictional character knowledge boundaries with licensed/synthetic fixtures.
+- [x] Construct offline *synthetic fault-injection* fixtures for EPUB tag coverage, bubble IDs and fictional character knowledge visibility (P5.3).
+- [ ] **Independently reproduce the actual upstream software issues** on explicit versions using licensed or synthetic input; synthetic checks alone do not establish upstream defects.
 - [ ] Recheck upstream issue states/fixes on specific releases; GitHub issue 'open' is not proof a problem occurs in current version.
 - [ ] Collect user corrections and negative cases without asking for or publishing private NSFW artifacts.
+
+## P5.3 — Portable synthetic acceptance contracts
+
+- [x] Add a self-contained 2-chapter EPUB3 example with real OPF/spine packaging and 8 stable text markers.
+- [x] Detect missing, untranslated and swapped fixture segments; bound ZIP input size and reject unsafe member paths.
+- [x] Add six-bubble target-ID checks and four-character per-context-channel fact visibility checks.
+- [x] Provide expected-pass and expected-fail examples, CLI and CI; no real model inference required.
+- [ ] Build an **opt-in** adapter against one mature upstream project on rights-cleared materials; never claim a synthetic failure is an upstream bug.
+- [ ] Design human evaluation for translation fidelity and genuine model refusal behavior; exact fixture token matching is not a semantic score.
