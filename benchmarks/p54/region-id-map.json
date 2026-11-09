@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source": "p53 synthetic comic fixture",
+  "regions": [
+    {"index": 0, "id": "b01", "source": "SRC_B01_START", "bbox": [0.016667, 0.025, 0.15, 0.075]},
+    {"index": 1, "id": "b02", "source": "SRC_B02_REPLY"},
+    {"index": 2, "id": "b03", "source": "SRC_B03_QUESTION"},
+    {"index": 3, "id": "b04", "source": "SRC_B04_NOTICE"},
+    {"index": 4, "id": "b05", "source": "SRC_B05_CONFIRM"},
+    {"index": 5, "id": "b06", "source": "SRC_B06_EXIT"}
+  ]
+}
