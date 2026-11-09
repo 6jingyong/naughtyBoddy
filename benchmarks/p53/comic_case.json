@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "related_friction_ids": [
+    "friction-manga-segment-shift"
+  ],
+  "bubbles": [
+    {
+      "id": "b01",
+      "speaker": "Nora",
+      "source": "SRC_B01",
+      "target_token": "TGT_B01"
+    },
+    {
+      "id": "b02",
+      "speaker": "Eli",
+      "source": "SRC_B02",
+      "target_token": "TGT_B02"
+    },
+    {
+      "id": "b03",
+      "speaker": "Nora",
+      "source": "SRC_B03",
+      "target_token": "TGT_B03"
+    },
+    {
+      "id": "b04",
+      "speaker": "Mira",
+      "source": "SRC_B04",
+      "target_token": "TGT_B04"
+    },
+    {
+      "id": "b05",
+      "speaker": "Eli",
+      "source": "SRC_B05",
+      "target_token": "TGT_B05"
+    },
+    {
+      "id": "b06",
+      "speaker": "Jon",
+      "source": "SRC_B06",
+      "target_token": "TGT_B06"
+    }
+  ]
+}

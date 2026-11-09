@@ -57,3 +57,7 @@ python nb_registry.py frictions --need need-manga-localization
 ```
 
 The CLI only reads local JSON and does not fetch sources. Adding a URL in the record does not mean the issue is currently open or universally reproducible. `match` includes related friction IDs but never treats their count as a quality rating. More: [research](p52-friction-evidence.md).
+
+## P5.3 · Independent synthetic contract kit
+
+See [evaluation design](p53-synthetic-evalkit.md) and [public fixtures](../benchmarks/p53/README.md). Run `python nb_evalkit.py demo` to confirm that injected EPUB omissions, comic ID shifts and fictional character knowledge leaks are detected. These fixtures are not evidence that any listed solution actually exhibits those failures, nor a score for adult-content compatibility.

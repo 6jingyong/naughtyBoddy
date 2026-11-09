@@ -54,6 +54,8 @@ Records are plain JSON with explicit evidence status. P5 currently contains **pr
 
 **User-friction research (P5.2):** [source-linked reports, existing fixes and test plans](docs/p52-friction-evidence.md). The offline registry can list them with `python nb_registry.py frictions --need need-private-roleplay`. Source-reported problems are **not** independently reproduced in this phase.
 
+**P5.3 reproducible synthetic fixtures:** [EPUB coverage, comic ID alignment, and character knowledge visibility](docs/p53-synthetic-evalkit.md), with [public fixtures and controls](benchmarks/p53/README.md). Run `python nb_evalkit.py demo` (model-free, no network). A successful demo is **not evidence of real model quality or a real upstream issue reproduction**.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.
