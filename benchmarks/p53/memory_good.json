@@ -1,0 +1,40 @@
+{
+  "snapshots": {
+    "Nora": {
+      "history": [
+        "f-public-market-open",
+        "f-nora-secret-route"
+      ],
+      "lorebook": [],
+      "memory": []
+    },
+    "Eli": {
+      "history": [
+        "f-public-market-open"
+      ],
+      "lorebook": [],
+      "memory": [
+        "f-eli-secret-key"
+      ]
+    },
+    "Mira": {
+      "history": [
+        "f-public-market-open",
+        "f-nora-secret-route"
+      ],
+      "lorebook": [],
+      "memory": [
+        "f-jon-letter"
+      ]
+    },
+    "Jon": {
+      "history": [
+        "f-public-market-open"
+      ],
+      "lorebook": [],
+      "memory": [
+        "f-jon-letter"
+      ]
+    }
+  }
+}

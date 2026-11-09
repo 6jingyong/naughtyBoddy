@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "title": "Clockwork Garden (synthetic tokens)",
+  "chapters": [
+    {
+      "file": "OEBPS/ch1.xhtml",
+      "segments": [
+        {
+          "id": "c1-title",
+          "tag": "h1",
+          "source": "SRC_TITLE_GARDEN",
+          "target": "TGT_TITLE_GARDEN"
+        },
+        {
+          "id": "c1-p1",
+          "tag": "p",
+          "source": "SRC_CH1_PARA_01",
+          "target": "TGT_CH1_PARA_01"
+        },
+        {
+          "id": "c1-p2",
+          "tag": "p",
+          "source": "SRC_CH1_PARA_02",
+          "target": "TGT_CH1_PARA_02"
+        },
+        {
+          "id": "c1-div",
+          "tag": "div",
+          "source": "SRC_CH1_DIV_CAPTION",
+          "target": "TGT_CH1_DIV_CAPTION"
+        }
+      ]
+    },
+    {
+      "file": "OEBPS/ch2.xhtml",
+      "segments": [
+        {
+          "id": "c2-title",
+          "tag": "h2",
+          "source": "SRC_TITLE_STATION",
+          "target": "TGT_TITLE_STATION"
+        },
+        {
+          "id": "c2-p1",
+          "tag": "p",
+          "source": "SRC_CH2_PARA_01",
+          "target": "TGT_CH2_PARA_01"
+        },
+        {
+          "id": "c2-p2",
+          "tag": "p",
+          "source": "SRC_CH2_PARA_02",
+          "target": "TGT_CH2_PARA_02"
+        },
+        {
+          "id": "c2-div",
+          "tag": "div",
+          "source": "SRC_CH2_DIV_NOTE",
+          "target": "TGT_CH2_DIV_NOTE"
+        }
+      ]
+    }
+  ],
+  "related_friction_ids": [
+    "friction-fiction-default-html-tags",
+    "friction-fiction-resume-vs-parallel"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "outputs": [
+    {
+      "id": "b01",
+      "text": "TGT_B01"
+    },
+    {
+      "id": "b03",
+      "text": "TGT_B02"
+    },
+    {
+      "id": "b04",
+      "text": "TGT_B04"
+    },
+    {
+      "id": "b05",
+      "text": "TGT_B05"
+    },
+    {
+      "id": "b06",
+      "text": "TGT_B06"
+    }
+  ]
+}

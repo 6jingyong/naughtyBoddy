@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "related_friction_ids": [
+    "friction-roleplay-shared-history",
+    "friction-roleplay-presence-dependency"
+  ],
+  "characters": [
+    "Nora",
+    "Eli",
+    "Mira",
+    "Jon"
+  ],
+  "facts": [
+    {
+      "id": "f-public-market-open",
+      "public": true,
+      "witnesses": []
+    },
+    {
+      "id": "f-nora-secret-route",
+      "public": false,
+      "witnesses": [
+        "Nora",
+        "Mira"
+      ]
+    },
+    {
+      "id": "f-eli-secret-key",
+      "public": false,
+      "witnesses": [
+        "Eli"
+      ]
+    },
+    {
+      "id": "f-jon-letter",
+      "public": false,
+      "witnesses": [
+        "Jon",
+        "Mira"
+      ]
+    }
+  ]
+}
