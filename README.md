@@ -62,6 +62,8 @@ Records are plain JSON with explicit evidence status. P5 currently contains **pr
 
 **P5.6 tag catalogue:** the public-facing [Discovery browser](docs/p56-tag-catalogue.md) now uses clickable multi-select tags instead of fixed four-question onboarding. It includes **four source-attributed directory snapshots** plus our original reviewed profiles, with no prompt, LLM, background scraping or generated quality ranking. Start Studio and visit `/discover`.
 
+**P5.7 documented capability tags:** Discovery now lets users filter on specific abilities (EPUB, OCR, GGUF, LoRA, layered PSD, character memory, etc.). Every positive tag has an [upstream source and applicability condition](docs/p57-evidence-capabilities.md); this is not a model-quality, GPU, privacy, or adult-compatibility test.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.
