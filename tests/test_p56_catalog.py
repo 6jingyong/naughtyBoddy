@@ -111,7 +111,7 @@ class TagCatalogTests(unittest.TestCase):
             self.assertEqual(data["network_requests"], 0)
 
     def test_filter_options_all_enumerated(self):
-        self.assertEqual(set(FACETS), {"modality", "task", "deployment", "type", "evidence"})
+        self.assertEqual(set(FACETS), {"modality", "task", "deployment", "type", "evidence", "link_health"})
         self.assertTrue(all(FACETS[key] for key in FACETS))
 
 
