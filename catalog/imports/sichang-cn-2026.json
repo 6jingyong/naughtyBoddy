@@ -23,7 +23,25 @@
       "source_section": "对话与角色扮演",
       "evidence": "third_party_directory_only",
       "source_reviewed": false,
-      "adult_compatibility": "not_tested"
+      "adult_compatibility": "not_tested",
+      "modalities": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "tasks": [
+        "roleplay",
+        "image_generation",
+        "video_generation",
+        "audio_generation"
+      ],
+      "source_sections": [
+        "对话与角色扮演",
+        "图像生成",
+        "视频生成",
+        "语音与音频"
+      ]
     },
     {
       "id": "sichang-cn-2026-chai",
