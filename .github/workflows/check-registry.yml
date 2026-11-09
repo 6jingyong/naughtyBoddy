@@ -23,6 +23,8 @@ jobs:
         run: python nb_catalog.py validate
       - name: Validate the text-first public projection
         run: python nb_text_catalog.py
+      - name: Validate scoped text compatibility graph
+        run: python nb_text_compat.py validate
       - name: Verify source-attributed catalogue health
         run: python nb_catalog_health.py validate
       - name: Check tag catalogue JavaScript syntax

@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-09",
+  "scope": "text_only",
+  "allowed_format_targets": [
+    {
+      "id": "format:gguf",
+      "label": "GGUF 模型文件（格式，不是模型或下载链接）"
+    }
+  ],
+  "statuses": {
+    "documented": "Upstream docs describe this specific route or dependency. Not installed or tested by NaughtyBoddy.",
+    "protocol_inferred_not_tested": "Both sides document a protocol family, but no direct integration test or upstream pair-specific assertion was found."
+  },
+  "edges": [
+    {
+      "id": "st-koboldcpp-native",
+      "relation": "client_backend",
+      "from_id": "reviewed-solution-sillytavern",
+      "to_id": "reviewed-solution-koboldcpp",
+      "api_profile": "koboldcpp_native",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://koboldcpp.net/docs/api/connect-apps/",
+        "https://docs.sillytavern.app/usage/api-connections/"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Start KoboldCpp with a permitted local text GGUF model.",
+        "In SillyTavern API Connections choose Text Completion → KoboldCpp.",
+        "Enter the default base URL for the running server, then Connect."
+      ],
+      "limitations": "Use base port 5001, not /v1, for dedicated KoboldCpp mode; any password must match. GPU, templates and sampler behavior depend on models and version.",
+      "verification_plan": "On a permitted local model, verify one character chat and context setting; log exact client/server versions and data destination.",
+      "endpoint_hint": "http://127.0.0.1:5001",
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "st-ollama-native",
+      "relation": "client_backend",
+      "from_id": "reviewed-solution-sillytavern",
+      "to_id": "reviewed-solution-ollama",
+      "api_profile": "ollama_native",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://docs.sillytavern.app/usage/api-connections/",
+        "https://docs.ollama.com/api/introduction"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Start a local Ollama server and choose an installed local text model.",
+        "Select an Ollama-compatible connection type available in the installed SillyTavern version.",
+        "Point it to the local Ollama server and test the connection."
+      ],
+      "limitations": "Official documentation lists Ollama among local APIs but the exact SillyTavern UI wording can change. Local server can still route cloud model IDs; no automatic privacy guarantee.",
+      "verification_plan": "Verify installed SillyTavern version, selected API type and that the chosen model runs locally; inspect outbound requests.",
+      "endpoint_hint": "http://127.0.0.1:11434",
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "bbm-ollama-openai",
+      "relation": "client_backend",
+      "from_id": "reviewed-solution-bilingual-book-maker",
+      "to_id": "reviewed-solution-ollama",
+      "api_profile": "openai_subset",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://github.com/yihong0618/bilingual_book_maker",
+        "https://docs.ollama.com/api/openai-compatibility"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Run local Ollama with a text model.",
+        "Use BBM --api_base http://localhost:11434/v1 and --model with the installed model ID.",
+        "Try BBM --test on a rights-authorized small EPUB/TXT before a full translation."
+      ],
+      "limitations": "Requires an OpenAI-compatible chat route, not arbitrary Ollama endpoints; model name and prompt/response behavior differ by model. Books must be authorized.",
+      "verification_plan": "Perform a short authorized translation and verify segment coverage, API errors and that no cloud model or proxy was selected.",
+      "endpoint_hint": "http://127.0.0.1:11434/v1",
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "tolmach-ollama-native",
+      "relation": "client_backend",
+      "from_id": "reviewed-solution-book-translator",
+      "to_id": "reviewed-solution-ollama",
+      "api_profile": "ollama_native",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://github.com/KazKozDev/book-translator",
+        "https://docs.ollama.com/api/introduction"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Start a locally installed Ollama server with suitable text models.",
+        "Use the project launcher; its README documents default Ollama at localhost:11434.",
+        "Select separately the models for translation and other pipeline roles."
+      ],
+      "limitations": "Ollama Cloud model IDs and optional cloud glossary verification can send data off-device. Local-only depends on actual per-role model settings and endpoint.",
+      "verification_plan": "Run one licensed text fixture through prepare/translate/review; inspect model routing and outbound requests for each role.",
+      "endpoint_hint": "http://127.0.0.1:11434",
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "presence-extension-st",
+      "relation": "extension_for",
+      "from_id": "reviewed-solution-sillytavern-presence",
+      "to_id": "reviewed-solution-sillytavern",
+      "api_profile": "extension_host",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://github.com/leandrojofre/SillyTavern-Presence"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Install Presence into a compatible SillyTavern extension directory.",
+        "Enable the extension in a permitted local group-chat project."
+      ],
+      "limitations": "Only tracked message visibility is addressed. It does not independently guarantee all summary, lorebook, and narrator context remains isolated.",
+      "verification_plan": "Use synthetic private facts to verify the actual context supplied to absent characters.",
+      "endpoint_hint": null,
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "dmm-extension-st",
+      "relation": "extension_for",
+      "from_id": "reviewed-solution-dragon-memories-manager",
+      "to_id": "reviewed-solution-sillytavern",
+      "api_profile": "extension_host",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://github.com/TheDartDragon/Dragon-Memories-Manager"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Install Dragon Memories Manager as a SillyTavern extension.",
+        "Configure per-character summaries and review their generated content."
+      ],
+      "limitations": "Per-character memory capability depends on the current chat, names, prompt construction and available presence metadata.",
+      "verification_plan": "Check extension version, chat-scoped memory export and character renames.",
+      "endpoint_hint": null,
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "dmm-needs-presence",
+      "relation": "needs_extension_for_isolation",
+      "from_id": "reviewed-solution-dragon-memories-manager",
+      "to_id": "reviewed-solution-sillytavern-presence",
+      "api_profile": "presence_metadata",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://github.com/TheDartDragon/Dragon-Memories-Manager"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Enable Presence and verify per-message present arrays.",
+        "Only then use DMM to produce isolated per-character summaries."
+      ],
+      "limitations": "DMM says Presence is strongly recommended; without presence metadata it includes unobserved messages. Do not interpret this as a hard installation dependency for all features.",
+      "verification_plan": "Compare the synthetic four-character scenario with missing vs complete presence metadata; inspect memory prompts.",
+      "endpoint_hint": null,
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "kcpp-loads-gguf",
+      "relation": "runtime_format",
+      "from_id": "reviewed-solution-koboldcpp",
+      "to_id": "format:gguf",
+      "api_profile": "gguf_model_file",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://koboldcpp.net/docs/",
+        "https://koboldcpp.net/docs/api/connect-apps/"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Choose a locally held, appropriately licensed text GGUF checkpoint.",
+        "Load it in KoboldCpp before connecting a frontend."
+      ],
+      "limitations": "GGUF is a file container, not a model quality or content policy certification; architecture, RAM/VRAM, context and templates still determine whether this exact checkpoint works.",
+      "verification_plan": "Start a pinned checkpoint on specified hardware; verify real generation and record memory consumption.",
+      "endpoint_hint": null,
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "ollama-imports-gguf",
+      "relation": "runtime_format",
+      "from_id": "reviewed-solution-ollama",
+      "to_id": "format:gguf",
+      "api_profile": "gguf_model_file",
+      "evidence_status": "documented",
+      "source_urls": [
+        "https://docs.ollama.com/import"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "Create a Modelfile with FROM /path/to/file.gguf.",
+        "Import with ollama create, then select the created local model."
+      ],
+      "limitations": "Ollama does not quantize GGUF during import; selected model must already be compatible. Ollama Cloud models are separate from locally imported checkpoints.",
+      "verification_plan": "Import a licensed pinned GGUF model and test the resulting local text endpoint.",
+      "endpoint_hint": null,
+      "actual_connection_test": "not_run"
+    },
+    {
+      "id": "bbm-kcpp-openai-candidate",
+      "relation": "protocol_candidate",
+      "from_id": "reviewed-solution-bilingual-book-maker",
+      "to_id": "reviewed-solution-koboldcpp",
+      "api_profile": "openai_subset",
+      "evidence_status": "protocol_inferred_not_tested",
+      "source_urls": [
+        "https://github.com/yihong0618/bilingual_book_maker",
+        "https://koboldcpp.net/docs/api/connect-apps/"
+      ],
+      "reviewed_on": "2026-11-09",
+      "setup_steps": [
+        "BBM documents custom OpenAI-format endpoints; KoboldCpp documents /v1 endpoints.",
+        "Configure a local KoboldCpp OpenAI-compatible base URL only after reviewing both projects' versioned API behavior."
+      ],
+      "limitations": "Two projects advertising subsets of the same API do not prove that session compaction, streaming, model-name behavior or structured translation responses interoperate. Treat this as a hypothesis, not a recommendation.",
+      "verification_plan": "Run the BBM --test path against KoboldCpp /v1 with an allowed small EPUB, record exact versions, output structure, failures and privacy.",
+      "endpoint_hint": "http://127.0.0.1:5001/v1",
+      "actual_connection_test": "not_run"
+    }
+  ],
+  "disclaimer": "Each edge is scoped to a named API profile, not every feature of a model or service. No actual connection, safety/content fidelity, hardware fit or privacy audit has been run. No automatic network probe."
+}

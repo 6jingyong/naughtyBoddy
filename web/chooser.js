@@ -1,6 +1,6 @@
 "use strict";
 const $ = id => document.getElementById(id);
-const facetTitles = {modality:"内容形式",task:"创作任务",deployment:"运行方式",type:"工具类别",evidence:"证据程度",capability:"具体能力（有来源）",link_health:"链接核查"};
+const facetTitles = {modality:"内容形式",task:"创作任务",deployment:"运行方式",type:"工具类别",evidence:"证据程度",capability:"具体能力（有来源）",link_health:"链接核查",integration:"连接方式（有来源）"};
 const typeTitles = {model:"模型",tool:"工具",service:"在线服务",runtime:"推理后端",extension:"扩展",workflow:"工作流",component:"组件",utility:"辅助工具"};
 const modalityTitles = {text:"文字",image:"图像",video:"视频",audio:"语音"};
 const state = {rows:[],facets:{},selected:{},visible:30,sources:[],health:null,identity:null};
@@ -45,6 +45,7 @@ function selectedRows(){
       if(facet==="modality")actual=item.modalities;
       else if(facet==="task")actual=item.tasks;
       else if(facet==="capability")actual=item.capabilities||[];
+      else if(facet==="integration")actual=item.integration_tags||[];
       else actual=[item[facet]];
       if(!actual.some(value=>selected.has(value)))return false;
     }
@@ -84,6 +85,38 @@ function createCard(item){
       list.append(li);
     }
     evidence.append(list);box.append(evidence);
+  }
+  if(item.connections&&item.connections.length){
+    const details=n("details","compatibility-details");
+    const direct=item.connections.filter(r=>r.evidence_status==="documented").length;
+    const pending=item.connections.length-direct;
+    details.append(n("summary","", "连接与依赖关系 · 文档 "+direct+" 条"+(pending?" / 待测 "+pending+" 条":"")));
+    const list=n("div","compatibility-rows");
+    const relLabels={
+      client_backend:"应用 → 推理后端",extension_for:"扩展所属前端",
+      needs_extension_for_isolation:"正确隔离所需扩展",runtime_format:"支持的模型文件格式",
+      protocol_candidate:"可尝试的 API 协议候选"
+    };
+    for(const edge of item.connections){
+      const row=n("article","compatibility-row");
+      row.append(n("strong","",edge.other_name+" · "+(relLabels[edge.relation]||"关系")));
+      row.append(n("span","compatibility-status"+(edge.evidence_status==="documented"?"":" proposed"),
+        edge.evidence_status==="documented"?"上游文档支持；未实测":"仅协议推导；未验证"));
+      if(edge.endpoint_hint&&edge.direction==="outgoing")
+        row.append(n("code","",edge.endpoint_hint));
+      row.append(n("p","",edge.limitations));
+      if(edge.direction==="outgoing"&&edge.setup_steps.length){
+        const steps=n("ol");
+        for(const step of edge.setup_steps)steps.append(n("li","",step));
+        row.append(steps);
+      }
+      const docs=n("div","sources-links");
+      for(const url of edge.source_urls.slice(0,2)){
+        const a=n("a","","查看连接依据");a.href=url;a.target="_blank";a.rel="noopener noreferrer";docs.append(a);
+      }
+      row.append(docs);list.append(row);
+    }
+    details.append(list);box.append(details);
   }
   const status=item.link_check||{state:"not_checked"};
   if(status.state==="repository_metadata_found"){
