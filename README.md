@@ -1,14 +1,24 @@
 # NaughtyBoddy
 
-**An open, user-sovereign ecosystem for lawful adult AI creativity.**
+**Text-first discovery for lawful adult AI creativity, powered by source-backed community tools.**
 
 **NaughtyBoddy 不是一个要与其他 NSFW 创作软件争夺用户的“万能 Agent”。** 我们希望帮助任何人发现、理解、使用、改进已有的创作能力，并在真正存在需求缺口时创造新的工具。好用的社区项目不是竞争对手，而是值得推荐、贡献和共同建设的成果。
 
-NaughtyBoddy is an **independent, local-first initiative** for lawful adult-oriented fiction and multimedia. Its direction is **Discovery → Infrastructure → Gap-driven Innovation**, rather than a monolithic NSFW agent or a fork of Pi, Codex, or Human Harness. It aims to improve access to existing creative tools, not replace them.
+NaughtyBoddy is an **independent, local-first initiative**. **The current product scope is TEXT ONLY**: lawful adult fiction, novel translation, fictional roleplay, text models, inference runtimes and their compatibility documentation. Image, manga, audio and video research is preserved as a historical archive, not presented in primary Discovery. Its direction is **Discovery → Infrastructure → Gap-driven Innovation**, rather than a monolithic NSFW agent or a fork of Pi, Codex, or Human Harness. It aims to improve access to existing creative tools, not replace them.
 
 > **Development status:** exploratory P0–P4 prototypes exist (model discovery, local inference adapters, editable novel and comic workflow demos). **P5 is a direction change toward a needs-and-solutions knowledge base.** These prototypes are not evidence of production readiness, real model quality, or a complete adult-creation platform.
 
 > **Licensing notice:** Software is intended to be free and open source, but this repository **does not yet contain a LICENSE**. Until a license is explicitly selected and added, public visibility is **not** permission to copy, modify, or redistribute the code. See the licensing TODO. Upstream model and tool licenses are separate.
+
+## Current focus — text only (P5.9)
+
+**Discovery is the product. Compatibility is supporting infrastructure.** The public-facing `/discover` page now lists only text-focused candidate tools, character/roleplay frontends, book translation/editing workflows, text models and local inference backends. It reads a strict derived view from the existing research index, with no free-text user input, no LLM search, no automatic installs, and no remote provider calls.
+
+**Out of current scope:** image generation, manga OCR/painting, video, audio, multimodal tools, personalized ComfyUI workflows and collection of user artwork. P4 comic software, P5 synthetic comic test fixtures and four historical external directory snapshots remain in the repository for compatibility/traceability. They are **not deleted**, **not in current Discovery results** and **not targets for new feature work**. The experimental legacy comic UI remains labeled as an archive for existing users.
+
+**Why:** user-specific media workflows depend on complex checkpoints, assets, local setups, licensing, and character/IP rights; cataloguing them credibly is a separate research project. **Text has copyright, privacy and consent constraints too**: do not assume a publicly accessible novel or character card is licensed for reuse. The intended use is lawful, rights-authorized content involving adults.
+
+**For maintainers:** `python nb_catalog.py validate` still checks the full archived 106-item index; `python nb_text_catalog.py` reports the narrower public view. For programmatic use, `GET /api/catalog/text` is the visible Discovery source; `GET /api/catalog` remains a legacy **local-only** research API. See [P5.9 text-first scoping decision](docs/p59-text-first-scope.md).
 
 ## Mission · 我们希望解决什么
 

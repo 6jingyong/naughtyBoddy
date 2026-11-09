@@ -152,3 +152,13 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Expand link metadata coverage beyond the sampled GitHub projects, especially hosted service links.
 - [ ] Review real releases and update capability descriptions that may be stale; do not infer abandonment from old code push.
 - [ ] Browser visual/keyboard QA on a machine with full UI support.
+
+## P5.9 — Text-first scope reduction
+
+- [x] Restrict public Discovery to text-only projects, text models, roleplay, long-form fiction/translation and compatible local runtimes.
+- [x] Preserve image/video/audio/manga directory snapshots, adapter experiments, synthetic fixtures and P4 editor as archived work; do not destroy previous data.
+- [x] Use a separate deterministic text-only API projection; eliminate image, video, audio and multimedia filters from public Discovery.
+- [x] Maintain local-only original catalogue API for existing research tools/tests; no LLM or network required to filter tags.
+- [ ] Verify real text workflow usability, versioned local-model compatibility and privacy boundaries using authorized or synthetic text only.
+- [ ] Prioritize roleplay memory isolation, ebook translations, reproducible text quality/fidelity evaluation and true runtime availability.
+- [ ] Consider whether to move archived media tools out of the visible Studio UI completely after user-facing migration and data retention are verified.

@@ -6,9 +6,11 @@ const modalityTitles = {text:"文字",image:"图像",video:"视频",audio:"语�
 const state = {rows:[],facets:{},selected:{},visible:30,sources:[],health:null,identity:null};
 function n(tag,cls,value){const x=document.createElement(tag);if(cls)x.className=cls;if(value!==undefined)x.textContent=value;return x;}
 async function load(){
-  const response=await fetch("/api/catalog",{credentials:"same-origin",cache:"no-store"});
+  const response=await fetch("/api/catalog/text",{credentials:"same-origin",cache:"no-store"});
   if(!response.ok)throw Error("目录暂不可用（HTTP "+response.status+"）");
   const data=await response.json();if(!Array.isArray(data.items)||!data.facets)throw Error("目录数据格式有误");
+  if(data.scope!=="text_first")throw Error("服务未返回文字专用目录");
+  if(data.items.some(item=>item.modalities.length!==1 || item.modalities[0]!=="text"))throw Error("目录范围不一致");
   state.rows=data.items;state.facets=data.facets;state.sources=data.sources||[];
   state.health=data.health_summary||null;state.identity=data.identity_review||null;
   $("tool-count").textContent=String(data.items.length);
