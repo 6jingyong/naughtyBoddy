@@ -14,6 +14,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
 from nb_registry import DEFAULT_ROOT as REGISTRY_ROOT, read_registry
+from nb_catalog_health import load_link_health, annotate_health, identity_review
 
 ROOT = Path(__file__).resolve().parent / "catalog" / "imports"
 MAX_SNAPSHOT_BYTES = 350_000
@@ -48,6 +49,11 @@ FACETS = {
     "evidence": [
         ("documentation_reviewed", "已核查项目文档"),
         ("imported_unverified", "仅外部目录收录"),
+    ],
+    "link_health": [
+        ("repository_metadata_found", "GitHub 仓库入口已核查"),
+        ("conflicting_evidence", "链接状态待人工复核"),
+        ("not_checked", "尚未核查链接"),
     ],
 }
 
@@ -325,6 +331,8 @@ def catalogue(imports_root: Path = ROOT, registry_root: Path = REGISTRY_ROOT) ->
             items.append(item)
     capability_doc = load_capability_evidence()
     apply_capability_evidence(items, capability_doc)
+    health_summary = annotate_health(items, load_link_health())
+    identity_summary = identity_review(items)
     items.sort(key=lambda x: (x["name"].casefold(), x["id"]))
     facets = {
         name: [{"id": key, "label": label} for key, label in entries]
@@ -333,6 +341,7 @@ def catalogue(imports_root: Path = ROOT, registry_root: Path = REGISTRY_ROOT) ->
     facets["capability"] = capability_doc["capabilities"]
     return {
         "schema_version": 1, "items": items, "facets": facets,
+        "health_summary": health_summary, "identity_review": identity_summary,
         "sources": [
             {"name": s["source"]["repo"], "url": s["source"]["url"],
              "license": s["source"]["license"], "commit": s["source"]["readme_sha"],
@@ -355,6 +364,7 @@ def select(items: list[dict], selected: dict[str, list[str]]) -> list[dict]:
     key = {
         "modality": "modalities", "task": "tasks", "deployment": "deployment",
         "type": "type", "evidence": "evidence", "capability": "capabilities",
+        "link_health": "link_health",
     }
     def matches(item):
         for facet, values in selected.items():
@@ -379,7 +389,9 @@ def main(argv: list[str] | None = None) -> int:
                     "source_count": len(result["sources"]),
                     "raw_imports": sum(s["count"] for s in result["sources"]),
                     "documented_capability_items": sum(bool(item["capabilities"]) for item in result["items"]),
-                    "documented_capability_claims": sum(len(item["capabilities"]) for item in result["items"])}
+                    "documented_capability_claims": sum(len(item["capabilities"]) for item in result["items"]),
+                    "link_health": result["health_summary"]["counts"],
+                    "verified_migrations": len(result["health_summary"]["migrations"])}
         elif args.action == "sources":
             data = result["sources"]
         else:
