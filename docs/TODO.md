@@ -130,3 +130,13 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Cross-check source entries against official project sites and current release status.
 - [ ] Browser visual and accessibility QA on an environment permitting localhost.
 - [ ] Research more fine-grained verified tags for workflows and quality (do not invent benchmark data).
+
+## P5.7 — Documented fine-capability discovery
+
+- [x] Source-reviewed, conditions-aware capability tags with strict item IDs and stable evidence links.
+- [x] Add specific capability facet and per-item evidence/conditions disclosure in /discover.
+- [x] Avoid treating indirect model backends, lorebooks, chat history and privacy as interchangeable.
+- [x] Narrow the BBM EPUB tag-selection issue to actual limited translation modes.
+- [ ] Test installed tool and model versions with appropriate authorized/synthetic samples.
+- [ ] Fix stale and moved upstream URLs; broaden capability coverage only with primary documentation.
+- [ ] Run browser visual and keyboard accessibility checks outside CI.

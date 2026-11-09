@@ -6,7 +6,7 @@
 
 | Friction / evidence | Existing response | Unanswered validation |
 | --- | --- | --- |
-| **EPUB tag selection:** [Bilingual Book Maker documentation](https://github.com/yihong0618/bilingual_book_maker) states that `p` elements are the baseline selection. | Use `--translate-tags` (e.g. h1,h2,h3,p,div) or inspect EPUB plan mode; both already documented. | Compare translated segment coverage on real DRM-free EPUB variations. |
+| **EPUB fallback:** [Current Bilingual Book Maker documentation](https://github.com/yihong0618/bilingual_book_maker) auto-classifies tags on conversational endpoints; the p-only default is a fallback for non-conversational, disabled or failed classification. | Use automatic plan classification when supported; for fallback modes use `--translate-tags` (e.g. h1,h2,h3,p,div). | Compare segment coverage on authorized EPUBs across auto classification, disabled classification and fixed MT routes. |
 | **Resume vs throughput:** [BBM README](https://github.com/yihong0618/bilingual_book_maker) says `--resume` cannot be combined with `--parallel-workers`. | Use sequential resume where recovery matters. | Is this tradeoff actually a problem on constrained local models? |
 | **Local/cloud ambiguity:** [Tolmach Book Translator](https://github.com/KazKozDev/book-translator) supports local Ollama *and* Ollama Cloud models. | Select a genuinely installed local model if local-only processing is required. | Inspect UI disclosure and network traffic per backend. |
 
