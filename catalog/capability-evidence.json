@@ -492,7 +492,7 @@
       ]
     },
     {
-      "item_id": "import-sichang-cn-2026-comfyui",
+      "item_id": "reviewed-solution-comfyui",
       "evidence": [
         {
           "capability": "node_workflow",
@@ -534,7 +534,7 @@
   ],
   "overrides": [
     {
-      "item_id": "import-sichang-cn-2026-comfyui",
+      "item_id": "reviewed-solution-comfyui",
       "modalities": [
         "image",
         "video",
