@@ -86,6 +86,14 @@
     {
       "id": "offline_option",
       "label": "可选离线模式"
+    },
+    {
+      "id": "character_lore_filter",
+      "label": "按角色筛选世界书"
+    },
+    {
+      "id": "long_term_memory",
+      "label": "长期记忆"
     }
   ],
   "records": [
@@ -117,13 +125,6 @@
           "capability": "glossary",
           "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
           "conditions": "支持可选自动术语表；不同推理端点行为可能不同。",
-          "evidence_status": "upstream_documented",
-          "reviewed_on": "2026-11-09"
-        },
-        {
-          "capability": "gguf",
-          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
-          "conditions": "不直接加载 GGUF；需通过 Ollama 等独立本地服务。",
           "evidence_status": "upstream_documented",
           "reviewed_on": "2026-11-09"
         },
@@ -354,9 +355,9 @@
           "reviewed_on": "2026-11-09"
         },
         {
-          "capability": "character_memory",
+          "capability": "long_term_memory",
           "source_url": "https://github.com/agnaistic/agnai/blob/7e5bce7be6aa311ecc32e7f349bbb978ecdab206/README.md",
-          "conditions": "官方提及长期记忆能力，不代表自动分角色知识隔离。",
+          "conditions": "官方 README 提及长期记忆功能，但没有证明人物之间的秘密被可靠隔离。",
           "evidence_status": "upstream_documented",
           "reviewed_on": "2026-11-09"
         }
@@ -387,9 +388,9 @@
           "reviewed_on": "2026-11-09"
         },
         {
-          "capability": "character_history",
+          "capability": "character_lore_filter",
           "source_url": "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md",
-          "conditions": "世界书条目可按角色过滤，但这不等于默认群聊历史按角色完全隔离。",
+          "conditions": "世界书条目可指定目标角色；该过滤并不隐藏群聊中已经共享的聊天历史。",
           "evidence_status": "upstream_documented",
           "reviewed_on": "2026-11-09"
         }
