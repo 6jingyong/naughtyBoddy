@@ -58,6 +58,8 @@ Records are plain JSON with explicit evidence status. P5 currently contains **pr
 
 **Comic interchange experiment (P5.4):** [read-only JSON adapter & stable region-ID contract](docs/p54-comic-adapter.md) for the **documented** local project file shape of [manga-translator-ui](https://github.com/hgmzhn/manga-translator-ui). It can feed the P5.3 synthetic test, but is **not** tested with a genuine upstream export, does **not** modify the original project, and does **not** score actual translation quality. Koharu and ComiTrans are separate projects with separate output formats.
 
+**Choice-only tool finder (P5.5):** launch `python naughtyboddy.py studio` and open [`/discover`](docs/p55-choice-only-discovery.md) (a local route), or use the new Studio sidebar link. **Four multiple-choice questions, no free-form prompt, no LLM call.** Recommendations remain documentation-based candidates with unverified quality, GPU fit and privacy.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.
