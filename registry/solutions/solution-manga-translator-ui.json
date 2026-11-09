@@ -1,0 +1,31 @@
+{
+  "id": "solution-manga-translator-ui",
+  "title": "manga-translator-ui",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "summary": "Desktop/Web UI fork of manga-image-translator; its documented JSON project-file/export format includes editable text regions, source/translated text and geometry. P5.4 has a read-only synthetic-shape adapter, not a real-export compatibility result.",
+  "tags": [
+    "manga",
+    "translation",
+    "ocr",
+    "image-editing",
+    "editing",
+    "local-inference"
+  ],
+  "url": "https://github.com/hgmzhn/manga-translator-ui",
+  "license": "GPL-3.0",
+  "license_source": "https://github.com/hgmzhn/manga-translator-ui/blob/main/LICENSE.txt",
+  "verification": "documentation_reviewed",
+  "sources": [
+    "https://github.com/hgmzhn/manga-translator-ui",
+    "https://hgmzhn.github.io/manga-translator-ui/en/troubleshooting/output-json-and-rendering",
+    "https://hgmzhn.github.io/manga-translator-ui/en/desktop/translation/output-directory-and-workflow.html"
+  ],
+  "reviewed_on": "2026-11-09",
+  "documentation_observations": [
+    "Project JSON uses source-image path keys and region text/translation/lines; project saving and translation sidecars are documented.",
+    "P5.4 adapter reads a source-shaped synthetic six-region JSON and maps to NB regional IDs; it does not invoke or modify upstream code.",
+    "Actual local image processing and text translation provider may be independent; privacy and model suitability are not inferred from a desktop GUI."
+  ],
+  "limitations": "No actual upstream export has been imported by P5.4; app version, hardware, OCR quality, adult-content handling and outbound network behavior are untested. GPL-3.0 notice relates to the upstream code; dependent models and assets have separate licenses."
+}

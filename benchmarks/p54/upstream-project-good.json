@@ -1,0 +1,16 @@
+{
+  "/synthetic/pages/panel0001.png": {
+    "original_width": 600,
+    "original_height": 400,
+    "regions": [
+      {"text":"SRC_B01_START","translation":"TGT_B01","lines":[[[10,10],[90,10],[90,30],[10,30]]],"font_size":24},
+      {"text":"SRC_B02_REPLY","translation":"TGT_B02","lines":[[[110,10],[190,10],[190,30],[110,30]]]},
+      {"text":"SRC_B03_QUESTION","translation":"TGT_B03","lines":[[[210,10],[290,10],[290,30],[210,30]]]},
+      {"text":"SRC_B04_NOTICE","translation":"TGT_B04","lines":[[[310,10],[390,10],[390,30],[310,30]]]},
+      {"text":"SRC_B05_CONFIRM","translation":"TGT_B05","lines":[[[410,10],[490,10],[490,30],[410,30]]]},
+      {"text":"SRC_B06_EXIT","translation":"TGT_B06","lines":[[[510,10],[590,10],[590,30],[510,30]]]}
+    ],
+    "skip_font_scaling": false,
+    "mask_raw": "DO_NOT_COPY_TO_ADAPTER_OUTPUT"
+  }
+}

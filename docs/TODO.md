@@ -100,3 +100,14 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [x] Provide expected-pass and expected-fail examples, CLI and CI; no real model inference required.
 - [ ] Build an **opt-in** adapter against one mature upstream project on rights-cleared materials; never claim a synthetic failure is an upstream bug.
 - [ ] Design human evaluation for translation fidelity and genuine model refusal behavior; exact fixture token matching is not a semantic score.
+
+## P5.4 — Manga translation interchange and stable region IDs
+
+- [x] Define `nb-comic-regions-v1` with opaque page alias, source/translation, normalized bounding box, explicit ID provenance.
+- [x] Implement a **read-only** converter for the documented single-image project JSON format of hgmzhn/manga-translator-ui.
+- [x] Verify index/source/optional bbox mapping, rejecting changed OCR text, reordered regions, malformed coordinates and duplicated IDs.
+- [x] Pass the P5.3 six-bubble synthetic positive and shifted-ID negative controls without inference or network calls.
+- [x] Keep absolute source image paths, masks and upstream edit metadata out of normalized output and logs; private translated text is written only at an explicitly provided path.
+- [ ] Obtain and test a **real, properly authorized export** from a pinned upstream release; current fixtures only match the **documented shape**.
+- [ ] Verify actual data exports for Koharu and ComiTrans before claiming an adapter for them; no guessed schemas.
+- [ ] Measure real OCR/text alignment and semantic translation quality on owned/licensed content; P5.3 marker checks do not establish real fidelity.
