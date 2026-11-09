@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>NaughtyBoddy · 发现创作工具</title>
-<meta name="description" content="通过多选标签浏览开源与成人 AI 创作工具目录。不需要大模型、账号或输入文字。">
+<title>NaughtyBoddy · 文字创作工具 Discovery</title>
+<meta name="description" content="通过标签发现成人小说翻译、私人角色互动和本地文字模型。无自由输入与大模型搜索。">
 <link rel="stylesheet" href="/chooser.css"><script defer src="/chooser.js"></script></head>
 <body><div class="layout">
 <header class="topbar"><a class="brand" href="/">N<span>·</span>B <small>NAUGHTYBODDY / DISCOVERY</small></a>
@@ -11,8 +11,8 @@
 <main>
 <section class="intro">
 <div class="eyebrow">OPEN ECOSYSTEM / DISCOVERY FIRST</div>
-<h1>不必再从零寻找。<br><em>选择标签，发现工具。</em></h1>
-<p>把现有社区的目录连接起来。直接选择创作类型、模型、运行方式和来源证据，查看候选项目与上游链接。不用聊天，也不用模型推理。</p>
+<h1>从文字创作开始。<br><em>选择标签，发现工具。</em></h1>
+<p>当前只聚焦成人文字创作、长篇小说翻译、私人角色互动和文字模型。图像、漫画、语音与视频资料暂时归档，不进入搜索结果。无需输入描述或调用大模型。</p>
 <div class="stats"><div><strong id="tool-count">—</strong><small>当前候选项目</small></div><div><strong id="source-count">—</strong><small>外部来源目录</small></div><div><strong>0</strong><small>搜索所需 LLM 调用</small></div></div>
 </section>
 <section class="browser" aria-label="标签选择搜索">
@@ -26,7 +26,7 @@
 <h2>候选工具与模型 <span id="result-count">—</span></h2></div>
 <span class="quality-note">不是质量或破甲能力排名</span></div>
 <div id="health-count" class="health-count">链接状态核查中…</div>
-<div class="disclaimer">外部目录只是候选线索。细分能力标签引用上游文档并标注适用条件，不能证明实际成人内容兼容性、生成质量、隐私、硬件性能或安装成功。</div>
+<div class="disclaimer">仅检索文字类候选。外部目录提供线索，文档标签证明的是功能描述，不是成人文本表现、著作权授权、隐私、显卡适配或成功安装的保证。</div>
 <div id="cards" class="cards"></div>
 <div id="empty" class="empty" hidden>没有同时满足这些标签的候选。可以取消一个标签；未知数据不会被当作已验证支持。</div>
 <button id="more" class="more" type="button" hidden>显示更多候选</button>
@@ -36,7 +36,7 @@
 <details class="identity-panel"><summary id="duplicate-count">检查共用入口的候选…</summary>
 <div id="identity-list"></div></details>
 <div id="migration-list"></div>
-<h2>本轮导入的数据来源</h2><p>目录按原始 GitHub 文档版本留存来源及许可。这里不复制第三方的付费评测、评分或长篇评价，也不会自动更新或抓取用户内容。</p><div id="source-list" class="source-list"></div></section>
+<h2>文字类候选的上游来源</h2><p>仅列当前文字目录使用的来源，其他来源及历史媒体数据仍保存在仓库。任何文本素材的处理也需要合法授权；本目录不提供自动抓取、上传或未经授权的作品分发。</p><div id="source-list" class="source-list"></div></section>
 <p id="status" class="status" role="status" aria-live="polite"></p>
 </main><footer>FREE · OPEN · LOCAL-FIRST · NO AGENT REQUIRED</footer>
 </div></body></html>
