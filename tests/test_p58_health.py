@@ -45,7 +45,7 @@ class DirectoryHealthTests(unittest.TestCase):
     def test_404_conflict_is_not_deletion(self):
         row = self.ids["reviewed-solution-libre-manga-translator"]
         self.assertEqual(row["link_health"], "conflicting_evidence")
-        self.assertIn("待", row["link_check"]["note"])
+        self.assertIn("人工复核", row["link_check"]["note"])
         self.assertTrue(row["url"].startswith("https://github.com/"))
         self.assertEqual(row["adult_compatibility"], "not_tested")
 
