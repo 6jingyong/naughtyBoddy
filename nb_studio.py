@@ -22,6 +22,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlsplit
 
 from nb_common import ProviderError
+from nb_chooser import chooser_questions, choose
 from nb_comics import ComicLibrary, MAX_PAGE_BYTES
 from nb_local import is_loopback
 from nb_model_manager import ModelManager
@@ -447,11 +448,12 @@ class StudioHandler(BaseHTTPRequestHandler):
         return data
 
     def _send_static(self, name: str):
-        if name not in ("index.html", "style.css", "app.js"):
+        if name not in ("index.html", "style.css", "app.js", "chooser.html", "chooser.css", "chooser.js"):
             self._error(404, "Not found")
             return
         data = (WEB_ROOT / name).read_bytes()
-        mime = {"index.html": "text/html", "style.css": "text/css", "app.js": "text/javascript"}[name]
+        mime = {"index.html": "text/html", "style.css": "text/css", "app.js": "text/javascript",
+                "chooser.html": "text/html", "chooser.css": "text/css", "chooser.js": "text/javascript"}[name]
         self._headers(200, f"{mime}; charset=utf-8", len(data))
         self.wfile.write(data)
 
@@ -467,8 +469,16 @@ class StudioHandler(BaseHTTPRequestHandler):
             srv = self.server.service
             if path in ([], ["index.html"]):
                 return self._send_static("index.html")
-            if path in (["style.css"], ["app.js"]):
+            if path in (["style.css"], ["app.js"], ["chooser.css"], ["chooser.js"]):
                 return self._send_static(path[0])
+            if path in (["discover"], ["chooser.html"]):
+                return self._send_static("chooser.html")
+            if path == ["api", "chooser", "options"]:
+                return self._json(200, chooser_questions())
+            if path == ["api", "chooser", "match"]:
+                answers = {key: query.get(key, [""])[0]
+                           for key in ("task", "privacy", "hardware", "priority")}
+                return self._json(200, choose(answers))
             if path == ["api", "bootstrap"]:
                 return self._json(200, {"csrf_token": srv.csrf_token, "version": "P4", "workspace": str(srv.workspace)})
             if path == ["api", "routing", "tasks"]:
