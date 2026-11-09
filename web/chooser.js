@@ -1,6 +1,6 @@
 "use strict";
 const $ = id => document.getElementById(id);
-const facetTitles = {modality:"内容形式",task:"创作任务",deployment:"运行方式",type:"工具类别",evidence:"证据程度"};
+const facetTitles = {modality:"内容形式",task:"创作任务",deployment:"运行方式",type:"工具类别",evidence:"证据程度",capability:"具体能力（有来源）"};
 const typeTitles = {model:"模型",tool:"工具",service:"在线服务",runtime:"推理后端",extension:"扩展",workflow:"工作流",component:"组件",utility:"辅助工具"};
 const modalityTitles = {text:"文字",image:"图像",video:"视频",audio:"语音"};
 const state = {rows:[],facets:{},selected:{},visible:30,sources:[]};
@@ -41,6 +41,7 @@ function selectedRows(){
       let actual;
       if(facet==="modality")actual=item.modalities;
       else if(facet==="task")actual=item.tasks;
+      else if(facet==="capability")actual=item.capabilities||[];
       else actual=[item[facet]];
       if(!actual.some(value=>selected.has(value)))return false;
     }
@@ -63,6 +64,24 @@ function createCard(item){
   for(const m of item.modalities)tags.append(n("span","chip",modalityTitles[m]||m));
   const dep={local:"目录称可本地运行",hosted:"目录标注在线",hybrid:"混合模式",unknown:"部署未知"}[item.deployment]||"部署未知";
   tags.append(n("span","chip",dep));box.append(tags);
+  if(item.capability_evidence&&item.capability_evidence.length){
+    const caps=n("div","chips evidence-preview");
+    for(const detail of item.capability_evidence.slice(0,4))
+      caps.append(n("span","chip evidence-chip",detail.label));
+    if(item.capability_evidence.length>4)caps.append(n("span","chip","另有 "+(item.capability_evidence.length-4)+" 项能力"));
+    box.append(caps);
+    const evidence=n("details","capability-details");
+    evidence.append(n("summary","","查看功能依据与适用条件（"+item.capability_evidence.length+"）"));
+    const list=n("ul");
+    for(const detail of item.capability_evidence){
+      const li=n("li");
+      const link=n("a","",detail.label+" · 官方来源");
+      link.href=detail.source_url;link.target="_blank";link.rel="noopener noreferrer";
+      li.append(link,n("span","cap-conditions"," — "+detail.conditions));
+      list.append(li);
+    }
+    evidence.append(list);box.append(evidence);
+  }
   box.append(n("p","",item.note));
   box.append(n("div","caveat","成人内容兼容：未测 · 模型质量：未测 · 隐私：未审计 · 显卡适配：未测"));
   const links=n("div","sources-links");

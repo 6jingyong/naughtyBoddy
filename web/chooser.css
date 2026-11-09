@@ -49,3 +49,13 @@ h2{font-size:21px;margin:7px 0 9px}.secondary,.more{background:#302a33;border:1p
 footer{border-top:1px solid #44363e;padding:28px 0 38px;font-size:10px;letter-spacing:1.4px;color:#8d7f89}
 @media(max-width:1080px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:690px){.layout{padding:0 16px}.topbar{height:68px}main{padding-top:44px}.intro{margin-bottom:35px}.stats{gap:13px}.stats>div{min-width:0;flex:1}.stats strong{font-size:20px}.browser{padding:20px 17px}.filter-section{grid-template-columns:1fr;gap:7px}.filter-label{padding:0}.cards,.source-list{grid-template-columns:1fr}.panel-head,.results-head{align-items:flex-start}.panel-head h2{font-size:19px}.quality-note{max-width:110px;text-align:right;line-height:1.4}.intro p{font-size:12px}.tag{padding:8px 12px}.stats small{font-size:10px}}
+
+/* P5.7: scoped evidence only; no badge implies a real-world performance score. */
+.evidence-preview{padding-top:4px}
+.evidence-chip{background:#3e2b38;border:1px solid #745365;color:#ebc2d0}
+.capability-details{font-size:11px;color:#bba9b6;border-top:1px solid #493946;padding-top:9px;line-height:1.7}
+.capability-details summary{cursor:pointer;color:#dcb1c1}
+.capability-details ul{margin:12px 0 2px;padding-left:18px}
+.capability-details li{padding:3px 0}
+.capability-details a{color:#e6b1c6}
+.cap-conditions{color:#a89aa5}
