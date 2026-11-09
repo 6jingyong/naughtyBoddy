@@ -17,6 +17,8 @@ from nb_registry import DEFAULT_ROOT as REGISTRY_ROOT, read_registry
 
 ROOT = Path(__file__).resolve().parent / "catalog" / "imports"
 MAX_SNAPSHOT_BYTES = 350_000
+CAPABILITY_PATH = Path(__file__).resolve().parent / "catalog" / "capability-evidence.json"
+MAX_CAPABILITY_BYTES = 120_000
 KINDS = {"tool", "service", "model", "runtime", "extension", "workflow", "component", "utility"}
 MODALITIES = {"text", "image", "video", "audio"}
 TASKS = {"roleplay", "novel_translation", "manga_translation", "text_generation",
@@ -174,6 +176,100 @@ def _curated_tags(row: dict) -> tuple[list[str], list[str], str]:
     return sorted(m), sorted(t), deployment
 
 
+def load_capability_evidence(path: Path = CAPABILITY_PATH) -> dict:
+    """Load evidence for fine-grained tags. Documentation is NOT a live test."""
+    if path.is_symlink() or path.stat().st_size > MAX_CAPABILITY_BYTES:
+        raise CatalogError("Oversized or symlinked capability evidence file")
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise CatalogError("Invalid capability evidence JSON") from exc
+    if not isinstance(doc, dict) or doc.get("schema_version") != 1:
+        raise CatalogError("Unsupported capability evidence schema")
+    definitions = doc.get("capabilities")
+    records = doc.get("records")
+    overrides = doc.get("overrides")
+    if not isinstance(definitions, list) or not isinstance(records, list) or not isinstance(overrides, list):
+        raise CatalogError("Capability definitions, records and overrides must be lists")
+    vocab = {}
+    for definition in definitions:
+        if not isinstance(definition, dict):
+            raise CatalogError("Invalid capability label")
+        key, label = definition.get("id"), definition.get("label")
+        if not isinstance(key, str) or not re.fullmatch(r"[a-z][a-z0-9_]{1,64}", key) or key in vocab:
+            raise CatalogError("Missing, repeated or unsafe capability ID")
+        if not isinstance(label, str) or not label.strip() or len(label) > 50:
+            raise CatalogError("Capability label is missing or too long")
+        vocab[key] = label
+    if not vocab:
+        raise CatalogError("No capability definitions")
+    targets = set()
+    for entry in records:
+        if not isinstance(entry, dict):
+            raise CatalogError("Malformed capability record")
+        target, evidence = entry.get("item_id"), entry.get("evidence")
+        if not isinstance(target, str) or target in targets or not isinstance(evidence, list) or not evidence:
+            raise CatalogError("Duplicate target or empty capability evidence")
+        targets.add(target)
+        seen = set()
+        for claim in evidence:
+            if not isinstance(claim, dict) or claim.get("capability") not in vocab:
+                raise CatalogError("Unknown capability")
+            tag = claim["capability"]
+            if tag in seen:
+                raise CatalogError("Duplicate capability claim on one item")
+            seen.add(tag)
+            if not safe_url(claim.get("source_url")) or claim.get("evidence_status") != "upstream_documented":
+                raise CatalogError("Capability must cite upstream HTTPS documentation")
+            if (not isinstance(claim.get("conditions"), str)
+                    or not claim["conditions"].strip() or len(claim["conditions"]) > 500):
+                raise CatalogError("Capability needs a short applicability condition")
+            if not isinstance(claim.get("reviewed_on"), str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", claim["reviewed_on"]):
+                raise CatalogError("Capability requires review date")
+    override_targets = set()
+    for row in overrides:
+        if not isinstance(row, dict) or row.get("item_id") in override_targets:
+            raise CatalogError("Duplicate or invalid capability override")
+        override_targets.add(row.get("item_id"))
+        if not isinstance(row.get("item_id"), str) or row["item_id"] not in targets:
+            raise CatalogError("Override needs existing evidence record")
+        if not safe_url(row.get("source_url")) or not isinstance(row.get("reason"), str) or not row["reason"].strip():
+            raise CatalogError("Override requires documented reason and source")
+        _string_list(row.get("modalities"), MODALITIES, "override modalities")
+        _string_list(row.get("tasks"), TASKS, "override tasks")
+    return doc
+
+
+def apply_capability_evidence(items: list[dict], doc: dict) -> None:
+    """Attach only exact-ID claims; never derive abilities from model names."""
+    by_id = {item["id"]: item for item in items}
+    labels = {row["id"]: row["label"] for row in doc["capabilities"]}
+    for item in items:
+        item["capabilities"] = []
+        item["capability_evidence"] = []
+    for record in doc["records"]:
+        target = record["item_id"]
+        if target not in by_id:
+            raise CatalogError("Capability target no longer exists: " + target)
+        item = by_id[target]
+        for claim in record["evidence"]:
+            item["capabilities"].append(claim["capability"])
+            item["capability_evidence"].append({
+                "id": claim["capability"], "label": labels[claim["capability"]],
+                "source_url": claim["source_url"], "conditions": claim["conditions"],
+                "evidence_status": "upstream_documented",
+                "reviewed_on": claim["reviewed_on"],
+            })
+    for override in doc["overrides"]:
+        item = by_id[override["item_id"]]
+        item["modalities"] = sorted(set(item["modalities"] + override["modalities"]))
+        item["tasks"] = sorted(set(item["tasks"] + override["tasks"]))
+        item["classification_override"] = {
+            "source_url": override["source_url"], "reason": override["reason"],
+            "status": "upstream_documented",
+        }
+
+
 def catalogue(imports_root: Path = ROOT, registry_root: Path = REGISTRY_ROOT) -> dict:
     records, errors = read_registry(registry_root)
     if errors:
@@ -227,12 +323,16 @@ def catalogue(imports_root: Path = ROOT, registry_root: Path = REGISTRY_ROOT) ->
                 raise CatalogError("ID collision: " + item["id"])
             used.add(item["id"])
             items.append(item)
+    capability_doc = load_capability_evidence()
+    apply_capability_evidence(items, capability_doc)
     items.sort(key=lambda x: (x["name"].casefold(), x["id"]))
+    facets = {
+        name: [{"id": key, "label": label} for key, label in entries]
+        for name, entries in FACETS.items()
+    }
+    facets["capability"] = capability_doc["capabilities"]
     return {
-        "schema_version": 1, "items": items, "facets": {
-            name: [{"id": key, "label": label} for key, label in entries]
-            for name, entries in FACETS.items()
-        },
+        "schema_version": 1, "items": items, "facets": facets,
         "sources": [
             {"name": s["source"]["repo"], "url": s["source"]["url"],
              "license": s["source"]["license"], "commit": s["source"]["readme_sha"],
@@ -245,15 +345,16 @@ def catalogue(imports_root: Path = ROOT, registry_root: Path = REGISTRY_ROOT) ->
 
 
 def select(items: list[dict], selected: dict[str, list[str]]) -> list[dict]:
-    if not isinstance(selected, dict) or any(k not in FACETS for k in selected):
+    if not isinstance(selected, dict) or any(k not in set(FACETS) | {"capability"} for k in selected):
         raise CatalogError("Unknown facet")
+    capability_ids = {x["id"] for x in load_capability_evidence()["capabilities"]}
     for facet, values in selected.items():
-        allowed = {k for k, _ in FACETS[facet]}
+        allowed = capability_ids if facet == "capability" else {k for k, _ in FACETS[facet]}
         if not isinstance(values, list) or len(values) > 12 or any(not isinstance(v, str) or v not in allowed for v in values):
             raise CatalogError("Invalid facet value")
     key = {
         "modality": "modalities", "task": "tasks", "deployment": "deployment",
-        "type": "type", "evidence": "evidence",
+        "type": "type", "evidence": "evidence", "capability": "capabilities",
     }
     def matches(item):
         for facet, values in selected.items():
@@ -276,7 +377,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.action == "validate":
             data = {"valid": True, "items": len(result["items"]),
                     "source_count": len(result["sources"]),
-                    "raw_imports": sum(s["count"] for s in result["sources"])}
+                    "raw_imports": sum(s["count"] for s in result["sources"]),
+                    "documented_capability_items": sum(bool(item["capabilities"]) for item in result["items"]),
+                    "documented_capability_claims": sum(len(item["capabilities"]) for item in result["items"])}
         elif args.action == "sources":
             data = result["sources"]
         else:
