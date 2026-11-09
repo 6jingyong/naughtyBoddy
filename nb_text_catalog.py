@@ -10,6 +10,7 @@ from collections import Counter
 
 from nb_catalog import catalogue
 from nb_catalog_health import identity_review
+from nb_text_compat import load_graph, annotate_connections
 
 TEXT_TASKS = {"roleplay", "novel_translation", "text_generation", "runtime"}
 TEXT_CAPABILITIES = {
@@ -19,7 +20,14 @@ TEXT_CAPABILITIES = {
     "group_chat", "character_history", "character_memory",
     "character_lore_filter", "long_term_memory",
 }
-FACET_ORDER = ("task", "deployment", "type", "capability", "evidence", "link_health")
+FACET_ORDER = ("task", "deployment", "type", "capability", "integration", "evidence", "link_health")
+INTEGRATION_LABELS = {
+    "koboldcpp_native": "KoboldCpp 原生连接",
+    "ollama_native": "Ollama 原生连接",
+    "openai_subset": "OpenAI 兼容子集",
+    "extension_host": "SillyTavern 扩展",
+    "presence_metadata": "在场记录依赖",
+}
 
 
 def is_text_first(item: dict) -> bool:
@@ -46,9 +54,18 @@ def text_catalogue() -> dict:
         copy["capabilities"] = [e["id"] for e in copy["capability_evidence"]]
         items.append(copy)
 
+    # The graph's exact, explicit nodes are the only compatibility evidence.
+    # Never infer a route from matching model names or two API-schema labels.
+    graph = load_graph(item_ids={row["id"] for row in items})
+    compatibility_summary = annotate_connections(items, graph)
+
     facets = {}
     for facet in FACET_ORDER:
-        if facet == "capability":
+        if facet == "integration":
+            active = {tag for row in items for tag in row["integration_tags"]}
+            choices = [{"id": key, "label": label} for key, label in INTEGRATION_LABELS.items()
+                       if key in active]
+        elif facet == "capability":
             active = {cap for row in items for cap in row["capabilities"]}
             choices = [x for x in original["facets"]["capability"] if x["id"] in active]
         elif facet == "task":
@@ -94,6 +111,7 @@ def text_catalogue() -> dict:
         "sources": sources,
         "health_summary": health_summary,
         "identity_review": identity_review(items),
+        "compatibility_summary": compatibility_summary,
         "archive_summary": {
             "full_catalogue_items": len(original["items"]),
             "text_first_items": len(items),
