@@ -1,0 +1,43 @@
+{
+  "id": "assessment-manga-translator-ui-adapter-docs",
+  "title": "Comic localization / manga-translator-ui project JSON adapter: docs-only interoperability candidate",
+  "schema_version": 1,
+  "evidence_status": "documentation_reviewed",
+  "need_id": "need-manga-localization",
+  "solution_id": "solution-manga-translator-ui",
+  "fit": "unknown",
+  "check_results": [
+    {
+      "check_id": "reading-order",
+      "result": "not_run"
+    },
+    {
+      "check_id": "typesetting",
+      "result": "not_run"
+    },
+    {
+      "check_id": "editable",
+      "result": "not_run"
+    },
+    {
+      "check_id": "privacy",
+      "result": "not_run"
+    },
+    {
+      "check_id": "fidelity",
+      "result": "not_run"
+    }
+  ],
+  "observations": [
+    "Upstream documentation describes project JSON with editable regions and optional exported translations; the P5.4 converter uses the documented structure.",
+    "Generated synthetic fixtures and CLI unit tests check only mapping integrity, not real project version compatibility or semantic quality.",
+    "The adapter is read-only, but privacy of the third-party software and any configured translator must be tested separately."
+  ],
+  "sources": [
+    "https://github.com/hgmzhn/manga-translator-ui",
+    "https://hgmzhn.github.io/manga-translator-ui/en/troubleshooting/output-json-and-rendering",
+    "https://hgmzhn.github.io/manga-translator-ui/en/desktop/translation/output-directory-and-workflow.html"
+  ],
+  "reviewed_on": "2026-11-09",
+  "scope": "Official documentation plus synthetic-format tests only; hands-on model/GUI/real-upstream-export checks not_run."
+}
