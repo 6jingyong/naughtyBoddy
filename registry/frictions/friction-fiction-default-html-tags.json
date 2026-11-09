@@ -1,6 +1,6 @@
 {
   "id": "friction-fiction-default-html-tags",
-  "title": "EPUB headings may be outside default translation selection",
+  "title": "Certain EPUB translation modes may skip non-paragraph elements",
   "schema_version": 1,
   "evidence_status": "documentation_reviewed",
   "need_id": "need-long-fiction-translation",
@@ -9,22 +9,22 @@
   ],
   "source_type": "upstream_docs",
   "sources": [
-    "https://github.com/yihong0618/bilingual_book_maker"
+    "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md"
   ],
   "status": "documented_behavior",
-  "symptom": "The EPUB route defaults to translating p elements; a book that embeds prose or headings in other HTML tags needs an explicit selection or planning step.",
-  "user_impact": "Certain book elements can be left untranslated if the input HTML structure differs from the default.",
+  "symptom": "Current upstream documentation says conversational/JSON-schema endpoints auto-classify EPUB elements. Only non-conversational translation engines or explicitly disabled/failed classification can fall back to the configured --translate-tags list (default p).",
+  "user_impact": "On this limited route, headings, verse or other non-p text may remain untranslated unless included explicitly.",
   "existing_mitigation": {
     "status": "documented",
     "steps": [
-      "Use --translate-tags h1,h2,h3,p,div as appropriate, or review the EPUB planning selection before a full run."
+      "Use automatic plan classification on capable conversational endpoints; for --plan-classify none or non-conversational MT engines, configure --translate-tags to cover the book structure and inspect the plan/output."
     ],
     "sources": [
-      "https://github.com/yihong0618/bilingual_book_maker"
+      "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md"
     ]
   },
-  "remaining_question": "How frequently do actual permitted EPUBs contain substantive text outside recognized tags?",
-  "verification_plan": "Use small licensed EPUB fixtures with h1-h3, p and nested divs; compare source and translated segment coverage.",
+  "remaining_question": "How much non-p content is omitted by non-conversational MT routes, compared with automatic classification?",
+  "verification_plan": "Run synthetic licensed EPUB fixtures with h1/h2/p/div through distinct --plan-classify auto/none and fixed MT route modes; compare segment coverage by mode.",
   "gap_ids": [],
   "reviewed_on": "2026-11-09"
 }
