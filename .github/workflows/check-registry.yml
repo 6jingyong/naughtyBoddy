@@ -19,7 +19,9 @@ jobs:
         run: python nb_registry.py validate
       - name: Run offline unit tests
         run: python -m unittest discover -s tests -v
-      - name: Check choice wizard JavaScript syntax
+      - name: Validate imported tag catalogue
+        run: python nb_catalog.py validate
+      - name: Check tag catalogue JavaScript syntax
         run: node --check web/chooser.js
       - name: Verify synthetic failure detectors
         run: python nb_evalkit.py demo > /tmp/nb-p53-evalkit-report.json

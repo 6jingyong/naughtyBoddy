@@ -60,6 +60,8 @@ Records are plain JSON with explicit evidence status. P5 currently contains **pr
 
 **Choice-only tool finder (P5.5):** launch `python naughtyboddy.py studio` and open [`/discover`](docs/p55-choice-only-discovery.md) (a local route), or use the new Studio sidebar link. **Four multiple-choice questions, no free-form prompt, no LLM call.** Recommendations remain documentation-based candidates with unverified quality, GPU fit and privacy.
 
+**P5.6 tag catalogue:** the public-facing [Discovery browser](docs/p56-tag-catalogue.md) now uses clickable multi-select tags instead of fixed four-question onboarding. It includes **four source-attributed directory snapshots** plus our original reviewed profiles, with no prompt, LLM, background scraping or generated quality ranking. Start Studio and visit `/discover`.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.
