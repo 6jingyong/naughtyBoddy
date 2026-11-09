@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-09",
+  "caution": "Documentation claims only; not a product recommendation or model compatibility evaluation.",
+  "profiles": [
+    {
+      "need_id": "need-long-fiction-translation",
+      "solution_id": "solution-bilingual-book-maker",
+      "role": "workflow",
+      "local_mode": "documented_option",
+      "editable": "unknown",
+      "documentation_url": "https://github.com/yihong0618/bilingual_book_maker",
+      "note": "文档有 EPUB、Ollama 与断点续跑选项；未做真实长篇质量验证。"
+    },
+    {
+      "need_id": "need-long-fiction-translation",
+      "solution_id": "solution-book-translator",
+      "role": "workflow",
+      "local_mode": "documented_option",
+      "editable": "documented",
+      "documentation_url": "https://github.com/KazKozDev/book-translator",
+      "note": "文档提及本地 Ollama 与术语表；选择云端模型时仍会发送文本。"
+    },
+    {
+      "need_id": "need-long-fiction-translation",
+      "solution_id": "solution-calibre",
+      "role": "utility",
+      "local_mode": "unknown",
+      "editable": "documented",
+      "documentation_url": "https://calibre-ebook.com/",
+      "note": "电子书转换编辑组件，本身不是翻译引擎。"
+    },
+    {
+      "need_id": "need-manga-localization",
+      "solution_id": "solution-koharu",
+      "role": "workflow",
+      "local_mode": "documented_option",
+      "editable": "documented",
+      "documentation_url": "https://github.com/koharu-rs/koharu",
+      "note": "文档有本地 GGUF 与可编辑分层导出；未实测显存及翻译效果。"
+    },
+    {
+      "need_id": "need-manga-localization",
+      "solution_id": "solution-libre-manga-translator",
+      "role": "workflow",
+      "local_mode": "documented_option",
+      "editable": "documented",
+      "documentation_url": "https://github.com/mrdhnto/libre-manga-translator",
+      "note": "文档区分浏览器本地、OCR 文本 API 与整页云端图像处理。"
+    },
+    {
+      "need_id": "need-manga-localization",
+      "solution_id": "solution-comitrans",
+      "role": "workflow",
+      "local_mode": "unknown",
+      "editable": "documented",
+      "documentation_url": "https://github.com/Aaaaamadeus/ComiTrans",
+      "note": "OCR/修图文档强调本地运行；翻译 API 的本地兼容性尚待核查。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-sillytavern",
+      "role": "workflow",
+      "local_mode": "requires_local_host",
+      "editable": "documented",
+      "documentation_url": "https://github.com/SillyTavern/SillyTavern",
+      "note": "客户端可对接本地推理；对话隐私取决于实际后端。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-risuai",
+      "role": "workflow",
+      "local_mode": "unknown",
+      "editable": "unknown",
+      "documentation_url": "https://github.com/risuai/RisuAI",
+      "note": "支持角色、世界信息和自托管等，但当前目录未核实全本地数据路径。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-agnai",
+      "role": "workflow",
+      "local_mode": "unknown",
+      "editable": "unknown",
+      "documentation_url": "https://github.com/agnaistic/agnai",
+      "note": "自托管与云端服务均需区分；尚无实测隐私与迁移数据。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-molfar-vertep",
+      "role": "workflow",
+      "local_mode": "documented_option",
+      "editable": "unknown",
+      "documentation_url": "https://github.com/MolfarWav/Molfar.Vertep",
+      "note": "实验性项目；作者宣称知识范围能力，不能当作独立实测。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-sillytavern-presence",
+      "role": "extension",
+      "local_mode": "requires_local_host",
+      "editable": "not_applicable",
+      "documentation_url": "https://github.com/leandrojofre/SillyTavern-Presence",
+      "note": "在场人物消息过滤扩展；需配合 SillyTavern。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-dragon-memories-manager",
+      "role": "extension",
+      "local_mode": "requires_local_host",
+      "editable": "not_applicable",
+      "documentation_url": "https://github.com/TheDartDragon/Dragon-Memories-Manager",
+      "note": "角色记忆扩展；分角色事实可见性依赖 Presence 元数据。"
+    },
+    {
+      "need_id": "need-private-roleplay",
+      "solution_id": "solution-koboldcpp",
+      "role": "component",
+      "local_mode": "documented_option",
+      "editable": "not_applicable",
+      "documentation_url": "https://github.com/LostRuins/koboldcpp",
+      "note": "本地 GGUF 推理引擎，不能单独保证角色记忆与创作体验。"
+    }
+  ]
+}

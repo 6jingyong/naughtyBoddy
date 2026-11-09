@@ -111,3 +111,12 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Obtain and test a **real, properly authorized export** from a pinned upstream release; current fixtures only match the **documented shape**.
 - [ ] Verify actual data exports for Koharu and ComiTrans before claiming an adapter for them; no guessed schemas.
 - [ ] Measure real OCR/text alignment and semantic translation quality on owned/licensed content; P5.3 marker checks do not establish real fidelity.
+
+## P5.5 — Choice-only solution finder
+
+- [x] Four predefined questions (task, privacy, hardware, main preference), no free-text input or LLM.
+- [x] Read-only local catalogue results with clear workflow/extension/backend roles and documentation links.
+- [x] Show unknown local support separately; never fabricate GPU fit, adult compatibility, ease-of-installation scores or privacy audit.
+- [ ] Test the visual interaction and keyboard focus in a browser on an environment that permits localhost access.
+- [ ] Expand user choice vocabulary only when actual evidence supports useful distinctions.
+- [ ] Verify real tool compatibility, model-specific hardware and data boundaries (deferred live tests).

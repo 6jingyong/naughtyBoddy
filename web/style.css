@@ -36,3 +36,6 @@
 .comic-box-inputs input{width:100%;padding:7px 4px;font-size:10px}
 .comic-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
 @media(max-width:850px){.comic-workspace{grid-template-columns:1fr}}
+
+/* P5.5 */
+.discovery-link{display:block;text-align:center;text-decoration:none;font-size:12px;margin-bottom:10px}
