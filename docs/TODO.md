@@ -162,3 +162,14 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Verify real text workflow usability, versioned local-model compatibility and privacy boundaries using authorized or synthetic text only.
 - [ ] Prioritize roleplay memory isolation, ebook translations, reproducible text quality/fidelity evaluation and true runtime availability.
 - [ ] Consider whether to move archived media tools out of the visible Studio UI completely after user-facing migration and data retention are verified.
+
+## P5.10 — Text frontend/runtime compatibility evidence
+
+- [x] Keep roleplay/ebook client, inference backend, extension dependency, and model format relationships distinct.
+- [x] Record exact-ID source/target pairs with public documentation links, setup steps, API profile, limitations and reproducible future checks.
+- [x] Mark protocol-interoperability guesses separately; never infer that a model name or 'uncensored' title runs in a particular local backend.
+- [x] Expose documentary connection paths within text-only Discovery; no API calls, model loads or free-text search.
+- [ ] Perform real end-to-end pair tests on one fully authorized/synthetic text fixture per client/backend.
+- [ ] Add actual named model checkpoint compatibility only after a pinned versioned test and license/hardware review.
+- [ ] Recheck RisuAI/Agnai specific local connectors against current docs; unknown does not mean incompatible.
+- [ ] Visual/keyboard QA in a real browser; P5.10 CI verifies API/HTML/JS contracts but not pixel rendering.

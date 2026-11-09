@@ -20,6 +20,8 @@ NaughtyBoddy is an **independent, local-first initiative**. **The current produc
 
 **For maintainers:** `python nb_catalog.py validate` still checks the full archived 106-item index; `python nb_text_catalog.py` reports the narrower public view. For programmatic use, `GET /api/catalog/text` is the visible Discovery source; `GET /api/catalog` remains a legacy **local-only** research API. See [P5.9 text-first scoping decision](docs/p59-text-first-scope.md).
 
+**P5.10 text compatibility:** [documented connections between roleplay frontends, book translators, local runtimes and model-file formats](docs/p510-text-compatibility.md) are now visible on Discovery cards. 9 upstream-documented relationships plus one **protocol candidate**, all marked **not hands-on tested**; API-format or GGUF support is not proof that every model works.
+
 ## Mission · 我们希望解决什么
 
 The objective is not profit maximization, platform lock-in, or assembling another directory of provocative AI websites. It is to make *useful creative capabilities* more accessible without sacrificing individual control.
