@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NaughtyBoddy · 选择你需要的创作工具</title>
+<meta name="description" content="四道选择题寻找本地与开源创作工具，无需 AI 推理。">
+<link rel="stylesheet" href="/chooser.css"><script src="/chooser.js" defer></script></head>
+<body><div class="layout">
+<header class="topbar"><a class="brand" href="/">N<span>·</span>B <small>NAUGHTYBODDY / DISCOVERY</small></a>
+<a class="back" href="/">返回 Studio</a></header>
+<main>
+<section class="intro"><div class="eyebrow">OPEN CREATIVE TOOLS · NO MODEL REQUIRED</div>
+<h1>找到真正适合你的<br><em>创作工具。</em></h1>
+<p>无需描述需求，也不用调用大模型。通过四道选择题，查看现有社区工具、已知限制与资料来源。</p>
+</section>
+<section class="panel" aria-labelledby="question-title">
+<div class="step-line"><span id="progress-label">选择 1 / 4</span><span>只做选择，无需输入文字</span></div>
+<div class="meter"><div id="progress-fill"></div></div>
+<h2 id="question-title">正在读取目录…</h2>
+<div id="answers" class="choices" role="group" aria-labelledby="question-title"></div>
+<div class="actions"><button id="prev" type="button" class="ghost" disabled>上一题</button>
+<button id="next" type="button" class="primary" disabled>下一步</button></div>
+</section>
+<section id="results" class="result-panel" hidden aria-live="polite">
+<div class="result-head"><div><div class="eyebrow">EVIDENCE FIRST · NOT A RANKING</div>
+<h2>你可以先了解这些方案</h2></div><button id="restart" type="button" class="ghost">重新选择</button></div>
+<p class="caution">这里只展示有来源的候选方案，不表示它们已通过 NSFW 创作质量测试，也不会自动下载或启动任何工具。</p>
+<div id="warnings" class="warnings"></div><div id="candidates" class="cards"></div>
+<div id="unknown-wrap" hidden><h3>本地能力尚未确认的候选</h3><div id="unknown" class="cards"></div></div>
+<p class="footnote">即使文档写明支持本地模型，也不等于已经完成隐私审计或显卡适配验证。</p>
+</section><div id="status" role="status" aria-live="polite"></div>
+</main><footer>OPEN ECOSYSTEM · YOUR DATA, YOUR TOOLS · NO LLM IS REQUIRED</footer>
+</div></body></html>
