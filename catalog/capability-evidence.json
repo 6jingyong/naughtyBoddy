@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-09",
+  "scope": "Feature existence in upstream documentation; not proof of NSFW support, quality, privacy, current installation or hardware fit.",
+  "capabilities": [
+    {
+      "id": "epub_input",
+      "label": "EPUB 导入"
+    },
+    {
+      "id": "epub_output",
+      "label": "EPUB 导出"
+    },
+    {
+      "id": "epub_editor",
+      "label": "EPUB 编辑"
+    },
+    {
+      "id": "resume_jobs",
+      "label": "断点续跑"
+    },
+    {
+      "id": "glossary",
+      "label": "术语表"
+    },
+    {
+      "id": "editable_translation",
+      "label": "译文人工修改"
+    },
+    {
+      "id": "ocr",
+      "label": "OCR 识别"
+    },
+    {
+      "id": "inpainting",
+      "label": "背景修复/局部重绘"
+    },
+    {
+      "id": "text_regions",
+      "label": "文字区域编辑"
+    },
+    {
+      "id": "layered_psd",
+      "label": "PSD 分层导出"
+    },
+    {
+      "id": "gguf",
+      "label": "GGUF 模型"
+    },
+    {
+      "id": "compatible_api",
+      "label": "本地兼容 API"
+    },
+    {
+      "id": "character_card",
+      "label": "角色卡"
+    },
+    {
+      "id": "lorebook",
+      "label": "世界书"
+    },
+    {
+      "id": "group_chat",
+      "label": "多人群聊"
+    },
+    {
+      "id": "character_history",
+      "label": "按角色过滤历史"
+    },
+    {
+      "id": "character_memory",
+      "label": "分角色情节记忆"
+    },
+    {
+      "id": "node_workflow",
+      "label": "节点工作流"
+    },
+    {
+      "id": "lora",
+      "label": "LoRA 加载"
+    },
+    {
+      "id": "workflow_json",
+      "label": "JSON 工作流"
+    },
+    {
+      "id": "offline_option",
+      "label": "可选离线模式"
+    }
+  ],
+  "records": [
+    {
+      "item_id": "reviewed-solution-bilingual-book-maker",
+      "evidence": [
+        {
+          "capability": "epub_input",
+          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
+          "conditions": "支持多格式书籍输入；具体章节分段应复核。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "epub_output",
+          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
+          "conditions": "以原项目输出格式为准；本目录不保证所有 EPUB 排版完美保留。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "resume_jobs",
+          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
+          "conditions": "官方 --resume 不与 --parallel-workers 同时使用。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "glossary",
+          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
+          "conditions": "支持可选自动术语表；不同推理端点行为可能不同。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "gguf",
+          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
+          "conditions": "不直接加载 GGUF；需通过 Ollama 等独立本地服务。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "compatible_api",
+          "source_url": "https://github.com/yihong0618/bilingual_book_maker/blob/019b70c63a1bcdefb02a07653877b92c353acbcf/README.md",
+          "conditions": "通过本地 Ollama 或兼容 API 推理服务，不代表默认全本地。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-book-translator",
+      "evidence": [
+        {
+          "capability": "epub_input",
+          "source_url": "https://github.com/KazKozDev/book-translator/blob/2f59c5fd4c10291e492a356441d10cc3f9a67f58/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "epub_output",
+          "source_url": "https://github.com/KazKozDev/book-translator/blob/2f59c5fd4c10291e492a356441d10cc3f9a67f58/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "resume_jobs",
+          "source_url": "https://github.com/KazKozDev/book-translator/blob/2f59c5fd4c10291e492a356441d10cc3f9a67f58/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "glossary",
+          "source_url": "https://github.com/KazKozDev/book-translator/blob/2f59c5fd4c10291e492a356441d10cc3f9a67f58/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "editable_translation",
+          "source_url": "https://github.com/KazKozDev/book-translator/blob/2f59c5fd4c10291e492a356441d10cc3f9a67f58/README.md",
+          "conditions": "Review desk 支持逐段修改。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "compatible_api",
+          "source_url": "https://github.com/KazKozDev/book-translator/blob/2f59c5fd4c10291e492a356441d10cc3f9a67f58/README.md",
+          "conditions": "通过 Ollama 本地模型可本地运行；选用 Ollama Cloud 会上传待处理文本。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-koharu",
+      "evidence": [
+        {
+          "capability": "ocr",
+          "source_url": "https://github.com/koharu-rs/koharu/blob/a81854b83de234b28f254fafe6bc1bf66b38a581/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "inpainting",
+          "source_url": "https://github.com/koharu-rs/koharu/blob/a81854b83de234b28f254fafe6bc1bf66b38a581/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "text_regions",
+          "source_url": "https://github.com/koharu-rs/koharu/blob/a81854b83de234b28f254fafe6bc1bf66b38a581/README.md",
+          "conditions": "支持 OCR/译文校对与编辑；具体气泡操作以官方界面为准。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "layered_psd",
+          "source_url": "https://github.com/koharu-rs/koharu/blob/a81854b83de234b28f254fafe6bc1bf66b38a581/README.md",
+          "conditions": "分层 PSD 导出依赖当前编辑/导出路径。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "gguf",
+          "source_url": "https://github.com/koharu-rs/koharu/blob/a81854b83de234b28f254fafe6bc1bf66b38a581/README.md",
+          "conditions": "内置本地 GGUF 推理选项；需按模型及硬件条件选择。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-comitrans",
+      "evidence": [
+        {
+          "capability": "ocr",
+          "source_url": "https://github.com/Aaaaamadeus/ComiTrans/blob/488abb81d463fefc074f3b96ec87205d525d7063/README.md",
+          "conditions": "支持日/韩/英 OCR，部分非日文需额外下载模型。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "inpainting",
+          "source_url": "https://github.com/Aaaaamadeus/ComiTrans/blob/488abb81d463fefc074f3b96ec87205d525d7063/README.md",
+          "conditions": "本地 ONNX 修复，不等于任意图案都能无损恢复。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "text_regions",
+          "source_url": "https://github.com/Aaaaamadeus/ComiTrans/blob/488abb81d463fefc074f3b96ec87205d525d7063/README.md",
+          "conditions": "可修改气泡字体、方向、坐标及蒙版。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "resume_jobs",
+          "source_url": "https://github.com/Aaaaamadeus/ComiTrans/blob/488abb81d463fefc074f3b96ec87205d525d7063/README.md",
+          "conditions": "支持逐页断点续传，具体检查点依赖程序版本。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "editable_translation",
+          "source_url": "https://github.com/Aaaaamadeus/ComiTrans/blob/488abb81d463fefc074f3b96ec87205d525d7063/README.md",
+          "conditions": "翻译页和精修画布可人工调整。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-libre-manga-translator",
+      "evidence": [
+        {
+          "capability": "ocr",
+          "source_url": "https://github.com/mrdhnto/libre-manga-translator",
+          "conditions": "本地/API 模式运行 OCR；Gemini 整页模式不运行本地 OCR。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "inpainting",
+          "source_url": "https://github.com/mrdhnto/libre-manga-translator",
+          "conditions": "支持本地背景修复及可选 LaMa；具体模式和预先下载的模型会影响效果。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "text_regions",
+          "source_url": "https://github.com/mrdhnto/libre-manga-translator",
+          "conditions": "可调整框的位置、大小及译文样式。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "editable_translation",
+          "source_url": "https://github.com/mrdhnto/libre-manga-translator",
+          "conditions": "支持在页面内校对译文。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "compatible_api",
+          "source_url": "https://github.com/mrdhnto/libre-manga-translator",
+          "conditions": "API 模式发送 OCR 文本至用户所配置的服务；远程 URL 不会因 API 兼容而变成本地。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-risuai",
+      "evidence": [
+        {
+          "capability": "lorebook",
+          "source_url": "https://github.com/risuai/RisuAI/blob/3461e9161435d229cf223b123cda93244adc7dfa/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "group_chat",
+          "source_url": "https://github.com/risuai/RisuAI/blob/3461e9161435d229cf223b123cda93244adc7dfa/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "character_card",
+          "source_url": "https://github.com/risuai/RisuAI/blob/3461e9161435d229cf223b123cda93244adc7dfa/README.md",
+          "conditions": "支持角色和群聊；不等于跨软件兼容所有角色卡格式。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-agnai",
+      "evidence": [
+        {
+          "capability": "lorebook",
+          "source_url": "https://github.com/agnaistic/agnai/blob/7e5bce7be6aa311ecc32e7f349bbb978ecdab206/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "group_chat",
+          "source_url": "https://github.com/agnaistic/agnai/blob/7e5bce7be6aa311ecc32e7f349bbb978ecdab206/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "character_card",
+          "source_url": "https://github.com/agnaistic/agnai/blob/7e5bce7be6aa311ecc32e7f349bbb978ecdab206/README.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "character_memory",
+          "source_url": "https://github.com/agnaistic/agnai/blob/7e5bce7be6aa311ecc32e7f349bbb978ecdab206/README.md",
+          "conditions": "官方提及长期记忆能力，不代表自动分角色知识隔离。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-sillytavern",
+      "evidence": [
+        {
+          "capability": "character_card",
+          "source_url": "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/Characters/index.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "lorebook",
+          "source_url": "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md",
+          "conditions": "支持角色、个人设定及聊天室绑定世界书。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "group_chat",
+          "source_url": "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/Characters/groupchats.md",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "character_history",
+          "source_url": "https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md",
+          "conditions": "世界书条目可按角色过滤，但这不等于默认群聊历史按角色完全隔离。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-sillytavern-presence",
+      "evidence": [
+        {
+          "capability": "character_history",
+          "source_url": "https://github.com/leandrojofre/SillyTavern-Presence/blob/e89c34a4129974ee9174e4d8eaeb4367f77e4b06/README.md",
+          "conditions": "只对扩展追踪在场情况的群聊消息生效；无法保证其他上下文来源隔离。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-dragon-memories-manager",
+      "evidence": [
+        {
+          "capability": "character_memory",
+          "source_url": "https://github.com/TheDartDragon/Dragon-Memories-Manager/blob/741df90b72dc784db5736efbb062e04259387c99/README.md",
+          "conditions": "分角色情节摘要依赖 Presence 提供的在场记录；无 Presence 时可能共享全部消息。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "lorebook",
+          "source_url": "https://github.com/TheDartDragon/Dragon-Memories-Manager/blob/741df90b72dc784db5736efbb062e04259387c99/README.md",
+          "conditions": "支持将记忆导出为有角色过滤的 World Info 资料。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-koboldcpp",
+      "evidence": [
+        {
+          "capability": "gguf",
+          "source_url": "https://github.com/LostRuins/koboldcpp/blob/7a2d13b76d31e6ef11741f02863c6fca4948b579/README.md",
+          "conditions": "本地模型文件需另行下载并遵守各自许可。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "compatible_api",
+          "source_url": "https://github.com/LostRuins/koboldcpp/blob/7a2d13b76d31e6ef11741f02863c6fca4948b579/README.md",
+          "conditions": "本地 OpenAI 兼容 API 与其他接口；各 API 功能并不完全等价。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-ollama",
+      "evidence": [
+        {
+          "capability": "gguf",
+          "source_url": "https://github.com/ollama/ollama/blob/main/docs/import.mdx",
+          "conditions": "通过 Modelfile 导入 GGUF；需要先量化，不自动保证模型能在设备上运行。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "compatible_api",
+          "source_url": "https://github.com/ollama/ollama/blob/main/docs/import.mdx",
+          "conditions": "Ollama 提供 HTTP 模型服务；调用远程 Ollama 服务器不代表本机运行。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "reviewed-solution-calibre",
+      "evidence": [
+        {
+          "capability": "epub_input",
+          "source_url": "https://manual.calibre-ebook.com/edit.html",
+          "conditions": "用于电子书管理编辑；不是 LLM 翻译服务。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "epub_output",
+          "source_url": "https://manual.calibre-ebook.com/edit.html",
+          "conditions": "用于书籍编辑/转换；不保证复杂排版完全无损。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "epub_editor",
+          "source_url": "https://manual.calibre-ebook.com/edit.html",
+          "conditions": "功能来自上游文档；尚未做兼容性、隐私、性能或成人内容质量实测。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "item_id": "import-sichang-cn-2026-comfyui",
+      "evidence": [
+        {
+          "capability": "node_workflow",
+          "source_url": "https://github.com/Comfy-Org/ComfyUI/blob/b4621ab134fe4a21f1183daf19f79d3e11595502/README.md",
+          "conditions": "节点图管理可复用图像、视频、音频工作流。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "lora",
+          "source_url": "https://github.com/Comfy-Org/ComfyUI/blob/b4621ab134fe4a21f1183daf19f79d3e11595502/README.md",
+          "conditions": "LoRA 加载要配合具体模型架构和对应节点。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "inpainting",
+          "source_url": "https://github.com/Comfy-Org/ComfyUI/blob/b4621ab134fe4a21f1183daf19f79d3e11595502/README.md",
+          "conditions": "需要适合的模型与图像编辑工作流。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "workflow_json",
+          "source_url": "https://github.com/Comfy-Org/ComfyUI/blob/b4621ab134fe4a21f1183daf19f79d3e11595502/README.md",
+          "conditions": "支持保存/载入工作流 JSON。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        },
+        {
+          "capability": "offline_option",
+          "source_url": "https://github.com/Comfy-Org/ComfyUI/blob/b4621ab134fe4a21f1183daf19f79d3e11595502/README.md",
+          "conditions": "在 core 执行时需启用 --offline；API Partner Nodes 可能需要云连接。",
+          "evidence_status": "upstream_documented",
+          "reviewed_on": "2026-11-09"
+        }
+      ]
+    }
+  ],
+  "overrides": [
+    {
+      "item_id": "import-sichang-cn-2026-comfyui",
+      "modalities": [
+        "image",
+        "video",
+        "audio"
+      ],
+      "tasks": [
+        "image_generation",
+        "video_generation",
+        "audio_generation"
+      ],
+      "source_url": "https://github.com/Comfy-Org/ComfyUI/blob/b4621ab134fe4a21f1183daf19f79d3e11595502/README.md",
+      "reason": "Official ComfyUI README explicitly documents node-based image/video/audio workflows."
+    }
+  ]
+}
