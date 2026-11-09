@@ -64,6 +64,8 @@ Records are plain JSON with explicit evidence status. P5 currently contains **pr
 
 **P5.7 documented capability tags:** Discovery now lets users filter on specific abilities (EPUB, OCR, GGUF, LoRA, layered PSD, character memory, etc.). Every positive tag has an [upstream source and applicability condition](docs/p57-evidence-capabilities.md); this is not a model-quality, GPU, privacy, or adult-compatibility test.
 
+**P5.8 catalog health:** a [dated, partial GitHub repository-link audit](docs/p58-catalog-health.md) and a shared-endpoint review now accompany Discovery. The old ComfyUI repository URL was reconciled with its new home, reducing displayed candidates from 107 to 106. A conflicting GitHub API response remains **under review**, not falsely marked deleted. All checks are offline snapshots while browsing.
+
 ## Existing prototype (P0–P4)
 
 The current code is a *testbed*, not a commitment to implement every vertical editor in-house. Its novel/comic workflows can serve as references for external integration. The GUI is experimental and real GPU/model evaluation is deferred.

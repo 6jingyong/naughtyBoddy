@@ -140,3 +140,15 @@ This backlog tracks work intentionally **deferred**, including real-world testin
 - [ ] Test installed tool and model versions with appropriate authorized/synthetic samples.
 - [ ] Fix stale and moved upstream URLs; broaden capability coverage only with primary documentation.
 - [ ] Run browser visual and keyboard accessibility checks outside CI.
+
+## P5.8 — Catalogue health and careful deduplication
+
+- [x] Confirm official ComfyUI GitHub migration and reconcile duplicate display cards without discarding old source attribution.
+- [x] Capture a date-stamped partial GitHub repository API spot-check, with archived flag/last pushed timestamp and explicit limits.
+- [x] Treat conflicting metadata (including a 404 with a recently indexed source) as **needs review**, not as proof of deletion.
+- [x] Report shared destination URLs and same-name/different-URL groups without merging distinct models.
+- [x] Show check provenance/unknown status in Discovery; no automatic network calls on tag selection.
+- [ ] Cross-check the unresolved Libre Manga Translator repository-API result independently.
+- [ ] Expand link metadata coverage beyond the sampled GitHub projects, especially hosted service links.
+- [ ] Review real releases and update capability descriptions that may be stale; do not infer abandonment from old code push.
+- [ ] Browser visual/keyboard QA on a machine with full UI support.
