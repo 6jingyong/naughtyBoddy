@@ -25,12 +25,18 @@
 <div class="results-head"><div><span class="eyebrow">CURATED + IMPORTED · SOURCED</span>
 <h2>候选工具与模型 <span id="result-count">—</span></h2></div>
 <span class="quality-note">不是质量或破甲能力排名</span></div>
+<div id="health-count" class="health-count">链接状态核查中…</div>
 <div class="disclaimer">外部目录只是候选线索。细分能力标签引用上游文档并标注适用条件，不能证明实际成人内容兼容性、生成质量、隐私、硬件性能或安装成功。</div>
 <div id="cards" class="cards"></div>
 <div id="empty" class="empty" hidden>没有同时满足这些标签的候选。可以取消一个标签；未知数据不会被当作已验证支持。</div>
 <button id="more" class="more" type="button" hidden>显示更多候选</button>
 </section>
-<section class="sources"><h2>本轮导入的数据来源</h2><p>目录按原始 GitHub 文档版本留存来源及许可。这里不复制第三方的付费评测、评分或长篇评价，也不会自动更新或抓取用户内容。</p><div id="source-list" class="source-list"></div></section>
+<section class="sources"><h2>目录链接与身份复核</h2>
+<p>仅对部分 GitHub 仓库做了带日期的入口检查。未检查不等于失效；API 返回 404 也不能单独证明项目被删除。同一链接可能服务不同模型，不能简单按 URL 去重。</p>
+<details class="identity-panel"><summary id="duplicate-count">检查共用入口的候选…</summary>
+<div id="identity-list"></div></details>
+<div id="migration-list"></div>
+<h2>本轮导入的数据来源</h2><p>目录按原始 GitHub 文档版本留存来源及许可。这里不复制第三方的付费评测、评分或长篇评价，也不会自动更新或抓取用户内容。</p><div id="source-list" class="source-list"></div></section>
 <p id="status" class="status" role="status" aria-live="polite"></p>
 </main><footer>FREE · OPEN · LOCAL-FIRST · NO AGENT REQUIRED</footer>
 </div></body></html>
